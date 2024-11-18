@@ -1,4 +1,5 @@
 #include "mat4.h"
+#include "quaternion.h"
 
 mat4x4 translate(const v3D t)
 {
@@ -72,6 +73,48 @@ mat4x4 look_at(const v3D &pos, const v3D &fr, const v3D &up)
 
     return mat;
 }
+
+Quat mat4x4::toQuat()
+{
+
+    float s = 0.5 * std::sqrt(1.0 + this->xx + this->yy + this->zz);
+    if (s > 0.0)
+    {
+        float coeff = 1.0 / (4.0 * s);
+        float x = coeff * (this->zy - this->yz);
+        float y = coeff * (this->xz - this->zx);
+        float z = coeff * (this->yx - this->xy);
+        return Quat(x, y, z, s);
+    }
+
+    float x = 0.5 * std::sqrt(1.0 + this->xx - this->yy - this->zz);
+    if (x > 0.0)
+    {
+        float coeff = 1.0 / (4.0 * x);
+        float y = coeff * (this->xy + this->yx);
+        float z = coeff * (this->xz + this->zx);
+        float s = coeff * (this->zy - this->yz);
+        return Quat(x, y, z, s);
+    }
+
+    float y = 0.5 * std::sqrt(1.0 - this->xx + this->yy - this->zz);
+    if (y > 0.0)
+    {
+        float coeff = 1.0 / (4.0 * y);
+        float x = coeff * (this->xy + this->yx);
+        float z = coeff * (this->yz + this->zy);
+        float s = coeff * (this->xz - this->zx);
+        return Quat(x, y, z, s);
+    }
+    // if all else fails just use z
+    float z = 0.5 * std::sqrt(1.0 - this->xx - this->yy + this->zz);
+    float coeff = 1.0 / (4.0 * z);
+    float x = coeff * (this->xz + this->zx);
+    float y = coeff * (this->yz + this->zy);
+    float s = coeff * (this->yx - this->xy);
+    return Quat(x, y, z, s);
+}
+
 mat4x4 orthogonal(float l, float r, float b, float t, float n, float f)
 {
     mat4x4 proj;

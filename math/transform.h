@@ -16,11 +16,13 @@ public:
     Quat orientation;
     v3D scaling;
 
+    /// @brief combines the translation, rotation and scaling members to produce a transformation matrix
+    /// @return finall transform matrix
     mat4x4 get();
     Transform inverse();
-   // mat4x4 toMat();
 };
 
-//Transform combine(const Transform &t1, const Transform &t2);
+Transform combine(const Transform &t1, const Transform &t2);
+Transform transformFromMat(mat4x4 &mat);
 
 #endif

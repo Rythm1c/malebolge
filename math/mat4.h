@@ -64,6 +64,8 @@
               wx(_30), wy(_31), wz(_32), ww(_33)
         {
         }
+
+        struct Quat toQuat();
     };
     // create a translation matrix out of a vec3
     // t : translation vector
