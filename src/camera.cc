@@ -4,12 +4,12 @@
 
 Camera::Camera()
     : fov(45.0),
-      pitch(0.0),
-      yaw(90.0f),
-      velocity(0.0),
       up(v3D(0.0, 1.0, 0.0)),
       pos(v3D(0.0, 16.0, -20.0)),
-      front(v3D(0.0, -0.4, 1.0)) {}
+      front(v3D(0.0, -0.4, 1.0)),
+      velocity(0.0),
+      pitch(0.0),
+      yaw(90.0f) {}
 
 mat4x4 Camera::view()
 {

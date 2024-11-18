@@ -6,10 +6,14 @@ env = Environment(
     ],
 )
 
-env.ParseConfig("pkg-config --cflags --libs sdl2 gl glew")
+#env.ParseConfig("pkg-config --cflags --libs sdl2 gl glew")
 
 env.Program(
-    target="player",
+    LIBS=[
+        "SDL2",
+        "GL",
+        "GLEW",
+    ],
     source=[
         "main.cpp",
         Glob("animation/*.cc"),
@@ -19,4 +23,5 @@ env.Program(
         Glob("shapes/*.cc"),
         Glob("foreign/*.cc"),
     ],
+    target="player",
 )

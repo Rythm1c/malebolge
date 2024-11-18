@@ -21,14 +21,14 @@ public:
         mainLoop();
     }
 
+    float fps;
+    float deltaTime;
+    bool running;
+
     class World *P_world;
     class GUI *P_gui;
     class InputHandler *P_inputhandler;
     class Window *P_window;
-
-    float deltaTime;
-    float fps;
-    bool running;
 
 private:
     Engine();

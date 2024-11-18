@@ -10,7 +10,7 @@ class Shape;
 class AssetManager
 {
 public:
-    AssetManager() {}
+    AssetManager() : objectListSize(0), objectList({nullptr}) {}
     ~AssetManager() {}
 
     void listShapes();
@@ -26,7 +26,7 @@ public:
     void refreshShapeList();
 
     const char *objectList[500];
-    int objectListSize = 0;
+    int objectListSize;
 
     int getVertCount();
     void cleanUp();
