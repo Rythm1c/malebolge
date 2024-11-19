@@ -52,66 +52,76 @@ mat4x4 rotationZ(float angle)
 }
 mat4x4 look_at(const v3D &pos, const v3D &fr, const v3D &up)
 {
-    // cr =cemra right vector
+    // cr = camera right vector
     v3D cd = normalize(pos - fr);
     v3D cr = normalize(cross(up, cd));
     v3D cu = normalize(cross(cd, cr));
 
-    mat4x4 mat;
-    // rotation and translatio matrix combined
-    mat.rs[0][0] = cr.x, mat.rs[0][1] = cr.y, mat.rs[0][2] = cr.z;
-    mat.rs[0][3] = -pos.x * cr.x - pos.y * cr.y - pos.z * cr.z;
+    // rotation and translation matrix combined
+    float xx = cr.x;
+    float xy = cr.y;
+    float xz = cr.z;
+    float xw = -pos.x * cr.x - pos.y * cr.y - pos.z * cr.z;
 
-    mat.rs[1][0] = cu.x, mat.rs[1][1] = cu.y, mat.rs[1][2] = cu.z;
-    mat.rs[1][3] = -pos.x * cu.x - pos.y * cu.y - pos.z * cu.z;
+    float yx = cu.x;
+    float yy = cu.y;
+    float yz = cu.z;
+    float yw = -pos.x * cu.x - pos.y * cu.y - pos.z * cu.z;
 
-    mat.rs[2][0] = cd.x, mat.rs[2][1] = cd.y, mat.rs[2][2] = cd.z;
-    mat.rs[2][3] = -pos.x * cd.x - pos.y * cd.y - pos.z * cd.z;
+    float zx = cd.x;
+    float zy = cd.y;
+    float zz = cd.z;
+    float zw = -pos.x * cd.x - pos.y * cd.y - pos.z * cd.z;
 
-    mat.rs[3][0] = 0.0f, mat.rs[3][1] = 0.0f, mat.rs[3][2] = 0.0f;
-    mat.rs[3][3] = 1.0f;
-
-    return mat;
+    return mat4x4(
+        xx, xy, xz, xw,
+        yx, yy, yz, yw,
+        zx, zy, zz, zw,
+        0.0, 0.0, 0.0, 1.0);
 }
 
 Quat mat4x4::toQuat()
 {
 
+    float x = 0.0;
+    float y = 0.0;
+    float z = 0.0;
     float s = 0.5 * std::sqrt(1.0 + this->xx + this->yy + this->zz);
+
     if (s > 0.0)
     {
         float coeff = 1.0 / (4.0 * s);
-        float x = coeff * (this->zy - this->yz);
-        float y = coeff * (this->xz - this->zx);
-        float z = coeff * (this->yx - this->xy);
+        x = coeff * (this->zy - this->yz);
+        y = coeff * (this->xz - this->zx);
+        z = coeff * (this->yx - this->xy);
         return Quat(x, y, z, s);
     }
 
-    float x = 0.5 * std::sqrt(1.0 + this->xx - this->yy - this->zz);
+    x = 0.5 * std::sqrt(1.0 + this->xx - this->yy - this->zz);
     if (x > 0.0)
     {
         float coeff = 1.0 / (4.0 * x);
-        float y = coeff * (this->xy + this->yx);
-        float z = coeff * (this->xz + this->zx);
-        float s = coeff * (this->zy - this->yz);
+        y = coeff * (this->xy + this->yx);
+        z = coeff * (this->xz + this->zx);
+        s = coeff * (this->zy - this->yz);
         return Quat(x, y, z, s);
     }
 
-    float y = 0.5 * std::sqrt(1.0 - this->xx + this->yy - this->zz);
+    y = 0.5 * std::sqrt(1.0 - this->xx + this->yy - this->zz);
     if (y > 0.0)
     {
         float coeff = 1.0 / (4.0 * y);
-        float x = coeff * (this->xy + this->yx);
-        float z = coeff * (this->yz + this->zy);
-        float s = coeff * (this->xz - this->zx);
+        x = coeff * (this->xy + this->yx);
+        z = coeff * (this->yz + this->zy);
+        s = coeff * (this->xz - this->zx);
         return Quat(x, y, z, s);
     }
     // if all else fails just use z
-    float z = 0.5 * std::sqrt(1.0 - this->xx - this->yy + this->zz);
+    z = 0.5 * std::sqrt(1.0 - this->xx - this->yy + this->zz);
     float coeff = 1.0 / (4.0 * z);
-    float x = coeff * (this->xz + this->zx);
-    float y = coeff * (this->yz + this->zy);
-    float s = coeff * (this->yx - this->xy);
+    x = coeff * (this->xz + this->zx);
+    y = coeff * (this->yz + this->zy);
+    s = coeff * (this->yx - this->xy);
     return Quat(x, y, z, s);
 }
 
