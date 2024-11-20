@@ -19,6 +19,8 @@ public:
     std::vector<Frame<N>> frames;
     Interpolation interpolation;
 
+    int size();
+
     float getStartTime();
     float getEndTime();
 

@@ -47,6 +47,12 @@ namespace TrackHelpers
 };
 
 template <typename T, size_t N>
+int Track<T, N>::size()
+{
+    return (int)frames.size();
+}
+
+template <typename T, size_t N>
 float Track<T, N>::getStartTime()
 {
     return frames[0].time;
