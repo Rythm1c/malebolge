@@ -55,7 +55,7 @@ Quat Quat::inverse()
     return this->conjugate() * invLen;
 }
 
-float dot(Quat &lhs, Quat &rhs)
+float dot(const Quat &lhs, const Quat &rhs)
 {
     return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.s * rhs.s;
 }
@@ -127,4 +127,16 @@ Quat operator*(const Quat &lhs, const Quat &rhs)
     result.s = lhs.s * rhs.s - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
 
     return result;
+}
+
+bool operator==(const Quat &left, const Quat &right)
+{
+    return (fabsf(left.x - right.x) <= QUAT_EPSILON &&
+            fabsf(left.y - right.y) <= QUAT_EPSILON &&
+            fabsf(left.z - right.z) <= QUAT_EPSILON &&
+            fabsf(left.s - right.s) <= QUAT_EPSILON);
+}
+bool operator!=(const Quat &a, const Quat &b)
+{
+    return !(a == b);
 }

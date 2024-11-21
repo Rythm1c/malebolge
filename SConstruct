@@ -6,7 +6,9 @@ env = Environment(
     ],
 )
 
-#env.ParseConfig("pkg-config --cflags --libs sdl2 gl glew")
+# env.ParseConfig("pkg-config --cflags --libs sdl2 gl glew")
+
+#Progress("Evaluating $TARGET\n")
 
 env.Program(
     LIBS=[

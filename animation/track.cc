@@ -1,4 +1,9 @@
 #include "track.h"
+#include <cstring>
+
+template class Track<float, 1>;
+template class Track<v3D, 3>;
+template class Track<Quat, 4>;
 
 namespace TrackHelpers
 {
@@ -37,7 +42,7 @@ namespace TrackHelpers
 
     inline void Neighborhood(const float &a, float &b) {}
     inline void Neighborhood(const v3D &a, v3D &b) {}
-    inline void Neighborhood(Quat &a, Quat &b)
+    inline void Neighborhood(const Quat &a, Quat &b)
     {
         if (dot(a, b) < 0)
         {
@@ -47,9 +52,9 @@ namespace TrackHelpers
 };
 
 template <typename T, size_t N>
-int Track<T, N>::size()
+unsigned int Track<T, N>::size()
 {
-    return (int)frames.size();
+    return frames.size();
 }
 
 template <typename T, size_t N>
@@ -250,8 +255,8 @@ T Track<T, N>::sampleCubic(float time, bool looping)
 
     int nextFrame = thisFrame + 1;
     float trackTime = this->adjustToFitTrack(time, looping);
-    float thisTime = this->frames[thisFrame].m_time;
-    float frameDelta = this->frames[nextFrame].m_time - thisTime;
+    float thisTime = this->frames[thisFrame].time;
+    float frameDelta = this->frames[nextFrame].time - thisTime;
     if (frameDelta <= 0.0f)
     {
         return T();
@@ -259,14 +264,14 @@ T Track<T, N>::sampleCubic(float time, bool looping)
 
     float t = (trackTime - thisTime) / frameDelta;
     size_t fltSize = sizeof(float);
-    T point1 = Cast(&this->frames[thisFrame].m_value[0]);
+    T point1 = cast(&this->frames[thisFrame].m_value[0]);
     T slope1; // = mFrames[thisFrame].mOut * frameDelta;
     memcpy(&slope1, this->frames[thisFrame].m_out, N * fltSize);
     slope1 = slope1 * frameDelta;
-    T point2 = Cast(&this->frames[nextFrame].m_value[0]);
+    T point2 = cast(&this->frames[nextFrame].m_value[0]);
     T slope2; // = mFrames[nextFrame].mIn[0] * frameDelta;
     memcpy(&slope2, this->frames[nextFrame].m_in, N * fltSize);
     slope2 = slope2 * frameDelta;
 
-    return Hermite(t, point1, slope1, point2, slope2);
+    return hermite(t, point1, slope1, point2, slope2);
 }

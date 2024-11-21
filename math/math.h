@@ -17,7 +17,7 @@ float random_float(int a, int b);
 int random_int(int a, int b);
 float max(float a, float b);
 float min(float a, float b);
-// limits a value to the range min - m
+// limits a value to the range min - max
 template <class T>
 T clamp(T v, T min, T max)
 {

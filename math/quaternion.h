@@ -5,6 +5,8 @@
 #include <array>
 #include "math.h"
 
+#define QUAT_EPSILON 0.000001f
+
 struct mat4x4;
 struct v3D;
 
@@ -42,7 +44,7 @@ struct Quat
     mat4x4 toMat();
 };
 v3D axis(Quat q);
-float dot(Quat &lhs, Quat &rhs);
+float dot(const Quat &lhs, const Quat &rhs);
 Quat mix(Quat from, Quat to, float t);
 
 Quat operator+(const Quat &lhs, const Quat &rhs);
@@ -54,5 +56,8 @@ v3D operator*(const v3D &lhs, const Quat &rhs);
 v3D operator*(const Quat &lhs, const v3D &rhs);
 
 Quat operator*(const Quat &lhs, const Quat &rhs);
+
+bool operator==(const Quat &left, const Quat &right);
+bool operator!=(const Quat &a, const Quat &b);
 
 #endif
