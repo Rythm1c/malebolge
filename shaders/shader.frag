@@ -47,7 +47,8 @@ void main() {
     }
 
     float attenuation = pow(blend(600.0), 2.0);
-    result = (1.0 - attenuation) * result + attenuation * vec3(0.2);
+   // result = (1.0 - attenuation) * result + attenuation * vec3(0.2);
+    result = mix(result, vec3(0.2), attenuation);
 
     //result = pow(result, vec3(1.5));
 

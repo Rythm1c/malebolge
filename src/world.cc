@@ -17,7 +17,7 @@
 #include "../foreign/obj.h"
 #include "../math/vec3.h"
 #include "../math/transform.h"
-#include "../math/physics.h"
+#include "../physics/physics.h"
 #include "../shapes/shape.h"
 
 static mat4x4 view = mat4x4();
@@ -132,9 +132,11 @@ void World::update()
         physics->simpleGravity(assets->getShape("cube2")->velocity);
 
         for (auto &shape : assets->shapes)
+        {
             shape.second->transform.translation += shape.second->velocity;
+        }
     }
-    P_camera->velocity = 40.0 * Engine::getInstance()->deltaTime;
+
     view = P_camera->view();
     projection = P_camera->projection(Engine::getInstance()->P_window->ratio());
 }

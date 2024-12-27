@@ -23,10 +23,10 @@ public:
     mat4x4 projection(float ratio);
     void rotation(const iv2D &mousePos);
 
-    void moveForwards();
-    void moveBackwards();
-    void moveLeft();
-    void moveRight();
+    void moveForwards(float);
+    void moveBackwards(float);
+    void moveLeft(float);
+    void moveRight(float);
 
 private:
     float pitch;

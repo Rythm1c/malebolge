@@ -29,7 +29,7 @@ void Window::init()
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
     this->area.x = 800;
-    this->area.y = 450;
+    this->area.y = 600;
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
     this->win = SDL_CreateWindow("little-engine", 100, 100, this->area.x, this->area.y, flags);
     this->context = SDL_GL_CreateContext(this->win);
@@ -39,7 +39,7 @@ void Window::init()
         std::runtime_error("failed to set an opengl context with window!");
     }
 
-    SDL_GL_SetSwapInterval(0);
+    SDL_GL_SetSwapInterval(1);
 
     glewExperimental = true;
     glewInit();

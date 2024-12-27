@@ -2,7 +2,7 @@
 #include "../headers/world.h"
 #include "../headers/engine.h"
 #include "../headers/window.h"
-#include "../headers/GUI.h"
+// #include "../headers/GUI.h"
 #include "../headers/camera.h"
 
 InputHandler::InputHandler(World *_w) : P_world(_w), keyboardState(nullptr) {}
@@ -11,11 +11,11 @@ void InputHandler::populateKeys()
     int nkeys;
     this->keyboardState = SDL_GetKeyboardState(&nkeys);
 }
-void InputHandler::processInput()
+void InputHandler::processInput(float delta)
 {
 
     this->specialKeys();
-    this->keyboard();
+    this->keyboard(delta);
 }
 
 void InputHandler::specialKeys()
@@ -23,7 +23,7 @@ void InputHandler::specialKeys()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        Engine::getInstance()->P_gui->processevents(event);
+        // Engine::getInstance()->P_gui->processevents(event);
         switch (event.type)
         {
         case SDL_QUIT:
@@ -67,24 +67,24 @@ void InputHandler::specialKeys()
         }
     }
 }
-void InputHandler::keyboard()
+void InputHandler::keyboard(float delta)
 {
 
     if (this->keyboardState[SDL_SCANCODE_W])
     {
-        this->P_world->P_camera->moveForwards();
+        this->P_world->P_camera->moveForwards(delta);
     }
     if (this->keyboardState[SDL_SCANCODE_S])
     {
-        this->P_world->P_camera->moveBackwards();
+        this->P_world->P_camera->moveBackwards(delta);
     }
     if (this->keyboardState[SDL_SCANCODE_D])
     {
-        this->P_world->P_camera->moveRight();
+        this->P_world->P_camera->moveRight(delta);
     }
     if (this->keyboardState[SDL_SCANCODE_A])
     {
-        this->P_world->P_camera->moveLeft();
+        this->P_world->P_camera->moveLeft(delta);
     }
     // for zooming in and out
     if (this->keyboardState[SDL_SCANCODE_Z])

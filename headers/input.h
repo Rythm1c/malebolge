@@ -11,7 +11,7 @@ class InputHandler
 private:
     World *P_world;
     void specialKeys();
-    void keyboard();
+    void keyboard(float);
 
     const unsigned char *keyboardState;
 
@@ -20,7 +20,7 @@ public:
     ~InputHandler() {}
     InputHandler(World *_w);
 
-    void processInput();
+    void processInput(float);
     void populateKeys();
 };
 

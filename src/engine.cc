@@ -2,7 +2,7 @@
 #include "../headers/window.h"
 #include "../headers/input.h"
 #include "../headers/world.h"
-#include "../headers/GUI.h"
+// #include "../headers/GUI.h"
 
 static auto lastFrameDuration = std::chrono::high_resolution_clock::now();
 
@@ -18,9 +18,9 @@ Engine::Engine()
 Engine::~Engine()
 {
     P_world->clean();
-    P_gui->clean();
+    // P_gui->clean();
     delete this->P_world;
-    delete this->P_gui;
+    // delete this->P_gui;
     delete this->P_inputhandler;
     delete this->P_window;
 }
@@ -34,8 +34,8 @@ void Engine::init()
     this->P_world = new World();
     this->P_world->load();
 
-    this->P_gui = new GUI(P_world);
-    this->P_gui->load();
+    // this->P_gui = new GUI(P_world);
+    // this->P_gui->load();
 
     this->P_inputhandler = new InputHandler(P_world);
     this->P_inputhandler->populateKeys();
@@ -52,11 +52,11 @@ void Engine::mainLoop()
     while (this->running)
     {
         this->calcFps();
-        this->P_inputhandler->processInput();
+        this->P_inputhandler->processInput(this->deltaTime);
         this->P_world->update();
-        this->P_gui->update();
+        // this->P_gui->update();
         this->P_world->render();
-        this->P_gui->render();
+        // this->P_gui->render();
         this->P_window->swapBuffer();
     }
 }
