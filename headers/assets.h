@@ -10,7 +10,7 @@ class Shape;
 class AssetManager
 {
 public:
-    AssetManager() : objectListSize(0), objectList({nullptr}) {}
+    AssetManager() : objectListSize(0) {}
     ~AssetManager() {}
 
     void listShapes();

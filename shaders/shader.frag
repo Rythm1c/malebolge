@@ -19,7 +19,7 @@ uniform float lineDivs;
 float line_fn();
 // returns a fraction of the far value depending on the distance from the camera
 float blend(float far);
-//calculates directional light 
+//calculates directional light
 vec3 directional_light();
 // point light system
 #define MAX_POINT_LIGHTS 20
@@ -31,26 +31,22 @@ uniform int availablePointLights;
 vec3 calcPointLight(pointLight light);
 // beginning of main function
 void main() {
-
     vec3 result = vec3(0.0);
 
     result += directional_light();
 
-    if(checkered) {
-        if(checkered_fn() == 0)
+    if (checkered) {
+        if (checkered_fn() == 0)
             result *= 0.5;
     }
 
-    if(subDivide) {
-        if(line_fn() == 0)
+    if (subDivide) {
+        if (line_fn() == 0)
             result *= 0.3;
     }
 
     float attenuation = pow(blend(600.0), 2.0);
-   // result = (1.0 - attenuation) * result + attenuation * vec3(0.2);
     result = mix(result, vec3(0.2), attenuation);
-
-    //result = pow(result, vec3(1.5));
 
     color = vec4(result, 1.0);
     //color = vec4(1.0, 0.58, 0.1, 0.0);
