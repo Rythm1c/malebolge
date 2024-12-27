@@ -1,14 +1,15 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include <iostream>
 #include "shape.h"
+#include <iostream>
 
-class Sphere : virtual public Shape
-{
+class Sphere : virtual public Shape {
 public:
-    Sphere(int, int, color3f);
-    ~Sphere() {}
+  Sphere(float, int, int, color3f);
+  ~Sphere() {}
+
+  float radius;
 
 private:
 };

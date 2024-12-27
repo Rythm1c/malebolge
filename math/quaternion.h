@@ -1,47 +1,44 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include <iostream>
-#include <array>
 #include "math.h"
+#include <array>
+#include <iostream>
 
 #define QUAT_EPSILON 0.000001f
 
 struct mat4x4;
 struct v3D;
 
-struct Quat
-{
-    union
-    {
-        struct
-        {
-            float x;
-            float y;
-            float z;
-            float s;
-        };
-
-        float rs[4];
-
-        std::array<float, 4> fv;
+struct Quat {
+  union {
+    struct {
+      float x;
+      float y;
+      float z;
+      float s;
     };
 
-    Quat() : x(0.0), y(0.0), z(0.0), s(1.0) {}
-    Quat(float v) : x(v), y(v), z(v), s(v) {}
-    Quat(float _x, float _y, float _z, float _s) : x(_x), y(_y), z(_z), s(_s) {}
+    float rs[4];
 
-    /// @brief creates a quaternion from an angle and specified axis
-    /// @param 1: angle
-    /// @param 2: axis
-    Quat(float, v3D);
+    std::array<float, 4> fv;
+  };
 
-    float norm();
-    Quat unit();
-    Quat conjugate();
-    Quat inverse();
+  Quat() : x(0.0), y(0.0), z(0.0), s(1.0) {}
+  Quat(float v) : x(v), y(v), z(v), s(v) {}
+  Quat(float _x, float _y, float _z, float _s) : x(_x), y(_y), z(_z), s(_s) {}
 
-    mat4x4 toMat();
+  /// @brief creates a quaternion from an angle and specified axis
+  /// @param 1: angle
+  /// @param 2: axis
+  Quat(float, v3D);
+
+  float norm();
+  Quat unit();
+  Quat conjugate();
+  Quat inverse();
+
+  mat4x4 toMat();
 };
 v3D axis(Quat q);
 float dot(const Quat &lhs, const Quat &rhs);

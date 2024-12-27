@@ -1,33 +1,32 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include "../math/mat4.h"
+#include "../math/quaternion.h"
+#include "../math/vec3.h"
 #include <iostream>
 #include <vector>
-#include "../math/vec3.h"
-#include "../math/quaternion.h"
-#include "../math/mat4.h"
 
-class Model
-{
+class Model {
 public:
-    Model();
-    ~Model() {}
+  Model();
+  ~Model() {}
 
-    std::vector<struct Mesh> meshes;
-    color3f color;
+  std::vector<struct Mesh> meshes;
+  color3f color;
 
-    void orient(Quat);
-    void scale(v3D);
-    void translate(v3D);
+  void orient(Quat);
+  void scale(v3D);
+  void translate(v3D);
 
-    void init();
-    void render();
-    void clean();
+  void init();
+  void render();
+  void clean();
 
-    mat4x4 get_transform();
+  mat4x4 get_transform();
 
 private:
-    class Transform *transform;
+  class Transform *transform;
 };
 
 #endif

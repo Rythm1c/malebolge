@@ -1,11 +1,11 @@
 #ifndef SCENE
 #define SCENE
 
-#include <iostream>
 #include "../math/mat4.h"
-#include <vector>
+#include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 
 class Shader;
 class Engine;
@@ -13,29 +13,28 @@ class Object;
 class Camera;
 // class Framebuffer;
 
-class World
-{
+class World {
 public:
-    World();
-    ~World() {}
+  World();
+  ~World() {}
 
-    void load();
-    void update();
-    void render();
-    void clean();
+  void load();
+  void update();
+  void render();
+  void clean();
 
-    bool pause;
+  bool pause;
 
-    Camera *P_camera;
-    class AssetManager *assets;
+  Camera *P_camera;
+  class AssetManager *assets;
 
 private:
-    Shader *S_obj;
-    Shader *S_line;
-    Shader *S_quad;
+  Shader *S_obj;
+  Shader *S_line;
+  Shader *S_quad;
 
-    class Physics *physics;
-    class Model *player;
+  class Physics *physics;
+  class Model *player;
 };
 
 #endif

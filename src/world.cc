@@ -5,7 +5,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <array>
 
 #include "../foreign/gltf.h"
 #include "../headers/GUI.h"
@@ -54,15 +53,15 @@ void World::load() {
 
   assets = new AssetManager();
 
-  assets->addSphere("ball1", 60, 60, color3f(0.4));
-  assets->getShape("ball1")->transform.scaling = v3D(6.0);
+  assets->addSphere("ball1", 6.0, 60, 60, color3f(0.4));
+  // assets->getShape("ball1")->transform.scaling = v3D(6.0);
   assets->getShape("ball1")->transform.translation = {5.0, 16.0, 12.0};
   assets->getShape("ball1")->draw = true;
   assets->getShape("ball1")->subDivide = false;
   assets->getShape("ball1")->lines = 20.0;
 
-  assets->addSphere("ball2", 60, 60, color3f(1.0));
-  assets->getShape("ball2")->transform.scaling = v3D(10.0);
+  assets->addSphere("ball2", 10.0, 60, 60, color3f(1.0));
+  // assets->getShape("ball2")->transform.scaling = v3D(10.0);
   assets->getShape("ball2")->transform.translation = {15.0, 16.0, 40.0};
   assets->getShape("ball2")->draw = true;
   assets->getShape("ball2")->checkered = true;

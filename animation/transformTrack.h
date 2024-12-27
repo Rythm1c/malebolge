@@ -1,34 +1,33 @@
 #ifndef TRANSFORMTRACK_H
 #define TRANSFORMTRACK_H
 
-#include <iostream>
 #include "track.h"
+#include <iostream>
 
 class Transform;
-class TransformTrack
-{
+class TransformTrack {
 public:
-    TransformTrack();
-    ~TransformTrack() {}
+  TransformTrack();
+  ~TransformTrack() {}
 
-    size_t getId();
-    void setId(size_t id);
-    VectorTrack &getPosTrack();
-    QuatTrack &getRotationTrack();
-    VectorTrack &getScalingTrack();
+  size_t getId();
+  void setId(size_t id);
+  VectorTrack &getPosTrack();
+  QuatTrack &getRotationTrack();
+  VectorTrack &getScalingTrack();
 
-    float getStartTime();
-    float getEndTime();
-    bool isValid();
+  float getStartTime();
+  float getEndTime();
+  bool isValid();
 
-    Transform sample(const Transform &ref, float time, bool looping);
+  Transform sample(const Transform &ref, float time, bool looping);
 
 private:
-    VectorTrack position;
-    QuatTrack rotation;
-    VectorTrack scaling;
-    // joint id
-    size_t id;
+  VectorTrack position;
+  QuatTrack rotation;
+  VectorTrack scaling;
+  // joint id
+  size_t id;
 };
 
 #endif

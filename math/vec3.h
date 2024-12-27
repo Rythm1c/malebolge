@@ -4,62 +4,54 @@
 #include "math.h"
 
 //  3D vector with x, y and z components
-struct v3D
-{
+struct v3D {
 
-    union
-    {
-        struct
-        {
-            float x;
-            float y;
-            float z;
-        };
-        struct
-        {
-            float r; // red
-            float g; // green
-            float b; // blue
-        };
-        std::array<float, 3> v;
+  union {
+    struct {
+      float x;
+      float y;
+      float z;
     };
-    // default constructor with components set to 0.0
-    v3D() : x(0.0f), y(0.0f), z(0.0f) {}
-    // set all components to a single value
-    v3D(float _v) : x(_v), y(_v), z(_v) {}
-    // use a simple array to set components
-    v3D(float *fv) : x(fv[0]), y(fv[1]), z(fv[2]) {}
-    // set each components idividually
-    v3D(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+    struct {
+      float r; // red
+      float g; // green
+      float b; // blue
+    };
+    std::array<float, 3> v;
+  };
+  // default constructor with components set to 0.0
+  v3D() : x(0.0f), y(0.0f), z(0.0f) {}
+  // set all components to a single value
+  v3D(float _v) : x(_v), y(_v), z(_v) {}
+  // use a simple array to set components
+  v3D(float *fv) : x(fv[0]), y(fv[1]), z(fv[2]) {}
+  // set each components idividually
+  v3D(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 
-    v3D operator+=(const v3D &r)
-    {
-        this->x += r.x;
-        this->y += r.y;
-        this->z += r.z;
-        return *this;
-    }
-    v3D operator-=(const v3D &r)
-    {
-        this->x -= r.x;
-        this->y -= r.y;
-        this->z -= r.z;
-        return *this;
-    }
-    v3D operator*=(float r)
-    {
-        this->x *= r;
-        this->y *= r;
-        this->z *= r;
-        return *this;
-    }
-    v3D operator/=(float r)
-    {
-        this->x /= r;
-        this->y /= r;
-        this->z /= r;
-        return *this;
-    }
+  v3D operator+=(const v3D &r) {
+    this->x += r.x;
+    this->y += r.y;
+    this->z += r.z;
+    return *this;
+  }
+  v3D operator-=(const v3D &r) {
+    this->x -= r.x;
+    this->y -= r.y;
+    this->z -= r.z;
+    return *this;
+  }
+  v3D operator*=(float r) {
+    this->x *= r;
+    this->y *= r;
+    this->z *= r;
+    return *this;
+  }
+  v3D operator/=(float r) {
+    this->x /= r;
+    this->y /= r;
+    this->z /= r;
+    return *this;
+  }
 };
 // point 3D
 typedef v3D p3D;

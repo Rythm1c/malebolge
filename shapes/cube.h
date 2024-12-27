@@ -1,14 +1,13 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <iostream>
 #include "shape.h"
+#include <iostream>
 
-class Cube : public Shape
-{
+class Cube : public Shape {
 public:
-    Cube(color3f, bool);
-    ~Cube() {}
+  Cube(color3f, bool);
+  ~Cube() {}
 
 private:
 };

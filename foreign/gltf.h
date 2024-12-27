@@ -6,13 +6,12 @@
 
 struct Mesh;
 
-class GLTFFile
-{
+class GLTFFile {
 public:
-    GLTFFile(std::string path);
-    ~GLTFFile() {}
+  GLTFFile(std::string path);
+  ~GLTFFile() {}
 
-    std::vector<Mesh> meshes;
+  std::vector<Mesh> meshes;
 };
 
 #endif

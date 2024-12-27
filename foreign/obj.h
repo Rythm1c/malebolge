@@ -6,13 +6,12 @@
 
 struct Mesh;
 
-class OBJFile
-{
+class OBJFile {
 public:
-    OBJFile(std::string path);
-    ~OBJFile() {}
+  OBJFile(std::string path);
+  ~OBJFile() {}
 
-    std::vector<Mesh> meshes;
+  std::vector<Mesh> meshes;
 };
 
 #endif

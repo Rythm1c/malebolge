@@ -1,27 +1,26 @@
 #ifndef _INPUT
 #define _INPUT
 
-#include <iostream>
 #include "../math/vec2.h"
+#include <iostream>
 
 class World;
 
-class InputHandler
-{
+class InputHandler {
 private:
-    World *P_world;
-    void specialKeys();
-    void keyboard(float);
+  World *P_world;
+  void specialKeys();
+  void keyboard(float);
 
-    const unsigned char *keyboardState;
+  const unsigned char *keyboardState;
 
 public:
-    InputHandler() {}
-    ~InputHandler() {}
-    InputHandler(World *_w);
+  InputHandler() {}
+  ~InputHandler() {}
+  InputHandler(World *_w);
 
-    void processInput(float);
-    void populateKeys();
+  void processInput(float);
+  void populateKeys();
 };
 
 #endif

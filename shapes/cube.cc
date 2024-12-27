@@ -33,21 +33,20 @@ const std::vector<Vertex> Data = {
     {{1.0, -1.0, -1.0}, {0.0, -1.0, 0.0}, {1.0, 1.0}},
 };
 
-const std::vector<unsigned int> indices = {0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 18, 19, 19, 17, 16, 20, 22, 23, 23, 21, 20};
+const std::vector<unsigned int> indices = {
+    0,  1,  2,  0,  2,  3,  4,  5,  6,  4,  6,  7,  8,  9,  10, 8,  10, 11,
+    12, 13, 14, 12, 14, 15, 16, 18, 19, 19, 17, 16, 20, 22, 23, 23, 21, 20};
 
-Cube::Cube(color3f col, bool colorCube)
-{
-    color = col;
-    mesh = new Mesh();
-    mesh->mode = TRIANGLES;
+Cube::Cube(color3f col, bool colorCube) {
+  color = col;
+  mesh = new Mesh();
+  mesh->mode = TRIANGLES;
 
-    for (auto vert : Data)
-    {
-        mesh->vertices.push_back(vert);
-    }
+  for (auto vert : Data) {
+    mesh->vertices.push_back(vert);
+  }
 
-    for (auto index : indices)
-    {
-        mesh->indices.push_back(index);
-    }
+  for (auto index : indices) {
+    mesh->indices.push_back(index);
+  }
 }

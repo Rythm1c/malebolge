@@ -1,44 +1,40 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include "../math/transform.h"
+#include "../math/vec3.h"
 #include <iostream>
 #include <vector>
-#include "../math/vec3.h"
-#include "../math/transform.h"
+
+// enum ShapeType { Sphere, Cube };
 
 struct Mesh;
-class Shape
-{
+class Shape {
 
 public:
-    Shape()
-        : mesh(nullptr),
-          color(color3f(1.0)),
-          transform(Transform()),
-          velocity(v3D(0.0)),
-          checkered(false),
-          subDivide(false),
-          lines(0.0),
-          divs(0.0),
-          draw(true) {}
-    ~Shape() {}
+  Shape()
+      : color(color3f(1.0)), checkered(false), subDivide(false), lines(0.0),
+        divs(0.0), draw(true), transform(Transform()), velocity(v3D(0.0)),
+        inverseMass(0.0), mesh(nullptr) {}
+  ~Shape() {}
 
-    void init();
-    void render();
-    void clean();
+  void init();
+  void render();
+  void clean();
 
-    color3f color;
+  color3f color;
 
-    bool checkered;
-    bool subDivide;
-    float lines;
-    float divs;
-    bool draw;
+  bool checkered;
+  bool subDivide;
+  float lines;
+  float divs;
+  bool draw;
 
-    Transform transform;
-    v3D velocity;
+  Transform transform;
+  v3D velocity;
+  float inverseMass;
 
 protected:
-    Mesh *mesh;
+  Mesh *mesh;
 };
 #endif

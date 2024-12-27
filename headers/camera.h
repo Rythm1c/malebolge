@@ -1,36 +1,35 @@
 #ifndef CAMERA
 #define CAMERA
 
-#include <iostream>
 #include "../math/mat4.h"
-#include "../math/vec3.h"
 #include "../math/vec2.h"
+#include "../math/vec3.h"
+#include <iostream>
 
-class Camera
-{
+class Camera {
 
 public:
-    Camera();
-    ~Camera() {}
+  Camera();
+  ~Camera() {}
 
-    float fov;
-    v3D up;
-    v3D pos;
-    v3D front;
-    float velocity;
+  float fov;
+  v3D up;
+  v3D pos;
+  v3D front;
+  float velocity;
 
-    mat4x4 view();
-    mat4x4 projection(float ratio);
-    void rotation(const iv2D &mousePos);
+  mat4x4 view();
+  mat4x4 projection(float ratio);
+  void rotation(const iv2D &mousePos);
 
-    void moveForwards(float);
-    void moveBackwards(float);
-    void moveLeft(float);
-    void moveRight(float);
+  void moveForwards(float);
+  void moveBackwards(float);
+  void moveLeft(float);
+  void moveRight(float);
 
 private:
-    float pitch;
-    float yaw;
+  float pitch;
+  float yaw;
 };
 
 #endif
