@@ -1,5 +1,4 @@
 #include "physics.h"
-#include "../headers/engine.h"
 #include "../math/transform.h"
 #include "../shapes/shape.h"
 #include <math.h>
@@ -10,7 +9,7 @@ void Physics::simpleGravity(v3D &v) {
   // v = u + at
   // only affects the y component for a simple gravity simulation
   v3D gravity = v3D(0.0, -0.66, 0.0);
-  v = v + gravity * Engine::getInstance()->deltaTime;
+  v = (v + gravity);
 }
 // void friction() {}
 

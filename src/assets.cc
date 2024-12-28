@@ -2,7 +2,7 @@
 #include "../shapes/cube.h"
 #include "../shapes/shape.h"
 #include "../shapes/sphere.h"
-#include "../shapes/torus.h"
+// #include "../shapes/torus.h"
 
 void AssetManager::addSphere(std::string name, float radius, int longs,
                              int lats, color3f col) {

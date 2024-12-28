@@ -115,7 +115,8 @@ void World::update() {
     physics->simpleGravity(assets->getShape("cube2")->velocity);
 
     for (auto &shape : assets->shapes) {
-      shape.second->transform.translation += shape.second->velocity;
+      shape.second->transform.translation +=
+          shape.second->velocity * Engine::getInstance()->deltaTime;
     }
   }
 

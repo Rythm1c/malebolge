@@ -1,7 +1,7 @@
 env = Environment(
     CC=["g++"],
     CCFLAGS=[
-        "-std=c++17",
+        "-std=c++23",
         "-O2",
     ],
 )
@@ -18,12 +18,10 @@ env.Program(
     ],
     source=[
         "main.cc",
-        Glob("animation/*.cc"),
         Glob("math/*.cc"),
         Glob("src/*.cc"),
         Glob("imgui/*.cpp"),
         Glob("shapes/*.cc"),
-        Glob("foreign/*.cc"),
         Glob("physics/*.cc"),
     ],
     target="player",

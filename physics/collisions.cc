@@ -1,11 +1,10 @@
 #include "collisions.h"
 #include "../shapes/cube.h"
-#include "../shapes/shape.h"
 #include "../shapes/sphere.h"
 
-bool intersectCubeCube(class Cube *, class Cube *);
-bool intersectSphereCube(class Sphere *, class Cube *);
-bool intersectSphereSphere(class Sphere *, class Sphere *);
+bool intersectCubeCube(Cube *, Cube *);
+bool intersectSphereCube(Sphere *, Cube *);
+bool intersectSphereSphere(Sphere *, Sphere *);
 
 bool intersect(Shape *shape1, Shape *shape2) {
 
@@ -14,14 +13,20 @@ bool intersect(Shape *shape1, Shape *shape2) {
 
   if (type1 == SHAPE_CUBE) {
     if (type2 == SHAPE_CUBE)
-      return intersectCubeCube((Cube *)shape1, (Cube *)shape2);
+      return intersectCubeCube(dynamic_cast<Cube *>(shape1),
+                               dynamic_cast<Cube *>(shape2));
     else
-      return intersectSphereCube((Sphere *)shape2, (Cube *)shape1);
-  } else {
+      return intersectSphereCube(dynamic_cast<Sphere *>(shape2),
+                                 dynamic_cast<Cube *>(shape1));
+  }
+  // else if the lhs(left hand side) is a sphere bounding volume
+  else {
     if (type2 == SHAPE_SPHERE)
-      return intersectSphereSphere((Sphere *)shape1, (Sphere *)shape2);
+      return intersectSphereSphere(dynamic_cast<Sphere *>(shape1),
+                                   dynamic_cast<Sphere *>(shape2));
     else
-      return intersectSphereCube((Sphere *)shape1, (Cube *)shape2);
+      return intersectSphereCube(dynamic_cast<Sphere *>(shape1),
+                                 dynamic_cast<Cube *>(shape2));
   }
 }
 
