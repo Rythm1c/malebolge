@@ -3,6 +3,10 @@
 #include "../shapes/shape.h"
 #include "../shapes/sphere.h"
 
+bool intersectCubeCube(class Cube *, class Cube *);
+bool intersectSphereCube(class Sphere *, class Cube *);
+bool intersectSphereSphere(class Sphere *, class Sphere *);
+
 bool intersect(Shape *shape1, Shape *shape2) {
 
   ShapeType type1 = shape1->getType();
