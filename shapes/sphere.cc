@@ -1,5 +1,6 @@
 #include "sphere.h"
 #include "../headers/mesh.h"
+#include "shape.h"
 
 Sphere::Sphere(float rad, int longs, int lats, color3f col) : radius(rad) {
   color = col;

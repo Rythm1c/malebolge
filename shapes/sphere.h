@@ -4,14 +4,17 @@
 #include "shape.h"
 #include <iostream>
 
-class Sphere : virtual public Shape {
+class Sphere : public Shape {
 public:
   Sphere(float, int, int, color3f);
   ~Sphere() {}
 
-  float radius;
+  ShapeType getType() const override { return SHAPE_SPHERE; }
+
+  float getRadius() const { return radius; }
 
 private:
+  float radius;
 };
 
 #endif

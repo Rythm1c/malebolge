@@ -34,7 +34,6 @@ private:
   Shader *S_quad;
 
   class Physics *physics;
-  class Model *player;
 };
 
 #endif

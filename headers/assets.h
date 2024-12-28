@@ -13,9 +13,8 @@ public:
   ~AssetManager() {}
 
   void listShapes();
-  void addShape(std::string);
   void addSphere(std::string, float, int, int, color3f);
-  void addCube(std::string, color3f);
+  void addCube(std::string, color3f, v3D);
   void addTorus(std::string, int, color3f);
   void removeShape(std::string);
   Shape *getShape(std::string);

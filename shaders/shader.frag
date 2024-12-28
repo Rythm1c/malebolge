@@ -21,14 +21,7 @@ float line_fn();
 float blend(float far);
 //calculates directional light
 vec3 directional_light();
-// point light system
-#define MAX_POINT_LIGHTS 20
-uniform struct pointLight {
-    vec3 position;
-    vec3 color;
-} pointLights[MAX_POINT_LIGHTS];
-uniform int availablePointLights;
-vec3 calcPointLight(pointLight light);
+
 // beginning of main function
 void main() {
     vec3 result = vec3(0.0);
@@ -83,27 +76,6 @@ vec3 directional_light() {
     // vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(norm, halfwaydir), 0.0), 32.0);
     vec3 specular = spec * col;
-    result += specular;
-
-    return result;
-}
-vec3 calcPointLight(pointLight light) {
-    vec3 result = vec3(0.0);
-
-    vec3 ambient = vec3(0.2) * col * light.color;
-    result += ambient;
-
-    vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(light.position - fragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * col * light.color;
-    result += diffuse;
-
-    vec3 viewDir = normalize(viewPos - fragPos);
-    vec3 halfwaydir = normalize(lightDir + viewDir);
-    // vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(norm, halfwaydir), 0.0), 16.0);
-    vec3 specular = spec * col * light.color;
     result += specular;
 
     return result;

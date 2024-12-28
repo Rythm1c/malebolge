@@ -3,21 +3,7 @@
 #include "../shapes/shape.h"
 #include "../shapes/sphere.h"
 #include "../shapes/torus.h"
-// objects management function definitions
-void AssetManager::addShape(std::string name) {
-  bool addObject = true;
 
-  for (auto &shape : shapes) {
-    if (shape.first == name) {
-      std::cout << "object already exits! please change name." << std::endl;
-      addObject = false;
-      break;
-    }
-  }
-  if (addObject) {
-    shapes.insert(std::make_pair(name, new Shape()));
-  }
-}
 void AssetManager::addSphere(std::string name, float radius, int longs,
                              int lats, color3f col) {
   bool addObject = true;
@@ -34,7 +20,7 @@ void AssetManager::addSphere(std::string name, float radius, int longs,
   }
 }
 
-void AssetManager::addCube(std::string name, color3f col) {
+void AssetManager::addCube(std::string name, color3f col, v3D size) {
   bool addObject = true;
 
   for (auto &shape : shapes) {
@@ -45,10 +31,10 @@ void AssetManager::addCube(std::string name, color3f col) {
     }
   }
   if (addObject) {
-    shapes.insert(std::make_pair(name, new Cube(col, false)));
+    shapes.insert(std::make_pair(name, new Cube(col, size)));
   }
 }
-void AssetManager::addTorus(std::string name, int divs, color3f col) {
+/*void AssetManager::addTorus(std::string name, int divs, color3f col) {
   bool addObject = true;
 
   for (auto &shape : shapes) {
@@ -61,7 +47,7 @@ void AssetManager::addTorus(std::string name, int divs, color3f col) {
   if (addObject) {
     shapes.insert(std::make_pair(name, new Torus(divs, col)));
   }
-}
+}*/
 
 void AssetManager::refreshShapeList() {
   int counter = 0;

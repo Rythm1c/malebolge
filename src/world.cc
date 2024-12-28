@@ -6,13 +6,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
-#include "../foreign/gltf.h"
 #include "../headers/GUI.h"
 #include "../headers/assets.h"
 #include "../headers/camera.h"
 #include "../headers/engine.h"
 #include "../headers/mesh.h"
-#include "../headers/model.h"
 #include "../headers/shader.h"
 #include "../headers/window.h"
 #include "../headers/world.h"
@@ -40,8 +38,6 @@ void World::clean() {
   delete assets;
   delete physics;
   delete P_camera;
-  player->clean();
-  delete player;
 }
 
 void World::load() {
@@ -67,41 +63,31 @@ void World::load() {
   assets->getShape("ball2")->checkered = true;
   assets->getShape("ball2")->divs = 20.0;
 
-  assets->addCube("cube1", color3f(0.71, 1.0, 0.44));
-  assets->getShape("cube1")->transform.scaling = v3D(4.0);
+  assets->addCube("cube1", color3f(0.71, 1.0, 0.44), v3D(4.0));
   assets->getShape("cube1")->transform.translation = {15.0, 16.0, 25.0};
   assets->getShape("cube1")->draw = true;
   assets->getShape("cube1")->checkered = true;
   assets->getShape("cube1")->divs = 2.0;
 
-  assets->addCube("cube2", color3f(1.0, 0.58, 0.1));
-  assets->getShape("cube2")->transform.scaling = v3D(7.0);
+  assets->addCube("cube2", color3f(1.0, 0.58, 0.1), v3D(7.0));
   assets->getShape("cube2")->transform.translation = {35.0, 16.0, 20.0};
   assets->getShape("cube2")->draw = true;
   assets->getShape("cube2")->subDivide = false;
   assets->getShape("cube2")->lines = 0.0;
 
-  assets->addTorus("torus", 40, color3f(0.3, 0.88, 0.2));
+  /*assets->addTorus("torus", 40, color3f(0.3, 0.88, 0.2));
   assets->getShape("torus")->transform.scaling = v3D(10.0);
   assets->getShape("torus")->transform.translation = {-25.0, 10.0, 30.0};
   assets->getShape("torus")->draw = true;
   assets->getShape("torus")->subDivide = false;
-  assets->getShape("torus")->lines = 0.0;
+  assets->getShape("torus")->lines = 0.0;*/
 
-  assets->addCube("platform", color3f(0.8));
-  assets->getShape("platform")->transform.scaling = v3D(700.0, 2.0, 700.0);
+  assets->addCube("platform", color3f(0.8), v3D(700.0, 2.0, 700.0));
   assets->getShape("platform")->transform.translation = {0.0, -2.0, 0.0};
   assets->getShape("platform")->subDivide = true;
   assets->getShape("platform")->lines = 40.0;
 
   assets->refreshShapeList();
-
-  player = new Model();
-  GLTFFile astronaut = GLTFFile("models/astronaut/scene.gltf");
-  player->meshes = astronaut.meshes;
-  player->orient(Quat(180.0, {0.0, 1.0, 0.0}));
-  player->scale(v3D(0.5, 0.5, 0.5));
-  player->init();
 
   for (auto &shape : assets->shapes) {
     shape.second->init();
@@ -159,9 +145,4 @@ void World::render() {
       shape.second->render();
     }
   }
-
-  mat4x4 transform = player->get_transform();
-  S_obj->updateMat4("transform", transform);
-  S_obj->updateVec3("col", player->color);
-  player->render();
 }
