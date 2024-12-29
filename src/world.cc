@@ -5,7 +5,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <iostream>
+
+#include <map>
 #include <string>
 
 #include "../headers/GUI.h"
@@ -16,9 +17,9 @@
 #include "../headers/shader.h"
 #include "../headers/window.h"
 #include "../headers/world.h"
+#include "../math/mat4.h"
 #include "../math/transform.h"
 #include "../math/vec3.h"
-#include "../physics/collisions.h"
 #include "../physics/physics.h"
 #include "../shapes/shape.h"
 
@@ -27,8 +28,8 @@ static mat4x4 projection = mat4x4();
 static v3D lightdir = v3D(0.0);
 
 World::World()
-    : pause(false), P_camera(nullptr), physics(nullptr), S_line(nullptr),
-      S_obj(nullptr), S_quad(nullptr) {}
+    : pause(false), P_camera(nullptr), S_line(nullptr), S_obj(nullptr),
+      S_quad(nullptr) {}
 
 void World::clean() {
   S_obj->clean();
@@ -39,7 +40,7 @@ void World::clean() {
   delete S_quad;
   assets->cleanUp();
   delete assets;
-  delete physics;
+
   delete P_camera;
 }
 
@@ -102,28 +103,10 @@ void World::load() {
   }
 
   P_camera = new Camera();
-  physics = new Physics();
 }
 void World::update() {
+  float deltaTime = Engine::getInstance()->deltaTime;
   if (!pause) {
-    /*physics->cSphereVsAABB(assets->getShape("ball1"),
-                           assets->getShape("platform"));
-    physics->simpleGravity(assets->getShape("ball1")->velocity);
-
-    physics->cSphereVsAABB(assets->getShape("ball2"),
-                           assets->getShape("platform"));
-    physics->simpleGravity(assets->getShape("ball2")->velocity);
-
-    physics->cAABBVsAABB(assets->getShape("cube1"),
-                         assets->getShape("platform"));
-    physics->simpleGravity(assets->getShape("cube1")->velocity);
-
-    physics->cAABBVsAABB(assets->getShape("cube2"),
-                         assets->getShape("platform"));
-    physics->simpleGravity(assets->getShape("cube2")->velocity);*/
-
-    // std::map<std::string, Shape*>::iterator iter = assets->shapes.begin();
-    // iter != assets->shapes.end(); iter++;
 
     for (std::map<std::string, Shape *>::iterator iter1 =
              assets->shapes.begin();
@@ -137,17 +120,16 @@ void World::update() {
         }
       }
     }
-    std::cout << "break\n";
     for (auto &shape : assets->shapes) {
       if (shape.second->inverseMass != 0.0) {
-        physics->simpleGravity(shape.second->velocity);
+        simpleGravity(shape.second->velocity);
       }
     }
 
     for (auto &shape : assets->shapes) {
-      shape.second->translate(shape.second->pos() +
-                              shape.second->velocity *
-                                  Engine::getInstance()->deltaTime);
+      v3D pos = shape.second->pos();
+      v3D velocity = shape.second->velocity;
+      shape.second->translate(pos + velocity * deltaTime);
     }
   }
 
