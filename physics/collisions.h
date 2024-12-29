@@ -6,11 +6,12 @@
 
 struct Contact {
   v3D normal;
-  float separationDistance;
+  v3D intersection;
   Shape *shape1;
   Shape *shape2;
 };
 
 bool intersect(Shape *, Shape *);
+void resolveIntersection(Shape *, Shape *);
 
 #endif

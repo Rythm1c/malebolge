@@ -5,6 +5,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <iostream>
+#include <string>
 
 #include "../headers/GUI.h"
 #include "../headers/assets.h"
@@ -16,6 +18,7 @@
 #include "../headers/world.h"
 #include "../math/transform.h"
 #include "../math/vec3.h"
+#include "../physics/collisions.h"
 #include "../physics/physics.h"
 #include "../shapes/shape.h"
 
@@ -53,6 +56,7 @@ void World::load() {
   // assets->getShape("ball1")->transform.scaling = v3D(6.0);
   assets->getShape("ball1")->transform.translation = {5.0, 16.0, 12.0};
   assets->getShape("ball1")->draw = true;
+  assets->getShape("ball1")->inverseMass = 1.0;
   assets->getShape("ball1")->subDivide = false;
   assets->getShape("ball1")->lines = 20.0;
 
@@ -60,18 +64,21 @@ void World::load() {
   // assets->getShape("ball2")->transform.scaling = v3D(10.0);
   assets->getShape("ball2")->transform.translation = {15.0, 16.0, 40.0};
   assets->getShape("ball2")->draw = true;
+  assets->getShape("ball2")->inverseMass = 1.0;
   assets->getShape("ball2")->checkered = true;
   assets->getShape("ball2")->divs = 20.0;
 
   assets->addCube("cube1", color3f(0.71, 1.0, 0.44), v3D(4.0));
   assets->getShape("cube1")->transform.translation = {15.0, 16.0, 25.0};
   assets->getShape("cube1")->draw = true;
+  assets->getShape("cube1")->inverseMass = 1.0;
   assets->getShape("cube1")->checkered = true;
   assets->getShape("cube1")->divs = 2.0;
 
   assets->addCube("cube2", color3f(1.0, 0.58, 0.1), v3D(7.0));
   assets->getShape("cube2")->transform.translation = {35.0, 16.0, 20.0};
   assets->getShape("cube2")->draw = true;
+  assets->getShape("cube2")->inverseMass = 1.0;
   assets->getShape("cube2")->subDivide = false;
   assets->getShape("cube2")->lines = 0.0;
 
@@ -85,6 +92,7 @@ void World::load() {
   assets->addCube("platform", color3f(0.8), v3D(700.0, 2.0, 700.0));
   assets->getShape("platform")->transform.translation = {0.0, -2.0, 0.0};
   assets->getShape("platform")->subDivide = true;
+  assets->getShape("platform")->inverseMass = 0.0;
   assets->getShape("platform")->lines = 40.0;
 
   assets->refreshShapeList();
@@ -98,7 +106,7 @@ void World::load() {
 }
 void World::update() {
   if (!pause) {
-    physics->cSphereVsAABB(assets->getShape("ball1"),
+    /*physics->cSphereVsAABB(assets->getShape("ball1"),
                            assets->getShape("platform"));
     physics->simpleGravity(assets->getShape("ball1")->velocity);
 
@@ -112,11 +120,34 @@ void World::update() {
 
     physics->cAABBVsAABB(assets->getShape("cube2"),
                          assets->getShape("platform"));
-    physics->simpleGravity(assets->getShape("cube2")->velocity);
+    physics->simpleGravity(assets->getShape("cube2")->velocity);*/
+
+    // std::map<std::string, Shape*>::iterator iter = assets->shapes.begin();
+    // iter != assets->shapes.end(); iter++;
+
+    for (std::map<std::string, Shape *>::iterator iter1 =
+             assets->shapes.begin();
+         iter1 != assets->shapes.end(); iter1++) {
+      for (std::map<std::string, Shape *>::reverse_iterator iter2 =
+               assets->shapes.rbegin();
+           iter2->first != iter1->first; iter2++) {
+
+        if (intersect(iter1->second, iter2->second)) {
+          resolveIntersection(iter1->second, iter2->second);
+        }
+      }
+    }
+    std::cout << "break\n";
+    for (auto &shape : assets->shapes) {
+      if (shape.second->inverseMass != 0.0) {
+        physics->simpleGravity(shape.second->velocity);
+      }
+    }
 
     for (auto &shape : assets->shapes) {
-      shape.second->transform.translation +=
-          shape.second->velocity * Engine::getInstance()->deltaTime;
+      shape.second->translate(shape.second->pos() +
+                              shape.second->velocity *
+                                  Engine::getInstance()->deltaTime);
     }
   }
 

@@ -36,7 +36,6 @@ public:
   Transform transform;
   v3D pos() { return this->transform.translation; }
   void translate(v3D pos) { this->transform.translation = pos; }
-
   Quat orientation() { return this->transform.orientation; }
   void orient(Quat orientation) { this->transform.orientation = orientation; }
 
