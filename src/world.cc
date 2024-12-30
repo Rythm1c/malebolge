@@ -53,31 +53,31 @@ void World::load() {
 
   assets = new AssetManager();
 
-  assets->addSphere("ball1", 6.0, 60, 60, color3f(0.4));
+  assets->addSphere("ball1", 0.6, 60, 60, color3f(0.4));
   // assets->getShape("ball1")->transform.scaling = v3D(6.0);
-  assets->getShape("ball1")->transform.translation = {5.0, 16.0, 12.0};
+  assets->getShape("ball1")->translate({-5.0, 16.0, 12.0});
   assets->getShape("ball1")->draw = true;
   assets->getShape("ball1")->inverseMass = 1.0;
   assets->getShape("ball1")->subDivide = false;
   assets->getShape("ball1")->lines = 20.0;
 
-  assets->addSphere("ball2", 10.0, 60, 60, color3f(1.0));
+  assets->addSphere("ball2", 1.0, 60, 60, color3f(1.0));
   // assets->getShape("ball2")->transform.scaling = v3D(10.0);
-  assets->getShape("ball2")->transform.translation = {15.0, 16.0, 40.0};
+  assets->getShape("ball2")->translate({2.0, 16.0, 30.0});
   assets->getShape("ball2")->draw = true;
   assets->getShape("ball2")->inverseMass = 1.0;
   assets->getShape("ball2")->checkered = true;
   assets->getShape("ball2")->divs = 20.0;
 
-  assets->addCube("cube1", color3f(0.71, 1.0, 0.44), v3D(4.0));
-  assets->getShape("cube1")->transform.translation = {15.0, 16.0, 25.0};
+  assets->addCube("cube1", color3f(0.71, 1.0, 0.44), v3D(2.0));
+  assets->getShape("cube1")->translate({5.0, 16.0, 25.0});
   assets->getShape("cube1")->draw = true;
   assets->getShape("cube1")->inverseMass = 1.0;
   assets->getShape("cube1")->checkered = true;
   assets->getShape("cube1")->divs = 2.0;
 
-  assets->addCube("cube2", color3f(1.0, 0.58, 0.1), v3D(7.0));
-  assets->getShape("cube2")->transform.translation = {35.0, 16.0, 20.0};
+  assets->addCube("cube2", color3f(1.0, 0.58, 0.1), v3D(1.0));
+  assets->getShape("cube2")->translate({6.0, 16.0, 20.0});
   assets->getShape("cube2")->draw = true;
   assets->getShape("cube2")->inverseMass = 1.0;
   assets->getShape("cube2")->subDivide = false;
@@ -122,14 +122,18 @@ void World::update() {
     }
     for (auto &shape : assets->shapes) {
       if (shape.second->inverseMass != 0.0) {
-        simpleGravity(shape.second->velocity);
+        // I = dp , F = dp / dt => dp = F * dt => I = F * dt
+        // F = mgs
+        float mass = 1.0 / shape.second->inverseMass;
+        v3D impulse = GRAVITY * mass * deltaTime;
+        shape.second->applyimpulseLinear(impulse);
       }
     }
 
     for (auto &shape : assets->shapes) {
       v3D pos = shape.second->pos();
-      v3D velocity = shape.second->velocity;
-      shape.second->translate(pos + velocity * deltaTime);
+      v3D velocity = shape.second->velocity * deltaTime;
+      shape.second->translate(pos + velocity);
     }
   }
 

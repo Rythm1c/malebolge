@@ -24,59 +24,59 @@ vec3 directional_light();
 
 // beginning of main function
 void main() {
-    vec3 result = vec3(0.0);
+  vec3 result = vec3(0.0);
 
-    result += directional_light();
+  result += directional_light();
 
-    if (checkered) {
-        if (checkered_fn() == 0)
-            result *= 0.5;
-    }
+  if(checkered) {
+    if(checkered_fn() == 0)
+      result *= 0.5;
+  }
 
-    if (subDivide) {
-        if (line_fn() == 0)
-            result *= 0.3;
-    }
+  if(subDivide) {
+    if(line_fn() == 0)
+      result *= 0.3;
+  }
 
-    float attenuation = pow(blend(600.0), 2.0);
-    result = mix(result, vec3(0.2), attenuation);
+  float attenuation = pow(blend(600.0), 2.0);
+  result = mix(result, vec3(0.2), attenuation);
 
-    color = vec4(result, 1.0);
+  color = vec4(result, 1.0);
     //color = vec4(1.0, 0.58, 0.1, 0.0);
 }
 float checkered_fn() {
-    float squareDivs = 2.0 / divs;
-    vec2 sec = step(vec2(0.5), fract(texCoords / squareDivs));
-    return int(sec.x + sec.y) % 2;
+  float squareDivs = 2.0 / divs;
+  vec2 sec = step(vec2(0.5), fract(texCoords / squareDivs));
+  return int(sec.x + sec.y) % 2;
 }
 float line_fn() {
-    float _step = 1.0 / lineDivs;
-    vec2 b = step(vec2(0.005), fract(texCoords / _step));
-    vec2 t = step(vec2(0.005), 1.0 - fract(texCoords / _step));
+  float _step = 1.0 / lineDivs;
+  vec2 b = step(vec2(0.005), fract(texCoords / _step));
+  vec2 t = step(vec2(0.005), 1.0 - fract(texCoords / _step));
 
-    return b.x * b.y * t.x * t.y;
+  return b.x * b.y * t.x * t.y;
 }
 float blend(float far) {
-    float dist = clamp(length(viewPos - fragPos), 0.0, far);
-    return dist / far;
+  float dist = clamp(length(viewPos - fragPos), 0.0, far);
+  return dist / far;
 }
 vec3 directional_light() {
-    vec3 result = vec3(0.0);
-    vec3 ambient = vec3(0.1) * col;
-    result += ambient;
+  vec3 result = vec3(0.0);
+  vec3 ambient = vec3(0.1) * col;
+  result += ambient;
 
-    vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(-L_direction);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * col;
-    result += diffuse;
+  vec3 norm = normalize(normal);
+  vec3 lightDir = normalize(-L_direction);
+  float diff = max(dot(norm, lightDir), 0.0);
+  vec3 diffuse = diff * col;
+  result += diffuse;
 
-    vec3 viewDir = normalize(viewPos - fragPos);
-    vec3 halfwaydir = normalize(lightDir + viewDir);
+  vec3 viewDir = normalize(viewPos - fragPos);
+  vec3 halfwaydir = normalize(lightDir + viewDir);
     // vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(norm, halfwaydir), 0.0), 32.0);
-    vec3 specular = spec * col;
-    result += specular;
+  float spec = pow(max(dot(norm, halfwaydir), 0.0), 32.0);
+  vec3 specular = spec * col;
+  result += specular;
 
-    return result;
+  return result;
 }

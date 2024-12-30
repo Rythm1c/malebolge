@@ -10,7 +10,8 @@ Engine::Engine()
     : fps(0), deltaTime(0), running(true), P_world(nullptr), P_gui(nullptr),
       P_inputhandler(nullptr), P_window(nullptr) {}
 
-Engine::~Engine() {
+Engine::~Engine()
+{
   P_world->clean();
   // P_gui->clean();
   delete this->P_world;
@@ -19,7 +20,8 @@ Engine::~Engine() {
   delete this->P_window;
 }
 
-void Engine::init() {
+void Engine::init()
+{
 
   this->P_window = new Window();
   this->P_window->init();
@@ -33,7 +35,8 @@ void Engine::init() {
   this->P_inputhandler = new InputHandler(P_world);
   this->P_inputhandler->populateKeys();
 }
-void Engine::calcFps() {
+void Engine::calcFps()
+{
   auto now = std::chrono::high_resolution_clock::now();
   deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(
                   now - lastFrameDuration)
@@ -41,8 +44,10 @@ void Engine::calcFps() {
   lastFrameDuration = now;
   fps = 1.0 / deltaTime;
 }
-void Engine::mainLoop() {
-  while (this->running) {
+void Engine::mainLoop()
+{
+  while (this->running)
+  {
     this->calcFps();
     this->P_inputhandler->processInput(this->deltaTime);
     this->P_world->update();

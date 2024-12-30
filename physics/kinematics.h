@@ -1,8 +1,8 @@
 #ifndef KINEMATICS_H
 #define KINEMATICS_H
 
-// #include <iostream>
+#define GRAVITY v3D(0.0, -10.0, 0.0)
 
-void simpleGravity(struct v3D &v);
+struct v3D;
 
 #endif

@@ -6,11 +6,16 @@
 #include <iostream>
 #include <vector>
 
-enum ShapeType { SHAPE_SPHERE, SHAPE_CUBE };
+enum ShapeType
+{
+  SHAPE_SPHERE,
+  SHAPE_CUBE
+};
 
 struct Mesh;
 
-class Shape {
+class Shape
+{
 
 public:
   Shape()
@@ -41,6 +46,8 @@ public:
 
   v3D velocity;
   float inverseMass;
+
+  void applyimpulseLinear(const v3D &impulse);
 
 protected:
   Mesh *mesh;

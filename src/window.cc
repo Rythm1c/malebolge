@@ -2,18 +2,22 @@
 
 Window::Window() : win(nullptr), context(nullptr), area(iv2D(0)) {}
 void Window::swapBuffer() { SDL_GL_SwapWindow(this->win); }
-Window::~Window() {
+Window::~Window()
+{
   SDL_GL_DeleteContext(this->context);
   SDL_DestroyWindow(this->win);
   SDL_Quit();
 }
-void Window::reSize() {
+void Window::reSize()
+{
   SDL_GetWindowSize(this->win, &this->area.x, &this->area.y);
   glViewport(0, 0, this->area.x, this->area.y);
 }
-void Window::init() {
+void Window::init()
+{
 
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+  if (SDL_Init(SDL_INIT_VIDEO) != 0)
+  {
     std::runtime_error("failed to create SDL window!");
   }
   // window creation
@@ -32,7 +36,8 @@ void Window::init() {
                                this->area.y, flags);
   this->context = SDL_GL_CreateContext(this->win);
 
-  if (SDL_GL_MakeCurrent(this->win, this->context) != 0) {
+  if (SDL_GL_MakeCurrent(this->win, this->context) != 0)
+  {
     std::runtime_error("failed to set an opengl context with window!");
   }
 
