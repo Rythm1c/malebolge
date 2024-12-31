@@ -9,12 +9,12 @@
 class Transform {
 public:
   Transform()
-      : translation(v3D(0.0)), orientation(Quat()), scaling(v3D(1.0)) {};
+      : translation(Vector3f(0.0)), orientation(Quat()), scaling(Vector3f(1.0)) {};
   ~Transform() {};
 
-  v3D translation;
+  Vector3f translation;
   Quat orientation;
-  v3D scaling;
+  Vector3f scaling;
 
   /// @brief combines the translation, rotation and scaling members to produce a
   /// transformation matrix

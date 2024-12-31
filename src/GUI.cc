@@ -6,8 +6,8 @@
 #include "../shapes/shape.h"
 
 GUI::GUI(World *_w)
-    : P_world(_w), pos(v3D(0.0)), color(color3f(1.0)), rotation(v3D(0.0)),
-      size(v3D(0.0)), velocity(v3D(0.0)), renderObj(false), choosenObj("") {}
+    : P_world(_w), pos(Vector3f(0.0)), color(Color3f(1.0)), rotation(Vector3f(0.0)),
+      size(Vector3f(0.0)), velocity(Vector3f(0.0)), renderObj(false), choosenObj("") {}
 
 void GUI::processevents(SDL_Event &event) {
   ImGui_ImplSDL2_ProcessEvent(&event);

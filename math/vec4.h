@@ -1,17 +1,23 @@
 #ifndef VEC4_HPP
 #define VEC4_HPP
 
-#include "math.h"
+#include "utils.h"
+#include <array>
 
-template <typename T> struct TVector4D {
-  union {
-    struct {
+template <typename T>
+struct TVector4D
+{
+  union
+  {
+    struct
+    {
       T x;
       T y;
       T z;
       T w;
     };
-    struct {
+    struct
+    {
       T r; // red
       T g; // green
       T b; // blue

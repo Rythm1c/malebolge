@@ -9,11 +9,11 @@
 #include "mat4.h"
 #include "vec3.h"
 
-Quat::Quat(float angle, v3D axis) {
+Quat::Quat(float angle, Vector3f axis) {
   float s = std::sin(to_radians(angle / 2.0));
   float c = std::cos(to_radians(angle / 2.0));
 
-  v3D unit = normalize(axis);
+  Vector3f unit = normalize(axis);
 
   this->s = c;
   this->x = unit.x * s;
@@ -49,7 +49,7 @@ float dot(const Quat &lhs, const Quat &rhs) {
   return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.s * rhs.s;
 }
 
-v3D axis(Quat q) { return v3D(q.x, q.y, q.z); }
+Vector3f axis(Quat q) { return Vector3f(q.x, q.y, q.z); }
 
 Quat mix(Quat from, Quat to, float t) { return (1.0 - t) * from + t * to; }
 
@@ -89,15 +89,15 @@ Quat operator*(float lhs, const Quat &rhs) {
 }
 Quat operator*(const Quat lhs, float &rhs) { return rhs * lhs; }
 
-v3D operator*(const Quat &lhs, const v3D &rhs) {
-  v3D a = axis(lhs) * 2.0 * dot(axis(lhs), rhs);
-  v3D b = rhs * (lhs.s * lhs.s - dot(axis(lhs), axis(lhs)));
-  v3D c = cross(axis(lhs), rhs) * 2.0 * lhs.s;
+Vector3f operator*(const Quat &lhs, const Vector3f &rhs) {
+  Vector3f a = axis(lhs) * 2.0 * dot(axis(lhs), rhs);
+  Vector3f b = rhs * (lhs.s * lhs.s - dot(axis(lhs), axis(lhs)));
+  Vector3f c = cross(axis(lhs), rhs) * 2.0 * lhs.s;
 
   return a + b + c;
 }
 
-v3D operator*(v3D &lhs, Quat &rhs) { return rhs * lhs; }
+Vector3f operator*(Vector3f &lhs, Quat &rhs) { return rhs * lhs; }
 
 Quat operator*(const Quat &lhs, const Quat &rhs) {
   Quat result = Quat(0.0);

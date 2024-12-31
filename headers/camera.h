@@ -13,14 +13,14 @@ public:
   ~Camera() {}
 
   float fov;
-  v3D up;
-  v3D pos;
-  v3D front;
+  Vector3f up;
+  Vector3f pos;
+  Vector3f front;
   float velocity;
 
   mat4x4 view();
   mat4x4 projection(float ratio);
-  void rotation(const iv2D &mousePos);
+  void rotation(const Vector2i &mousePos);
 
   void moveForwards(float);
   void moveBackwards(float);

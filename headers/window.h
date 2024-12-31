@@ -17,7 +17,7 @@ public:
   ~Window();
   SDL_Window *win;
   SDL_GLContext context;
-  iv2D area;
+  Vector2i area;
 
   void init();
   void swapBuffer();

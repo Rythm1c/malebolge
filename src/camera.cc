@@ -3,8 +3,8 @@
 #include "../math/mat4.h"
 
 Camera::Camera()
-    : fov(45.0), up(v3D(0.0, 1.0, 0.0)), pos(v3D(0.0, 16.0, -20.0)),
-      front(v3D(0.0, 0.0, 1.0)), velocity(40.0), pitch(0.0),
+    : fov(45.0), up(Vector3f(0.0, 1.0, 0.0)), pos(Vector3f(0.0, 16.0, -20.0)),
+      front(Vector3f(0.0, 0.0, 1.0)), velocity(40.0), pitch(0.0),
       yaw(to_radians(90.0f)) {}
 
 mat4x4 Camera::view() {
@@ -23,16 +23,16 @@ void Camera::moveBackwards(float delta) {
 }
 void Camera::moveLeft(float delta) {
   float speed = this->velocity * delta;
-  v3D left = normalize(cross(this->up, this->front));
+  Vector3f left = normalize(cross(this->up, this->front));
   this->pos += speed * left;
 }
 void Camera::moveRight(float delta) {
   float speed = this->velocity * delta;
-  v3D left = normalize(cross(this->up, this->front));
+  Vector3f left = normalize(cross(this->up, this->front));
   this->pos -= speed * left;
 }
 
-void Camera::rotation(const iv2D &mousePos) {
+void Camera::rotation(const Vector2i &mousePos) {
 
   float xoffset = 0.15 * (float)(mousePos.x);
   float yoffset = 0.15 * (float)(-mousePos.y);
@@ -42,7 +42,7 @@ void Camera::rotation(const iv2D &mousePos) {
 
   clamp(this->pitch, to_radians(-89.0), to_radians(89.0));
 
-  v3D newFront = v3D(0.0);
+  Vector3f newFront = Vector3f(0.0);
 
   newFront.x = cos(this->pitch) * cos(this->yaw);
   newFront.y = sin(this->pitch);

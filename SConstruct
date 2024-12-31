@@ -19,6 +19,7 @@ env.Program(
     source=[
         "main.cc",
         Glob("math/*.cc"),
+        Glob("render/*.cc"),
         Glob("src/*.cc"),
         Glob("imgui/*.cpp"),
         Glob("shapes/*.cc"),

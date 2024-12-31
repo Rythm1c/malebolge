@@ -6,7 +6,7 @@
 
 class Torus : public Shape {
 public:
-  Torus(int, color3f);
+  Torus(int, Color3f);
   ~Torus() {}
 
 private:

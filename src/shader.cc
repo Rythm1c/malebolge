@@ -19,7 +19,7 @@ void Shader::updateMat4(const char *name, mat4x4 &mat) {
   unsigned int location = glGetUniformLocation(program, name);
   glUniformMatrix4fv(location, 1, true, mat.fv.data());
 }
-void Shader::updateVec3(const char *name, v3D &vec) {
+void Shader::updateVec3(const char *name, Vector3f &vec) {
   unsigned int location = glGetUniformLocation(program, name);
   glUniform3f(location, vec.x, vec.y, vec.z);
 }

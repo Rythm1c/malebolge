@@ -1,10 +1,12 @@
-#include "math.h"
+#include "utils.h"
 
-float to_radians(float degs) {
+float to_radians(float degs)
+{
   float radian = PIE / 180.0f;
   return degs * radian;
 }
-float to_degrees(float rads) {
+float to_degrees(float rads)
+{
   float scale = 180.0f / PIE;
   return rads * scale;
 }
@@ -12,7 +14,8 @@ float to_degrees(float rads) {
 float random_float() { return (float)(rand()) / (float)(RAND_MAX); }
 // random integer generator
 // integers within range a-b
-int random_int(int a, int b) {
+int random_int(int a, int b)
+{
   if (a > b)
     return random_int(b, a);
   if (a == b)
@@ -21,7 +24,8 @@ int random_int(int a, int b) {
 }
 // random float generator
 // floats within range a-b
-float random_float(int a, int b) {
+float random_float(int a, int b)
+{
   if (a > b)
     return random_float(b, a);
   if (a == b)
@@ -32,3 +36,23 @@ float random_float(int a, int b) {
 float max(float a, float b) { return a < b ? b : a; }
 // return the smallest of the two floats
 float min(float a, float b) { return a < b ? a : b; }
+
+bool step(float a, float b) { return b < a; }
+
+template float clamp<float>(float v, float min, float max);
+template int clamp<int>(int v, int min, int max);
+
+template <class T>
+T clamp(T v, T min, T max)
+{
+  if (v < min)
+  {
+    return min;
+  }
+  if (v > max)
+  {
+    return max;
+  }
+  return v;
+  // return std::max(min, std::min(max, v));
+}

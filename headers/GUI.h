@@ -20,11 +20,11 @@ private:
   void editObject();
   void effects();
 
-  v3D rotation;
-  v3D size;
-  v3D pos;
-  v3D velocity;
-  color3f color;
+  Vector3f rotation;
+  Vector3f size;
+  Vector3f pos;
+  Vector3f velocity;
+  Color3f color;
   bool renderObj;
   std::string choosenObj;
 

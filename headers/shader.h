@@ -19,7 +19,7 @@ public:
 
   void updateInt(const char *name, int value);
   void updateFloat(const char *name, float value);
-  void updateVec3(const char *name, v3D &vec);
+  void updateVec3(const char *name, Vector3f &vec);
   void updateMat4(const char *name, mat4x4 &mat);
 
 private:

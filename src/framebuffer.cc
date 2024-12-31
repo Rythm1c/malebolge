@@ -49,7 +49,7 @@ void Framebuffer::reScale() {
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
                             GL_RENDERBUFFER, RBO);
 }
-void Framebuffer::updateVertexData(v2D p, v2D a) {
+void Framebuffer::updateVertexData(Vector2f p, Vector2f a) {
   pos = p;
   area = a;
 
@@ -67,7 +67,7 @@ void Framebuffer::updateVertexData(v2D p, v2D a) {
   glBindVertexArray(0);
 }
 
-void Framebuffer::loadQuad(v2D p, v2D a) {
+void Framebuffer::loadQuad(Vector2f p, Vector2f a) {
   pos = p;
   area = a;
 
@@ -94,7 +94,7 @@ void Framebuffer::loadQuad(v2D p, v2D a) {
   glEnableVertexAttribArray(0);
 
   glVertexAttribPointer(1, 2, GL_FLOAT, false, sizeof(v4D),
-                        (void *)(sizeof(v2D)));
+                        (void *)(sizeof(Vector2f)));
   glEnableVertexAttribArray(1);
 
   glBindVertexArray(0);

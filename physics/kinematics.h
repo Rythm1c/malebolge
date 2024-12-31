@@ -1,8 +1,8 @@
 #ifndef KINEMATICS_H
 #define KINEMATICS_H
 
-#define GRAVITY v3D(0.0, -10.0, 0.0)
+#define GRAVITY Vector3f(0.0, -10.0, 0.0)
 
-struct v3D;
+// struct Vector3f;
 
 #endif

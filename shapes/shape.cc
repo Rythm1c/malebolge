@@ -1,7 +1,7 @@
 #include "shape.h"
 #include "../headers/mesh.h"
 
-void Shape::applyimpulseLinear(const v3D &impulse)
+void Shape::applyimpulseLinear(const Vector3f &impulse)
 {
   if (this->inverseMass == 0.0)
     return;

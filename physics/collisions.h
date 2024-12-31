@@ -5,8 +5,8 @@
 #include <iostream>
 
 struct Contact {
-  v3D normal;
-  v3D intersection;
+  Vector3f normal;
+  Vector3f intersection;
   Shape *shape1;
   Shape *shape2;
 };

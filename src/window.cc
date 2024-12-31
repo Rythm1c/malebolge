@@ -1,6 +1,6 @@
 #include "../headers/window.h"
 
-Window::Window() : win(nullptr), context(nullptr), area(iv2D(0)) {}
+Window::Window() : win(nullptr), context(nullptr), area(Vector2i(0)) {}
 void Window::swapBuffer() { SDL_GL_SwapWindow(this->win); }
 Window::~Window()
 {

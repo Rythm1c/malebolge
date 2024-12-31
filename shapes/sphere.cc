@@ -2,7 +2,7 @@
 #include "../headers/mesh.h"
 #include "shape.h"
 
-Sphere::Sphere(float rad, int longs, int lats, color3f col) : radius(rad) {
+Sphere::Sphere(float rad, int longs, int lats, Color3f col) : radius(rad) {
   color = col;
   mesh = new Mesh();
   this->transform.scaling = {radius, radius, radius};

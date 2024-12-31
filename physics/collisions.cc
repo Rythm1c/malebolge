@@ -92,23 +92,23 @@ void resolveCubeCubeContact(Cube *cube1, Cube *cube2)
 
   // gets the smallest instersection per axis
   // and updates the appropriate axis with the displacement
-  v3D normal = v3D(0.0);
-  v3D intersection = v3D(0.0);
+  Vector3f normal = Vector3f(0.0);
+  Vector3f intersection = Vector3f(0.0);
 
   if (abs(dx) < abs(dy) && abs(dx) < abs(dz))
   {
-    normal = normalize(v3D(-dx, 0.0, 0.0));
-    intersection = v3D(-dx, 0.0, 0.0);
+    normal = normalize(Vector3f(-dx, 0.0, 0.0));
+    intersection = Vector3f(-dx, 0.0, 0.0);
   }
   else if (abs(dy) < abs(dx) && abs(dy) < abs(dz))
   {
-    normal = normalize(v3D(0.0, -dy, 0.0));
-    intersection = v3D(0.0, -dy, 0.0);
+    normal = normalize(Vector3f(0.0, -dy, 0.0));
+    intersection = Vector3f(0.0, -dy, 0.0);
   }
   else
   {
-    normal = normalize(v3D(0.0, 0.0, -dz));
-    intersection = v3D(0.0, 0.0, -dz);
+    normal = normalize(Vector3f(0.0, 0.0, -dz));
+    intersection = Vector3f(0.0, 0.0, -dz);
   }
 
   // move them outside of each other
@@ -141,32 +141,34 @@ void resolveSphereSphereContact(Sphere *sphere1, Sphere *sphere2)
   float totalRadii = sphere1->getRadius() + sphere2->getRadius();
   // get  contact normal
   // |AB| = |AO| + |OB| = |OB| - |AO|
-  v3D normal = normalize(sphere2->pos() - sphere1->pos());
+  Vector3f normal = normalize(sphere2->pos() - sphere1->pos());
   // update position to remove them form each others bounding volumes
-  // reduce velocities based on angle of contact with normal
-  // v1 = v1 * dot(normalize(v1), -1.0 * normal);
-  // v2 = v2 * dot(normalize(v2), 1.0 * normal);
+  Vector3f closestPtSphere1 = sphere1->pos() + normal * sphere1->getRadius();
+  Vector3f closestPtSphere2 = sphere2->pos() - normal * sphere2->getRadius();
+
+  Vector3f intersection = closestPtSphere1 - closestPtSphere2;
+
   if (sphere1->inverseMass != 0.0)
   {
     sphere1->velocity = 0.8 * reflect(sphere1->velocity, -1.0 * normal);
-    sphere1->translate(sphere2->pos() + totalRadii * -1.0 * normal);
+    sphere1->translate(sphere2->pos() + intersection);
   }
 
   if (sphere2->inverseMass != 0.0)
   {
     sphere1->velocity = 0.8 * reflect(sphere2->velocity, 1.0 * normal);
-    sphere2->translate(sphere1->pos() + totalRadii * 1.0 * normal);
+    sphere2->translate(sphere1->pos() - intersection);
   }
 }
 //______________________________________________________________________
 bool intersectSphereCube(Sphere *sphere, Cube *cube)
 {
   // BA=AO+BO=-OB+OA
-  v3D difference = sphere->pos() - cube->pos();
+  Vector3f difference = sphere->pos() - cube->pos();
 
-  v3D dimensions = cube->getDimensions();
-  v3D clamped = clamp(difference, -1.0 * dimensions, dimensions);
-  v3D closestPoint = clamped + cube->pos();
+  Vector3f dimensions = cube->getDimensions();
+  Vector3f clamped = clamp(difference, -1.0 * dimensions, dimensions);
+  Vector3f closestPoint = clamped + cube->pos();
 
   float distance = get_length(sphere->pos() - closestPoint);
 
@@ -175,16 +177,16 @@ bool intersectSphereCube(Sphere *sphere, Cube *cube)
 
 void resolveSphereCubeContact(Sphere *sphere, Cube *cube)
 {
-  v3D difference = sphere->pos() - cube->pos();
+  Vector3f difference = sphere->pos() - cube->pos();
 
-  v3D dimensions = cube->getDimensions();
-  v3D clamped = clamp(difference, -1.0 * dimensions, dimensions);
-  v3D closestPointCube = clamped + cube->pos();
+  Vector3f dimensions = cube->getDimensions();
+  Vector3f clamped = clamp(difference, -1.0 * dimensions, dimensions);
+  Vector3f closestPointCube = clamped + cube->pos();
 
   // BA=BO+OA=OA-OB
-  v3D normal = normalize(sphere->pos() - closestPointCube);
-  v3D closestPointSphere = sphere->pos() + normal * -sphere->getRadius();
-  v3D intersection = closestPointSphere - closestPointCube;
+  Vector3f normal = normalize(sphere->pos() - closestPointCube);
+  Vector3f closestPointSphere = sphere->pos() + normal * -sphere->getRadius();
+  Vector3f intersection = closestPointSphere - closestPointCube;
 
   if (sphere->inverseMass != 0.0)
   {

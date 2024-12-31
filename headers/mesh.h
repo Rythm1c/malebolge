@@ -11,8 +11,8 @@
 
 struct Vertex {
   p3D pos;
-  v3D norm;
-  v2D tc;
+  Vector3f norm;
+  Vector2f tc;
 };
 
 enum drawMode { POINTS, LINES, TRIANGLES };

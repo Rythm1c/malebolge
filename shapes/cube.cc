@@ -38,7 +38,7 @@ const std::vector<unsigned int> indices = {
     0,  1,  2,  0,  2,  3,  4,  5,  6,  4,  6,  7,  8,  9,  10, 8,  10, 11,
     12, 13, 14, 12, 14, 15, 16, 18, 19, 19, 17, 16, 20, 22, 23, 23, 21, 20};
 
-Cube::Cube(color3f col, v3D size) {
+Cube::Cube(Color3f col, Vector3f size) {
   color = col;
   mesh = new Mesh();
   mesh->mode = TRIANGLES;

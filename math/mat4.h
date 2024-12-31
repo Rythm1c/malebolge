@@ -1,9 +1,10 @@
 #ifndef MAT4X4_HPP
 #define MAT4X4_HPP
 
-#include "math.h"
+#include "utils.h"
 #include "vec3.h"
 #include "vec4.h"
+#include <array>
 
 // for multiplication of mat4x4s and vec4s
 #define M4V4D(mRow, x, y, z, w) \
@@ -70,12 +71,12 @@ struct mat4x4
 /// @brief create a translation matrix out of a vec3
 /// @param t translation vector
 /// @return translation mat
-mat4x4 translate(const v3D t);
+mat4x4 translate(const Vector3f t);
 
 /// @brief create a scaling matrix out of a vec3
 /// @param s scaling vector
 /// @return scaling matrix
-mat4x4 scale(const v3D s);
+mat4x4 scale(const Vector3f s);
 
 /// @brief create a rotation matrix for the X axis
 /// @param angle rotational angle
@@ -97,7 +98,7 @@ mat4x4 rotationZ(float angle);
 /// @param dir camera direction
 /// @param up camera upwards direction
 /// @return rotation matrix for the world relative to camera
-mat4x4 look_at(const v3D &pos, const v3D &dir, const v3D &up);
+mat4x4 look_at(const Vector3f &pos, const Vector3f &dir, const Vector3f &up);
 
 /// @brief for creating an orthogonal projection matrix using dimentions
 /// @param l left

@@ -1,7 +1,7 @@
 #include "torus.h"
 #include "../headers/mesh.h"
 
-Torus::Torus(int divs, color3f col) {
+Torus::Torus(int divs, Color3f col) {
   color = col;
   float angle = 360.0 / ((float)divs - 1.0);
 
@@ -26,8 +26,8 @@ Torus::Torus(int divs, color3f col) {
       float ny = std::sin(theta);
       float nz = std::cos(theta) * std::sin(epsilon);
 
-      vertex.pos = v3D(x, y, z);
-      vertex.norm = v3D(nx, ny, nz);
+      vertex.pos = Vector3f(x, y, z);
+      vertex.norm = Vector3f(nx, ny, nz);
 
       mesh->vertices.push_back(vertex);
     }

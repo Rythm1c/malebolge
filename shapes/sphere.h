@@ -6,7 +6,7 @@
 
 class Sphere : public Shape {
 public:
-  Sphere(float, int, int, color3f);
+  Sphere(float, int, int, Color3f);
   ~Sphere() {}
 
   ShapeType getType() const override { return SHAPE_SPHERE; }

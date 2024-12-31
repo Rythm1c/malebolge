@@ -1,18 +1,23 @@
 #ifndef VEC3_HPP
 #define VEC3_HPP
 
-#include "math.h"
+#include "utils.h"
+#include <array>
 
 //  3D vector with x, y and z components
-struct v3D {
+struct Vector3f
+{
 
-  union {
-    struct {
+  union
+  {
+    struct
+    {
       float x;
       float y;
       float z;
     };
-    struct {
+    struct
+    {
       float r; // red
       float g; // green
       float b; // blue
@@ -20,33 +25,37 @@ struct v3D {
     std::array<float, 3> v;
   };
   // default constructor with components set to 0.0
-  v3D() : x(0.0f), y(0.0f), z(0.0f) {}
+  Vector3f() : x(0.0f), y(0.0f), z(0.0f) {}
   // set all components to a single value
-  v3D(float _v) : x(_v), y(_v), z(_v) {}
+  Vector3f(float _v) : x(_v), y(_v), z(_v) {}
   // use a simple array to set components
-  v3D(float *fv) : x(fv[0]), y(fv[1]), z(fv[2]) {}
+  Vector3f(float *fv) : x(fv[0]), y(fv[1]), z(fv[2]) {}
   // set each components idividually
-  v3D(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+  Vector3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 
-  v3D operator+=(const v3D &r) {
+  Vector3f operator+=(const Vector3f &r)
+  {
     this->x += r.x;
     this->y += r.y;
     this->z += r.z;
     return *this;
   }
-  v3D operator-=(const v3D &r) {
+  Vector3f operator-=(const Vector3f &r)
+  {
     this->x -= r.x;
     this->y -= r.y;
     this->z -= r.z;
     return *this;
   }
-  v3D operator*=(float r) {
+  Vector3f operator*=(float r)
+  {
     this->x *= r;
     this->y *= r;
     this->z *= r;
     return *this;
   }
-  v3D operator/=(float r) {
+  Vector3f operator/=(float r)
+  {
     this->x /= r;
     this->y /= r;
     this->z /= r;
@@ -54,37 +63,37 @@ struct v3D {
   }
 };
 // point 3D
-typedef v3D p3D;
+typedef Vector3f p3D;
 // for difining colors
-typedef v3D color3f;
+typedef Vector3f Color3f;
 
 // get the dot product between two 3D vectors
-float dot(const v3D &p1, const v3D &p2);
+float dot(const Vector3f &p1, const Vector3f &p2);
 // get the vectors/point length
-float get_length(const v3D &v);
+float get_length(const Vector3f &v);
 // get the cross product between two 3D vectors
-v3D cross(const v3D &v1, const v3D &v2);
+Vector3f cross(const Vector3f &v1, const Vector3f &v2);
 // normalize vec3 to have unit length
-v3D normalize(const v3D &v);
+Vector3f normalize(const Vector3f &v);
 // reflect vector around normal
-v3D reflect(const v3D &v, const v3D &n);
+Vector3f reflect(const Vector3f &v, const Vector3f &n);
 // limit to min and max value
-v3D clamp(const v3D &v, const v3D &min, const v3D &max);
+Vector3f clamp(const Vector3f &v, const Vector3f &min, const Vector3f &max);
 
-v3D lerp(v3D a, v3D b, float c);
+Vector3f lerp(Vector3f a, Vector3f b, float c);
 
 // miltiplication
-v3D operator*(const v3D &l, float r);
-v3D operator*(float r, const v3D &l);
-v3D operator*(const v3D &lhs, const v3D &rhs);
+Vector3f operator*(const Vector3f &l, float r);
+Vector3f operator*(float r, const Vector3f &l);
+Vector3f operator*(const Vector3f &lhs, const Vector3f &rhs);
 // division
-v3D operator/(const v3D &l, float r);
+Vector3f operator/(const Vector3f &l, float r);
 // addition
-v3D operator+(const v3D &l, const v3D &r);
+Vector3f operator+(const Vector3f &l, const Vector3f &r);
 // subtraction
-v3D operator-(const v3D &l, const v3D &r);
+Vector3f operator-(const Vector3f &l, const Vector3f &r);
 // comparisons
-bool operator==(const v3D &l, const v3D &r);
-bool operator!=(const v3D &l, const v3D &r);
+bool operator==(const Vector3f &l, const Vector3f &r);
+bool operator!=(const Vector3f &l, const Vector3f &r);
 
 #endif

@@ -5,7 +5,7 @@
 // #include "../shapes/torus.h"
 
 void AssetManager::addSphere(std::string name, float radius, int longs,
-                             int lats, color3f col) {
+                             int lats, Color3f col) {
   bool addObject = true;
 
   for (auto &shape : shapes) {
@@ -20,7 +20,7 @@ void AssetManager::addSphere(std::string name, float radius, int longs,
   }
 }
 
-void AssetManager::addCube(std::string name, color3f col, v3D size) {
+void AssetManager::addCube(std::string name, Color3f col, Vector3f size) {
   bool addObject = true;
 
   for (auto &shape : shapes) {
@@ -34,7 +34,7 @@ void AssetManager::addCube(std::string name, color3f col, v3D size) {
     shapes.insert(std::make_pair(name, new Cube(col, size)));
   }
 }
-/*void AssetManager::addTorus(std::string name, int divs, color3f col) {
+/*void AssetManager::addTorus(std::string name, int divs, Color3f col) {
   bool addObject = true;
 
   for (auto &shape : shapes) {

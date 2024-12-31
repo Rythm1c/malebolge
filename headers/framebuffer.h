@@ -12,7 +12,7 @@ private:
   uint FBO, RBO;
   std::array<v4D, 4> vertices;
   std::array<uint, 6> indices;
-  v2D pos, area;
+  Vector2f pos, area;
 
 public:
   Framebuffer() {}
@@ -24,12 +24,12 @@ public:
   void clean();
 
   void reScale();
-  void updateVertexData(v2D p, v2D a);
+  void updateVertexData(Vector2f p, Vector2f a);
 
   // p(position): position of quad on screen
   // a(area): specify width and height of quad
   // call this function before the load function
-  void loadQuad(v2D p, v2D a);
+  void loadQuad(Vector2f p, Vector2f a);
   void renderIntoQuad();
 
   float getQuadDimesnionsAspecRatio() { return (area.x / area.y); }

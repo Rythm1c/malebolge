@@ -1,14 +1,13 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include "math.h"
+#include "utils.h"
 #include <array>
-#include <iostream>
 
 #define QUAT_EPSILON 0.000001f
 
 struct mat4x4;
-struct v3D;
+struct Vector3f;
 
 struct Quat {
   union {
@@ -31,7 +30,7 @@ struct Quat {
   /// @brief creates a quaternion from an angle and specified axis
   /// @param 1: angle
   /// @param 2: axis
-  Quat(float, v3D);
+  Quat(float, Vector3f);
 
   float norm();
   Quat unit();
@@ -40,7 +39,7 @@ struct Quat {
 
   mat4x4 toMat();
 };
-v3D axis(Quat q);
+Vector3f axis(Quat q);
 float dot(const Quat &lhs, const Quat &rhs);
 Quat mix(Quat from, Quat to, float t);
 
@@ -49,8 +48,8 @@ Quat operator+(const Quat &lhs, const Quat &rhs);
 Quat operator*(float lhs, const Quat &rhs);
 Quat operator*(const Quat lhs, float &rhs);
 
-v3D operator*(const v3D &lhs, const Quat &rhs);
-v3D operator*(const Quat &lhs, const v3D &rhs);
+Vector3f operator*(const Vector3f &lhs, const Quat &rhs);
+Vector3f operator*(const Quat &lhs, const Vector3f &rhs);
 
 Quat operator*(const Quat &lhs, const Quat &rhs);
 

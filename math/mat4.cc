@@ -1,14 +1,14 @@
 #include "mat4.h"
 #include "quaternion.h"
 
-mat4x4 translate(const v3D t) {
+mat4x4 translate(const Vector3f t) {
   mat4x4 trans;
   trans.xw = t.x;
   trans.yw = t.y;
   trans.zw = t.z;
   return trans;
 }
-mat4x4 scale(const v3D s) {
+mat4x4 scale(const Vector3f s) {
   mat4x4 trans;
   trans.xx = s.x;
   trans.yy = s.y;
@@ -45,11 +45,11 @@ mat4x4 rotationZ(float angle) {
   trans.ww = 1.0f;
   return trans;
 }
-mat4x4 look_at(const v3D &pos, const v3D &fr, const v3D &up) {
+mat4x4 look_at(const Vector3f &pos, const Vector3f &fr, const Vector3f &up) {
   // cr = camera right vector
-  v3D cd = normalize(pos - fr);
-  v3D cr = normalize(cross(up, cd));
-  v3D cu = normalize(cross(cd, cr));
+  Vector3f cd = normalize(pos - fr);
+  Vector3f cr = normalize(cross(up, cd));
+  Vector3f cu = normalize(cross(cd, cr));
 
   // rotation and translation matrix combined
   float xx = cr.x;

@@ -19,8 +19,8 @@ class Shape
 
 public:
   Shape()
-      : color(color3f(1.0)), checkered(false), subDivide(false), lines(0.0),
-        divs(0.0), draw(true), transform(Transform()), velocity(v3D(0.0)),
+      : color(Color3f(1.0)), checkered(false), subDivide(false), lines(0.0),
+        divs(0.0), draw(true), texture(nullptr), transform(Transform()), velocity(Vector3f(0.0)),
         inverseMass(0.0), mesh(nullptr) {}
 
   ~Shape() {}
@@ -31,23 +31,24 @@ public:
 
   virtual ShapeType getType() const = 0;
 
-  color3f color;
+  Color3f color;
   bool checkered;
   bool subDivide;
   float lines;
   float divs;
   bool draw;
+  class Texture *texture;
 
   Transform transform;
-  v3D pos() { return this->transform.translation; }
-  void translate(v3D pos) { this->transform.translation = pos; }
+  Vector3f pos() { return this->transform.translation; }
+  void translate(Vector3f pos) { this->transform.translation = pos; }
   Quat orientation() { return this->transform.orientation; }
   void orient(Quat orientation) { this->transform.orientation = orientation; }
 
-  v3D velocity;
+  Vector3f velocity;
   float inverseMass;
 
-  void applyimpulseLinear(const v3D &impulse);
+  void applyimpulseLinear(const Vector3f &impulse);
 
 protected:
   Mesh *mesh;
