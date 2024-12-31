@@ -9,10 +9,7 @@ uniform vec3 col;
 in vec3 normal;
 in vec3 fragPos;
 in vec2 texCoords;
-//get a checker board pattern on object surface
-uniform bool checkered;
-uniform float divs;
-float checkered_fn();
+
 // draw a line grid on the surface of an object
 uniform bool subDivide;
 uniform float lineDivs;
@@ -29,11 +26,6 @@ void main() {
   vec3 color = col;
   if(textured) {
     color = vec3(texture(pattern, texCoords));
-  }
-
-  if(checkered) {
-    if(checkered_fn() == 0)
-      color *= 0.5;
   }
 
   if(subDivide) {
@@ -62,11 +54,7 @@ void main() {
   ouput = vec4(result, 1.0);
     //color = vec4(1.0, 0.58, 0.1, 0.0);
 }
-float checkered_fn() {
-  float squareDivs = 2.0 / divs;
-  vec2 sec = step(vec2(0.5), fract(texCoords / squareDivs));
-  return int(sec.x + sec.y) % 2;
-}
+
 float line_fn() {
   float _step = 1.0 / lineDivs;
   vec2 b = step(vec2(0.005), fract(texCoords / _step));

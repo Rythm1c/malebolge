@@ -55,7 +55,6 @@ void World::load()
   assets = new AssetManager();
 
   assets->addSphere("ball1", 0.6, 60, 60, Color3f(0.4));
-  // assets->getShape("ball1")->transform.scaling = Vector3f(6.0);
   assets->getShape("ball1")->translate({-5.0, 16.0, 12.0});
   assets->getShape("ball1")->draw = true;
   assets->getShape("ball1")->inverseMass = 1.0;
@@ -63,26 +62,24 @@ void World::load()
   assets->getShape("ball1")->lines = 20.0;
 
   assets->addSphere("ball2", 1.0, 60, 60, Color3f(1.0));
-  // assets->getShape("ball2")->transform.scaling = Vector3f(10.0);
   assets->getShape("ball2")->translate({2.0, 16.0, 30.0});
   assets->getShape("ball2")->draw = true;
   assets->getShape("ball2")->inverseMass = 1.0;
-  assets->getShape("ball2")->checkered = true;
-  assets->getShape("ball2")->divs = 20.0;
+  assets->getShape("ball2")->texture = createCheckeredTexture(800, 800, Color3f(1.0), Color3f(0.2), 20);
 
-  assets->addCube("cube1", Color3f(0.71, 1.0, 0.44), Vector3f(2.0));
+  assets->addCube("cube1", Color3f(0.71, 1.0, 0.44), Vector3f(1.0));
   assets->getShape("cube1")->translate({5.0, 16.0, 25.0});
   assets->getShape("cube1")->draw = true;
   assets->getShape("cube1")->inverseMass = 1.0;
-  assets->getShape("cube1")->checkered = true;
-  assets->getShape("cube1")->divs = 2.0;
+  assets->getShape("cube1")->texture = createCheckeredTexture(800, 800, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 2);
 
-  assets->addCube("cube2", Color3f(1.0, 0.58, 0.1), Vector3f(1.0));
+  assets->addCube("cube2", Color3f(1.0, 0.58, 0.1), Vector3f(3.0));
   assets->getShape("cube2")->translate({6.0, 16.0, 20.0});
   assets->getShape("cube2")->draw = true;
   assets->getShape("cube2")->inverseMass = 1.0;
   assets->getShape("cube2")->subDivide = false;
   assets->getShape("cube2")->lines = 0.0;
+  assets->getShape("cube2")->texture = createGridTexture(500, 500, Color3f(1.0), Color3f(0.2), 40, 40, 0.005);
 
   /*assets->addTorus("torus", 40, Color3f(0.3, 0.88, 0.2));
   assets->getShape("torus")->transform.scaling = Vector3f(10.0);
@@ -91,12 +88,12 @@ void World::load()
   assets->getShape("torus")->subDivide = false;
   assets->getShape("torus")->lines = 0.0;*/
 
-  assets->addCube("platform", Color3f(0.8), Vector3f(700.0, 2.0, 700.0));
+  assets->addCube("platform", Color3f(1.0), Vector3f(700.0, 2.0, 700.0));
   assets->getShape("platform")->transform.translation = {0.0, -2.0, 0.0};
   assets->getShape("platform")->subDivide = false;
   assets->getShape("platform")->inverseMass = 0.0;
   assets->getShape("platform")->lines = 40.0;
-  assets->getShape("platform")->texture = createGridTexture(800, 800, Color3f(1.0), Color3f(0.2), 60, 60, 0.05f);
+  // assets->getShape("platform")->texture = createGridTexture(1000, 1000, Color3f(1.0), Color3f(0.2), 60, 60, 0.05);
 
   assets->refreshShapeList();
 
@@ -144,7 +141,7 @@ void World::update()
     {
       Vector3f pos = shape.second->pos();
       Vector3f velocity = shape.second->velocity * deltaTime;
-      shape.second->translate(pos + velocity);
+      // shape.second->translate(pos + velocity);
     }
   }
 
@@ -175,8 +172,6 @@ void World::render()
 
       S_obj->updateMat4("transform", transform);
       S_obj->updateVec3("col", shape.second->color);
-      S_obj->updateInt("checkered", shape.second->checkered);
-      S_obj->updateFloat("divs", shape.second->divs);
       S_obj->updateInt("subDivide", shape.second->subDivide);
       S_obj->updateFloat("lineDivs", shape.second->lines);
       shape.second->render();

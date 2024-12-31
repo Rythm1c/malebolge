@@ -11,6 +11,6 @@ Texture *createGridTexture(
     int lats, int longs, float thickness);
 
 Texture *createCheckeredTexture(
-    int w, int h, Color3f first, Color3f second);
+    int w, int h, Color3f first, Color3f second, int divs);
 
 #endif

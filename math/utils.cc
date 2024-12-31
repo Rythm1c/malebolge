@@ -37,10 +37,9 @@ float max(float a, float b) { return a < b ? b : a; }
 // return the smallest of the two floats
 float min(float a, float b) { return a < b ? a : b; }
 
-bool step(float a, float b) { return b < a; }
+int step(float edge, float b) { return b > edge ? 1 : 0; }
 
-template float clamp<float>(float v, float min, float max);
-template int clamp<int>(int v, int min, int max);
+float fract(float value) { return value - floor(value); }
 
 template <class T>
 T clamp(T v, T min, T max)
@@ -56,3 +55,5 @@ T clamp(T v, T min, T max)
   return v;
   // return std::max(min, std::min(max, v));
 }
+template float clamp<float>(float v, float min, float max);
+template int clamp<int>(int v, int min, int max);
