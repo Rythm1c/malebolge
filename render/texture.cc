@@ -44,7 +44,7 @@ void Texture::loadEmptyTexture(
 }
 void Texture::loadTexture2DFromRawData(
     int w, int h, void *_data, bool _mipmaps,
-    uint _format, uint _type, int _filter)
+    uint _format, int _filter, uint _type)
 {
   this->width = w;
   this->height = h;

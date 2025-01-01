@@ -10,10 +10,6 @@ in vec3 normal;
 in vec3 fragPos;
 in vec2 texCoords;
 
-// draw a line grid on the surface of an object
-uniform bool subDivide;
-uniform float lineDivs;
-float line_fn();
 // returns a fraction of the far value depending on the distance from the camera
 float blend(float far);
 
@@ -28,10 +24,6 @@ void main() {
     color = vec3(texture(pattern, texCoords));
   }
 
-  if(subDivide) {
-    if(line_fn() == 0)
-      color *= 0.3;
-  }
   vec3 ambient = vec3(0.1) * color;
   result += ambient;
 
@@ -55,13 +47,6 @@ void main() {
     //color = vec4(1.0, 0.58, 0.1, 0.0);
 }
 
-float line_fn() {
-  float _step = 1.0 / lineDivs;
-  vec2 b = step(vec2(0.005), fract(texCoords / _step));
-  vec2 t = step(vec2(0.005), 1.0 - fract(texCoords / _step));
-
-  return b.x * b.y * t.x * t.y;
-}
 float blend(float far) {
   float dist = clamp(length(viewPos - fragPos), 0.0, far);
   return dist / far;

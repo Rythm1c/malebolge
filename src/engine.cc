@@ -42,7 +42,7 @@ void Engine::calcFps()
                   now - lastFrameDuration)
                   .count();
   lastFrameDuration = now;
-  fps = 1.0 / deltaTime;
+  this->fps = 1.0 / deltaTime;
 }
 void Engine::mainLoop()
 {

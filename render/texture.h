@@ -30,8 +30,8 @@ public:
                         int filter = GL_LINEAR);
 
   void loadTexture2DFromRawData(int w, int h, void *data, bool mipmaps = false,
-                                uint format = GL_RGBA, uint type = GL_UNSIGNED_BYTE,
-                                int filter = GL_LINEAR);
+                                uint format = GL_RGBA, int filter = GL_LINEAR,
+                                uint type = GL_UNSIGNED_BYTE);
   // create bit map
   void createCharBitmap(int w, int h, void *data);
 

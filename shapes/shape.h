@@ -19,8 +19,8 @@ class Shape
 
 public:
   Shape()
-      : color(Color3f(1.0)), subDivide(false), lines(0.0),
-        draw(true), texture(nullptr), transform(Transform()), velocity(Vector3f(0.0)),
+      : color(Color3f(1.0)), draw(true), texture(nullptr),
+        transform(Transform()), velocity(Vector3f(0.0)),
         inverseMass(0.0), mesh(nullptr) {}
 
   ~Shape() {}
@@ -32,8 +32,6 @@ public:
   virtual ShapeType getType() const = 0;
 
   Color3f color;
-  bool subDivide;
-  float lines;
   bool draw;
   class Texture *texture;
 

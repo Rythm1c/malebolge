@@ -8,7 +8,7 @@
 class Texture;
 Texture *createGridTexture(
     int w, int h, Color3f main, Color3f lines,
-    int lats, int longs, float thickness);
+    int lats, int longs, int thickness = 1);
 
 Texture *createCheckeredTexture(
     int w, int h, Color3f first, Color3f second, int divs);
