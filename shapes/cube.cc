@@ -1,5 +1,5 @@
 #include "cube.h"
-#include "../headers/mesh.h"
+#include "../render/mesh.h"
 #include "shape.h"
 
 const std::vector<Vertex> Data = {

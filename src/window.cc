@@ -1,7 +1,14 @@
+#include <iostream>
+
+#include <GL/glew.h>
+
+#include <GL/gl.h>
+
 #include "../headers/window.h"
 
-Window::Window() : win(nullptr), context(nullptr), area(Vector2i(0)) {}
+Window::Window() : win(nullptr), context(nullptr), width(800), height(600) {}
 void Window::swapBuffer() { SDL_GL_SwapWindow(this->win); }
+float Window::ratio() { return (float)this->width / (float)this->height; }
 Window::~Window()
 {
   SDL_GL_DeleteContext(this->context);
@@ -10,8 +17,8 @@ Window::~Window()
 }
 void Window::reSize()
 {
-  SDL_GetWindowSize(this->win, &this->area.x, &this->area.y);
-  glViewport(0, 0, this->area.x, this->area.y);
+  SDL_GetWindowSize(this->win, &this->width, &this->height);
+  glViewport(0, 0, this->width, this->height);
 }
 void Window::init()
 {
@@ -28,12 +35,10 @@ void Window::init()
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-  this->area.x = 800;
-  this->area.y = 600;
   int flags =
       SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
-  this->win = SDL_CreateWindow("little-engine", 100, 100, this->area.x,
-                               this->area.y, flags);
+  this->win = SDL_CreateWindow("little-engine", 100, 100, this->width,
+                               this->height, flags);
   this->context = SDL_GL_CreateContext(this->win);
 
   if (SDL_GL_MakeCurrent(this->win, this->context) != 0)
@@ -46,7 +51,7 @@ void Window::init()
   glewExperimental = true;
   glewInit();
 
-  glViewport(0, 0, this->area.x, this->area.y);
+  glViewport(0, 0, this->width, this->height);
   glEnable(GL_DEPTH_TEST);
   /*glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);

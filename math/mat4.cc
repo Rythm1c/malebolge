@@ -155,8 +155,8 @@ mat4x4 operator*(float l, const mat4x4 &r) {
                 r.yz * l, r.yw * l, r.zx * l, r.zy * l, r.zz * l, r.zw * l,
                 r.wx * l, r.wy * l, r.wz * l, r.ww * l);
 }
-v4D operator*(const mat4x4 &m, const v4D &v) {
-  return v4D(M4V4D(0, v.x, v.y, v.z, v.w), M4V4D(1, v.x, v.y, v.z, v.w),
+Vector4f operator*(const mat4x4 &m, const Vector4f &v) {
+  return Vector4f(M4V4D(0, v.x, v.y, v.z, v.w), M4V4D(1, v.x, v.y, v.z, v.w),
              M4V4D(2, v.x, v.y, v.z, v.w), M4V4D(3, v.x, v.y, v.z, v.w));
 }
 mat4x4 operator*(const mat4x4 &l, const mat4x4 &r) {

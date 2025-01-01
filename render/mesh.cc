@@ -1,10 +1,11 @@
-#include "../headers/mesh.h"
+#include "mesh.h"
 
 #include <GL/glew.h>
 
 #include <GL/gl.h>
 
-void Mesh::prepareRenderResources() {
+void Mesh::prepareRenderResources()
+{
 
   glCreateVertexArrays(1, &VAO);
 
@@ -18,14 +19,16 @@ void Mesh::prepareRenderResources() {
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
   glEnableVertexAttribArray(0);
 
-  if (indices.size() != 0) {
+  if (indices.size() != 0)
+  {
     glCreateBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(),
                  indices.data(), GL_STATIC_DRAW);
   }
 
-  if (mode == TRIANGLES) {
+  if (mode == TRIANGLES)
+  {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                           (void *)offsetof(Vertex, norm));
     glEnableVertexAttribArray(1);
@@ -37,8 +40,10 @@ void Mesh::prepareRenderResources() {
 
   glBindVertexArray(0);
 }
-void Mesh::render() {
-  switch (mode) {
+void Mesh::render()
+{
+  switch (mode)
+  {
   case POINTS:
 
     glBindVertexArray(VAO);
@@ -47,11 +52,14 @@ void Mesh::render() {
     break;
   case LINES:
 
-    if (indices.size() != 0) {
+    if (indices.size() != 0)
+    {
       glBindVertexArray(VAO);
       glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, 0);
       glBindVertexArray(0);
-    } else {
+    }
+    else
+    {
       glBindVertexArray(VAO);
       glDrawArrays(GL_LINES, 0, vertices.size());
       glBindVertexArray(0);
@@ -60,11 +68,14 @@ void Mesh::render() {
     break;
   case TRIANGLES:
 
-    if (indices.size() != 0) {
+    if (indices.size() != 0)
+    {
       glBindVertexArray(VAO);
       glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
       glBindVertexArray(0);
-    } else {
+    }
+    else
+    {
       glBindVertexArray(VAO);
       glDrawArrays(GL_TRIANGLES, 0, vertices.size());
       glBindVertexArray(0);
@@ -75,7 +86,8 @@ void Mesh::render() {
   }
 }
 
-void Mesh::clean() {
+void Mesh::clean()
+{
   glDeleteVertexArrays(1, &VAO);
   glDeleteBuffers(1, &VBO);
   glDeleteBuffers(1, &EBO);

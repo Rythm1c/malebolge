@@ -4,9 +4,9 @@
 #include "mat4.h"
 #include "quaternion.h"
 #include "vec3.h"
-#include <iostream>
 
-class Transform {
+class Transform
+{
 public:
   Transform()
       : translation(Vector3f(0.0)), orientation(Quat()), scaling(Vector3f(1.0)) {};

@@ -1,5 +1,5 @@
 #include "torus.h"
-#include "../headers/mesh.h"
+#include "../render/mesh.h"
 
 Torus::Torus(int divs, Color3f col) {
   color = col;

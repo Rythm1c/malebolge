@@ -1,2 +1,5 @@
 #include "patterns.h"
-#include "offscreen.h"
+#include "texture.h"
+#include "framebuffer.h"
+#include "mesh.h"
+#include "shader.h"

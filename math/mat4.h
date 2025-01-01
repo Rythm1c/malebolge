@@ -123,7 +123,7 @@ mat4x4 frustrum(float l, float r, float t, float b, float n, float f);
 mat4x4 operator*(const mat4x4 &l, float r);
 mat4x4 operator*(float l, const mat4x4 &r);
 mat4x4 operator*(const mat4x4 &l, const mat4x4 &r);
-v4D operator*(const mat4x4 &m, const v4D &v);
+Vector4f operator*(const mat4x4 &m, const Vector4f &v);
 // division operations
 mat4x4 operator/(const mat4x4 &l, float r);
 // addition operations

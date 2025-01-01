@@ -5,33 +5,40 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iostream>
 
-#include "../headers/shader.h"
+#include "shader.h"
 
-Shader::Shader(const char *vert_path, const char *frag_path) {
+Shader::Shader(const char *vert_path, const char *frag_path)
+{
   load(vert_path, frag_path);
 }
 
 void Shader::use() { glUseProgram(program); }
 void Shader::clean() { glDeleteProgram(program); }
 
-void Shader::updateMat4(const char *name, mat4x4 &mat) {
+void Shader::updateMat4(const char *name, mat4x4 &mat)
+{
   unsigned int location = glGetUniformLocation(program, name);
   glUniformMatrix4fv(location, 1, true, mat.fv.data());
 }
-void Shader::updateVec3(const char *name, Vector3f &vec) {
+void Shader::updateVec3(const char *name, Vector3f &vec)
+{
   unsigned int location = glGetUniformLocation(program, name);
   glUniform3f(location, vec.x, vec.y, vec.z);
 }
-void Shader::updateFloat(const char *name, float value) {
+void Shader::updateFloat(const char *name, float value)
+{
   unsigned int location = glGetUniformLocation(program, name);
   glUniform1f(location, value);
 }
-void Shader::updateInt(const char *name, int value) {
+void Shader::updateInt(const char *name, int value)
+{
   unsigned int location = glGetUniformLocation(program, name);
   glUniform1i(location, value);
 }
-void Shader::load(const char *vert_path, const char *frag_path) {
+void Shader::load(const char *vert_path, const char *frag_path)
+{
   std::string vertexcode;
   std::string fragmentcode;
   std::ifstream vShaderFile;
@@ -40,7 +47,8 @@ void Shader::load(const char *vert_path, const char *frag_path) {
   vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
   fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
-  try {
+  try
+  {
     vShaderFile.open(vert_path);
     fShaderFile.open(frag_path);
 
@@ -54,7 +62,9 @@ void Shader::load(const char *vert_path, const char *frag_path) {
 
     vertexcode = vshaderstream.str();
     fragmentcode = fshaderstream.str();
-  } catch (std::ifstream::failure &e) {
+  }
+  catch (std::ifstream::failure &e)
+  {
     std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n";
   }
   const GLchar *vshadercode = vertexcode.c_str();

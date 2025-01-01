@@ -2,14 +2,15 @@
 #define CUBE_H
 
 #include "shape.h"
-#include <iostream>
 
-struct BoundingBox {
+struct BoundingBox
+{
   Vector3f min;
   Vector3f max;
 };
 
-class Cube : public Shape {
+class Cube : public Shape
+{
 public:
   Cube(Color3f, Vector3f);
   ~Cube() {}

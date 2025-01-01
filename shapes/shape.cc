@@ -1,5 +1,5 @@
 #include "shape.h"
-#include "../headers/mesh.h"
+#include "../render/mesh.h"
 
 void Shape::applyimpulseLinear(const Vector3f &impulse)
 {

@@ -63,7 +63,7 @@ struct Vector3f
   }
 };
 // point 3D
-typedef Vector3f p3D;
+typedef Vector3f Point3f;
 // for difining colors
 typedef Vector3f Color3f;
 

@@ -4,13 +4,13 @@
 #include "../math/vec2.h"
 #include "../math/vec4.h"
 #include <array>
-#include <iostream>
 
-class Framebuffer {
+class Framebuffer
+{
 private:
   uint VAO, VBO, EBO;
   uint FBO, RBO;
-  std::array<v4D, 4> vertices;
+  std::array<Vector4f, 4> vertices;
   std::array<uint, 6> indices;
   Vector2f pos, area;
 

@@ -13,8 +13,6 @@
 #include "../headers/assets.h"
 #include "../headers/camera.h"
 #include "../headers/engine.h"
-#include "../headers/mesh.h"
-#include "../headers/shader.h"
 #include "../headers/window.h"
 #include "../headers/world.h"
 #include "../math/math.h"
@@ -22,9 +20,9 @@
 #include "../shapes/shape.h"
 #include "../render/render.h"
 
-static mat4x4 view = mat4x4();
-static mat4x4 projection = mat4x4();
-static Vector3f lightdir = Vector3f(0.0);
+mat4x4 view = mat4x4();
+mat4x4 projection = mat4x4();
+Vector3f lightdir = Vector3f(0.0);
 
 World::World()
     : pause(false), P_camera(nullptr), S_line(nullptr), S_obj(nullptr),
@@ -63,13 +61,13 @@ void World::load()
   assets->getShape("ball2")->translate({2.0, 16.0, 30.0});
   assets->getShape("ball2")->draw = true;
   assets->getShape("ball2")->inverseMass = 1.0;
-  assets->getShape("ball2")->texture = createCheckeredTexture(800, 800, Color3f(1.0), Color3f(0.2), 20);
+  assets->getShape("ball2")->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
 
   assets->addCube("cube1", Color3f(0.71, 1.0, 0.44), Vector3f(2.0));
   assets->getShape("cube1")->translate({-5.0, 16.0, 25.0});
   assets->getShape("cube1")->draw = true;
   assets->getShape("cube1")->inverseMass = 1.0;
-  assets->getShape("cube1")->texture = createCheckeredTexture(800, 800, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
+  assets->getShape("cube1")->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
   assets->addCube("cube2", Color3f(1.0, 0.58, 0.1), Vector3f(3.0));
   assets->getShape("cube2")->translate({6.0, 16.0, 20.0});

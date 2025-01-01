@@ -2,9 +2,9 @@
 #define SPHERE_H
 
 #include "shape.h"
-#include <iostream>
 
-class Sphere : public Shape {
+class Sphere : public Shape
+{
 public:
   Sphere(float, int, int, Color3f);
   ~Sphere() {}

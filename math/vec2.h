@@ -26,7 +26,7 @@ struct Vector2T
   Vector2T(T *_v) : x(_v[0]), y(_v[1]) {}
 };
 
-typedef Vector2T<float> Point3f;
+typedef Vector2T<float> Point2f;
 typedef Vector2T<float> Vector2f;
 typedef Vector2T<int> Vector2i;
 typedef Vector2T<unsigned int> Vector2ui;
