@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <iostream>
 
-void Framebuffer::detach() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
+void Framebuffer::detach() const { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 void Framebuffer::use()
 {
   glBindFramebuffer(GL_FRAMEBUFFER, FBO);

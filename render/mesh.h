@@ -4,7 +4,6 @@
 #include <array>
 #include <vector>
 
-#include "../math/mat4.h"
 #include "../math/vec2.h"
 #include "../math/vec3.h"
 

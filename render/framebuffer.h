@@ -20,7 +20,7 @@ public:
 
   void load();
   void use();
-  void detach();
+  void detach() const;
   void clean();
 
   void reScale();

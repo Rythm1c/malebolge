@@ -1,7 +1,6 @@
 #include "mesh.h"
 
 #include <GL/glew.h>
-
 #include <GL/gl.h>
 
 void Mesh::prepareRenderResources()
