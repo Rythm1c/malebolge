@@ -1,4 +1,4 @@
-#ifndef _GUI
+/* #ifndef _GUI
 #define _GUI
 
 #include "../math/vec3.h"
@@ -42,3 +42,4 @@ public:
 };
 
 #endif
+ */

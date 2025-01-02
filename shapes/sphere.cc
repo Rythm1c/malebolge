@@ -11,8 +11,8 @@ Sphere::Sphere(float rad, int longs, int lats, Color3f col) : radius(rad)
   clamp(longs, 0, 150);
   clamp(lats, 0, 150);
 
-  float latAngle = 180.0f / (float)(lats - 1);
-  float longAngle = 360.0f / (float)(longs - 1);
+  float latAngle = 180.0f / float(lats - 1);
+  float longAngle = 360.0f / float(longs - 1);
 
   Vertex vertex = {};
 
@@ -24,7 +24,7 @@ Sphere::Sphere(float rad, int longs, int lats, Color3f col) : radius(rad)
 
     float y = sin(to_radians(theta));
 
-    vertex.tc.y = (float)i / (float)(lats - 1);
+    vertex.tc.y = (float)i / float(lats - 1);
 
     for (int j = 0; j < longs; j++)
     {

@@ -40,11 +40,11 @@ void main() {
   vec3 specular = spec * color;
   result += specular;
 
-  float attenuation = pow(blend(600.0), 2.0);
+  float attenuation = pow(blend(200.0), 2.0);
   result = mix(result, vec3(0.2), attenuation);
 
   ouput = vec4(result, 1.0);
-    //color = vec4(1.0, 0.58, 0.1, 0.0);
+  //ouput = vec4(1.0, 0.58, 0.1, 0.0);
 }
 
 float blend(float far) {

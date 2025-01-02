@@ -1,5 +1,7 @@
-#ifndef SCENE
-#define SCENE
+#ifndef SCENE_H
+#define SCENE_H
+
+#include <vector>
 
 class Shader;
 class Engine;
@@ -7,7 +9,8 @@ class Object;
 class Camera;
 // class Framebuffer;
 
-class World {
+class World
+{
 public:
   World();
   ~World() {}
@@ -20,7 +23,7 @@ public:
   bool pause;
 
   Camera *P_camera;
-  class AssetManager *assets;
+  std::vector<class Shape *> shapes;
 
 private:
   Shader *S_obj;

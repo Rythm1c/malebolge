@@ -18,6 +18,8 @@
 #include "../math/math.h"
 #include "../physics/physics.h"
 #include "../shapes/shape.h"
+#include "../shapes/sphere.h"
+#include "../shapes/cube.h"
 #include "../render/render.h"
 
 mat4x4 view = mat4x4();
@@ -36,8 +38,12 @@ void World::clean()
   delete S_line;
   S_quad->clean();
   delete S_quad;
-  assets->cleanUp();
-  delete assets;
+
+  for (auto &shape : this->shapes)
+  {
+    shape->clean();
+    delete shape;
+  }
 
   delete P_camera;
 }
@@ -50,47 +56,34 @@ void World::load()
 
   lightdir = Vector3f(-0.2, -1.0, 0.3);
 
-  assets = new AssetManager();
+  this->shapes.push_back(new Sphere(0.6, 60, 60, Color3f(0.4)));
+  this->shapes[0]->translate({-5.0, 16.0, 12.0});
+  this->shapes[0]->inverseMass = 1.0;
 
-  assets->addSphere("ball1", 0.6, 60, 60, Color3f(0.4));
-  assets->getShape("ball1")->translate({-5.0, 16.0, 12.0});
-  assets->getShape("ball1")->draw = true;
-  assets->getShape("ball1")->inverseMass = 1.0;
+  this->shapes.push_back(new Sphere(1.0, 60, 60, Color3f(1.0)));
+  this->shapes[1]->translate({2.0, 16.0, 30.0});
+  this->shapes[1]->inverseMass = 1.0;
+  this->shapes[1]->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
 
-  assets->addSphere("ball2", 1.0, 60, 60, Color3f(1.0));
-  assets->getShape("ball2")->translate({2.0, 16.0, 30.0});
-  assets->getShape("ball2")->draw = true;
-  assets->getShape("ball2")->inverseMass = 1.0;
-  assets->getShape("ball2")->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
+  this->shapes.push_back(new Cube(Color3f(0.71, 1.0, 0.44), Vector3f(2.0)));
+  this->shapes[2]->translate({-5.0, 16.0, 25.0});
+  this->shapes[2]->inverseMass = 1.0;
+  this->shapes[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
-  assets->addCube("cube1", Color3f(0.71, 1.0, 0.44), Vector3f(2.0));
-  assets->getShape("cube1")->translate({-5.0, 16.0, 25.0});
-  assets->getShape("cube1")->draw = true;
-  assets->getShape("cube1")->inverseMass = 1.0;
-  assets->getShape("cube1")->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
+  this->shapes.push_back(new Cube(Color3f(1.0, 0.58, 0.1), Vector3f(3.0)));
+  this->shapes[3]->translate({6.0, 16.0, 20.0});
+  this->shapes[3]->inverseMass = 1.0;
 
-  assets->addCube("cube2", Color3f(1.0, 0.58, 0.1), Vector3f(3.0));
-  assets->getShape("cube2")->translate({6.0, 16.0, 20.0});
-  assets->getShape("cube2")->draw = true;
-  assets->getShape("cube2")->inverseMass = 1.0;
+  this->shapes.push_back(new Cube(Color3f(1.0), Vector3f(200.0, 2.0, 200.0)));
+  this->shapes[4]->translate({0.0, -2.0, 0.0});
+  this->shapes[4]->inverseMass = 0.0;
+  this->shapes[4]->texture = createGridTexture(2000, 2000, Color3f(1.0), Color3f(0.2), 80, 80);
 
-  /*assets->addTorus("torus", 40, Color3f(0.3, 0.88, 0.2));
-  assets->getShape("torus")->transform.scaling = Vector3f(10.0);
-  assets->getShape("torus")->transform.translation = {-25.0, 10.0, 30.0};
-  assets->getShape("torus")->draw = true;
-  assets->getShape("torus")->subDivide = false;
-  assets->getShape("torus")->lines = 0.0;*/
+  std::cout << "break\n";
 
-  assets->addCube("platform", Color3f(1.0), Vector3f(700.0, 2.0, 700.0));
-  assets->getShape("platform")->transform.translation = {0.0, -2.0, 0.0};
-  assets->getShape("platform")->inverseMass = 0.0;
-  assets->getShape("platform")->texture = createGridTexture(2000, 2000, Color3f(1.0), Color3f(0.2), 60, 60);
-
-  assets->refreshShapeList();
-
-  for (auto &shape : assets->shapes)
+  for (auto &shape : this->shapes)
   {
-    shape.second->init();
+    shape->init();
   }
 
   P_camera = new Camera();
@@ -98,41 +91,39 @@ void World::load()
 void World::update()
 {
   float deltaTime = Engine::getInstance()->deltaTime;
+  // impliment pause futionality in gui
   if (!pause)
   {
 
-    for (std::map<std::string, Shape *>::iterator iter1 =
-             assets->shapes.begin();
-         iter1 != assets->shapes.end(); iter1++)
+    for (int i = 0; i < this->shapes.size(); i++)
     {
-      for (std::map<std::string, Shape *>::reverse_iterator iter2 =
-               assets->shapes.rbegin();
-           iter2->first != iter1->first; iter2++)
+      for (int j = this->shapes.size() - 1; j != i; j--)
       {
 
-        if (intersect(iter1->second, iter2->second))
+        if (intersect(this->shapes[i], this->shapes[j]))
         {
-          resolveIntersection(iter1->second, iter2->second);
+          resolveIntersection(this->shapes[i], this->shapes[j]);
         }
       }
     }
-    for (auto &shape : assets->shapes)
+
+    for (auto &shape : this->shapes)
     {
-      if (shape.second->inverseMass != 0.0)
+      if (shape->inverseMass != 0.0)
       {
         // I = dp , F = dp / dt => dp = F * dt => I = F * dt
         // F = mgs
-        float mass = 1.0 / shape.second->inverseMass;
+        float mass = 1.0 / shape->inverseMass;
         Vector3f impulse = GRAVITY * mass * deltaTime;
-        shape.second->applyimpulseLinear(impulse);
+        shape->applyimpulseLinear(impulse);
       }
     }
 
-    for (auto &shape : assets->shapes)
+    for (auto &shape : this->shapes)
     {
-      Vector3f pos = shape.second->pos();
-      Vector3f velocity = shape.second->velocity * deltaTime;
-      shape.second->translate(pos + velocity);
+      Vector3f pos = shape->pos();
+      Vector3f velocity = shape->velocity * deltaTime;
+      shape->translate(pos + velocity);
     }
   }
 
@@ -151,19 +142,21 @@ void World::render()
   S_obj->updateMat4("view", view);
   S_obj->updateMat4("projection", projection);
 
-  for (auto &shape : assets->shapes)
+  for (auto &shape : this->shapes)
   {
-    if (shape.second->draw)
+    if (shape->draw)
     {
-      mat4x4 transform = shape.second->transform.get();
-      bool textured = shape.second->texture != nullptr;
+      mat4x4 transform = shape->transform.get();
+      bool textured = shape->texture != nullptr;
       S_obj->updateInt("textured", textured);
       if (textured)
-        glBindTexture(GL_TEXTURE_2D, shape.second->texture->id);
+      {
+        glBindTexture(GL_TEXTURE_2D, shape->texture->id);
+      }
 
       S_obj->updateMat4("transform", transform);
-      S_obj->updateVec3("col", shape.second->color);
-      shape.second->render();
+      S_obj->updateVec3("col", shape->color);
+      shape->render();
     }
   }
 }

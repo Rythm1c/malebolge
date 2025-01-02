@@ -1,4 +1,4 @@
-#include "../headers/GUI.h"
+/* #include "../headers/GUI.h"
 #include "../headers/assets.h"
 #include "../headers/engine.h"
 #include "../headers/window.h"
@@ -9,11 +9,13 @@ GUI::GUI(World *_w)
     : P_world(_w), pos(Vector3f(0.0)), color(Color3f(1.0)), rotation(Vector3f(0.0)),
       size(Vector3f(0.0)), velocity(Vector3f(0.0)), renderObj(false), choosenObj("") {}
 
-void GUI::processevents(SDL_Event &event) {
+void GUI::processevents(SDL_Event &event)
+{
   ImGui_ImplSDL2_ProcessEvent(&event);
 }
 
-void GUI::load() {
+void GUI::load()
+{
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
 
@@ -37,7 +39,8 @@ void GUI::load() {
                                Engine::getInstance()->P_window->context);
   ImGui_ImplOpenGL3_Init();
 }
-void GUI::overlay() {
+void GUI::overlay()
+{
   ImGuiWindowFlags window_flags =
       ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
       ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing |
@@ -49,44 +52,14 @@ void GUI::overlay() {
 // select between different objects
 // very primitve and simple at the moment
 // TODO: improve model loading code and add more factionality
-void GUI::editObject() {
+void GUI::editObject()
+{
 
   static int objIndex = 0;
 
   ImGui::Begin("edit model");
   ImGui::Text("objects:");
-  if (ImGui::BeginListBox(
-          "##objects",
-          ImVec2(-FLT_MIN, 4 * ImGui::GetTextLineHeightWithSpacing()))) {
-    for (int n = 0; n < this->P_world->assets->objectListSize; n++) {
-      const bool is_selected = (objIndex == n);
-      if (ImGui::Selectable(this->P_world->assets->objectList[n],
-                            is_selected)) {
-        objIndex = n;
-        this->choosenObj = this->P_world->assets->objectList[n];
-      }
-    }
-    ImGui::EndListBox();
-  }
 
-  if (ImGui::Button("refresh object list")) {
-    this->P_world->assets->refreshShapeList();
-  }
-  if (this->choosenObj != "") {
-    this->size = this->P_world->assets->getShape(choosenObj)->transform.scaling;
-
-    this->pos =
-        this->P_world->assets->getShape(choosenObj)->transform.translation;
-
-    // this->rotation =
-    // this->P_world->assets->getShape(choosenObj)->transform->rotation;
-
-    this->renderObj = this->P_world->assets->getShape(choosenObj)->draw;
-
-    this->velocity = P_world->assets->getShape(choosenObj)->velocity;
-
-    this->color = this->P_world->assets->getShape(choosenObj)->color;
-  }
   ImGui::Separator();
   ImGui::Checkbox("render", &renderObj);
   ImGui::Separator();
@@ -111,52 +84,16 @@ void GUI::editObject() {
   ImGui::Text("color picker");
   ImGui::ColorPicker3("##colorpicker", this->color.v.data());
   ImGui::End();
-
-  if (choosenObj != "") {
-    if (P_world->assets->getShape(choosenObj)->transform.scaling !=
-        this->size) {
-      P_world->assets->getShape(choosenObj)->transform.scaling = this->size;
-    }
-
-    if (P_world->assets->getShape(choosenObj)->transform.translation !=
-        this->pos) {
-      P_world->assets->getShape(choosenObj)->transform.translation = this->pos;
-    }
-
-    if (P_world->assets->getShape(choosenObj)->color != this->color) {
-      P_world->assets->getShape(choosenObj)->color = this->color;
-    }
-
-    /*     if (P_world->assets->getShape(choosenObj)->properties->rotation.x !=
-       this->rotation.x)
-        {
-            P_world->assets->getShape(choosenObj)->properties->rotation.x =
-       this->rotation.x;
-        }
-        if (P_world->assets->getShape(choosenObj)->properties->rotation.y !=
-       this->rotation.y)
-        {
-            P_world->assets->getShape(choosenObj)->properties->rotation.y =
-       this->rotation.y;
-        }
-        if (P_world->assets->getShape(choosenObj)->properties->rotation.z !=
-       this->rotation.z)
-        {
-            P_world->assets->getShape(choosenObj)->properties->rotation.z =
-       this->rotation.z;
-        } */
-    if (P_world->assets->getShape(choosenObj)->draw != renderObj) {
-      P_world->assets->getShape(choosenObj)->draw = renderObj;
-    }
-  }
 }
 
-void GUI::effects() {
+void GUI::effects()
+{
   ImGui::Begin("effects");
   ImGui::Checkbox("pause", &P_world->pause);
   ImGui::End();
 }
-void GUI::update() {
+void GUI::update()
+{
   ImGui_ImplOpenGL3_NewFrame();
   ImGui_ImplSDL2_NewFrame();
   ImGui::NewFrame();
@@ -165,12 +102,15 @@ void GUI::update() {
   editObject();
   effects();
 }
-void GUI::render() const {
+void GUI::render() const
+{
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-void GUI::clean() const {
+void GUI::clean() const
+{
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplSDL2_Shutdown();
   ImGui::DestroyContext();
 }
+ */

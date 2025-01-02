@@ -52,6 +52,7 @@ Texture *createGridTexture(
 
   return tex;
 }
+
 Texture *createCheckeredTexture(
     int w, int h, Color3f first, Color3f second, int divs)
 {
