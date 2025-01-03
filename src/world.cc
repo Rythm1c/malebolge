@@ -9,7 +9,6 @@
 #include <string>
 
 #include "../headers/GUI.h"
-#include "../headers/assets.h"
 #include "../headers/camera.h"
 #include "../headers/engine.h"
 #include "../headers/window.h"
@@ -55,37 +54,40 @@ void World::load()
   lightdir = Vector3f(-0.2, -1.0, 0.3);
 
   this->shapes.push_back(new Sphere(0.6));
-  this->shapes[0]->mesh = &UVSphere(60, 60, Color3f(0.4));
+  this->shapes[0]->mesh = UVSphere(60, 60, Color3f(0.4));
   this->shapes[0]->translate({-5.0, 16.0, 12.0});
   this->shapes[0]->inverseMass = 1.0;
 
   this->shapes.push_back(new Sphere(1.0));
-  this->shapes[1]->mesh = &UVSphere(60, 60, Color3f(1.0));
+  this->shapes[1]->mesh = UVSphere(60, 60, Color3f(1.0));
   this->shapes[1]->translate({2.0, 16.0, 30.0});
   this->shapes[1]->inverseMass = 1.0;
   this->shapes[1]->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
 
+  Color3f cols[6] = {GREEN, CYAN, BLUE, YELLOW, RED, PURPLE};
   this->shapes.push_back(new Box(Vector3f(2.0)));
-  this->shapes[2]->mesh = &Cube(Color3f(0.71, 1.0, 0.44));
+  this->shapes[2]->mesh = Cube(cols);
   this->shapes[2]->translate({-5.0, 16.0, 25.0});
   this->shapes[2]->inverseMass = 1.0;
   this->shapes[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
   this->shapes.push_back(new Box(Vector3f(3.0)));
-  this->shapes[3]->mesh = &Cube(Color3f(1.0, 0.58, 0.1));
+  this->shapes[3]->mesh = Cube(cols);
   this->shapes[3]->translate({6.0, 16.0, 20.0});
   this->shapes[3]->inverseMass = 1.0;
 
-  this->shapes.push_back(new Box(Vector3f(200.0, 2.0, 200.0)));
-  this->shapes[3]->mesh = &Cube(Color3f(1.0));
+  Color3f cols2[6] = {WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
+  this->shapes.push_back(new Box(Vector3f(100.0, 2.0, 200.0)));
+  this->shapes[4]->mesh = Cube(cols2);
   this->shapes[4]->translate({0.0, -2.0, 0.0});
   this->shapes[4]->inverseMass = 0.0;
   this->shapes[4]->texture = createGridTexture(2000, 2000, Color3f(1.0), Color3f(0.2), 80, 80);
 
-  for (auto &shape : this->shapes)
-  {
-    shape->init();
-  }
+  this->shapes.push_back(new Sphere(2.5));
+  this->shapes[5]->mesh = CubeSpere(60, cols);
+  this->shapes[5]->translate({-8.0, 16.0, 20.0});
+  this->shapes[5]->inverseMass = 1.0;
+  this->shapes[5]->texture = createGridTexture(400, 400, Color3f(1.0), Color3f(0.2), 20, 20);
 
   P_camera = new Camera();
 }

@@ -1,9 +1,9 @@
 #include "uvsphere.h"
 #include "../mesh.h"
 
-struct Mesh UVSphere(int longs, int lats, Color3f col)
+Mesh *UVSphere(int longs, int lats, Color3f col)
 {
-  Mesh final{.mode = TRIANGLES};
+  Mesh *result = new Mesh{.mode = TRIANGLES};
 
   clamp(longs, 0, 150);
   clamp(lats, 0, 150);
@@ -32,7 +32,7 @@ struct Mesh UVSphere(int longs, int lats, Color3f col)
       vertex.norm = vertex.pos;
       vertex.tc.x = (float)j / float(longs - 1);
 
-      final.vertices.push_back(vertex);
+      result->vertices.push_back(vertex);
     }
   }
 
@@ -51,17 +51,17 @@ struct Mesh UVSphere(int longs, int lats, Color3f col)
       //........... current row verts here
 
       // first triangle in quad
-      final.indices.push_back(currRow + j);
-      final.indices.push_back(nextRow + j);
-      final.indices.push_back(nextRow + (j + 1) % longs);
+      result->indices.push_back(currRow + j);
+      result->indices.push_back(nextRow + j);
+      result->indices.push_back(nextRow + (j + 1) % longs);
       // second triangle in quad
-      final.indices.push_back(currRow + j);
-      final.indices.push_back(nextRow + (j + 1) % longs);
-      final.indices.push_back(currRow + (j + 1) % longs);
+      result->indices.push_back(currRow + j);
+      result->indices.push_back(nextRow + (j + 1) % longs);
+      result->indices.push_back(currRow + (j + 1) % longs);
     }
   }
 
-  final.init();
+  result->init();
 
-  return final;
+  return result;
 }

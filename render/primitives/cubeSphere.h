@@ -3,6 +3,6 @@
 
 #include "../../math/vec3.h"
 
-struct Mesh CubeSpere(int divs, Color3f cols[6]);
+struct Mesh *CubeSpere(int divs, Color3f cols[6]);
 
 #endif

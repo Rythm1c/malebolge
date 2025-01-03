@@ -37,30 +37,30 @@ const std::vector<unsigned int> indices = {
     0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11,
     12, 13, 14, 12, 14, 15, 16, 18, 19, 19, 17, 16, 20, 22, 23, 23, 21, 20};
 
-Mesh Cube(Color3f cols[6])
+Mesh *Cube(Color3f cols[6])
 {
 
-  Mesh final{.mode = TRIANGLES};
+  Mesh *result = new Mesh{.mode = TRIANGLES};
 
   for (auto vert : Data)
   {
-    final.vertices.push_back(vert);
+    result->vertices.push_back(vert);
   }
 
   for (int i = 0; i < 6; i++)
   {
     for (int j = 0; j < 4; j++)
     {
-      final.vertices[i * 4 + j].col = cols[i];
+      result->vertices[i * 4 + j].col = cols[i];
     }
   }
 
   for (auto index : indices)
   {
-    final.indices.push_back(index);
+    result->indices.push_back(index);
   }
 
-  final.init();
+  result->init();
 
-  return final;
+  return result;
 }

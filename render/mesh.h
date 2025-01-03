@@ -11,7 +11,7 @@ struct Vertex
 {
   Point3f pos;
   Vector3f norm;
-  Vector3f col;
+  Color3f col;
   Vector2f tc;
 };
 

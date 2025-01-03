@@ -7,8 +7,8 @@ uniform vec3 viewPos;
 
 in vec3 normal;
 in vec3 fragPos;
-in vec2 texCoords;
 in vec3 fragCol;
+in vec2 texCoords;
 
 // returns a fraction of the far value depending on the distance from the camera
 float blend(float far);
@@ -38,7 +38,7 @@ void main() {
     // vec3 reflectDir = reflect(-lightDir, norm);
   float spec = pow(max(dot(norm, halfwaydir), 0.0), 32.0);
   vec3 specular = spec * color;
-  result += specular;
+  //result += specular;
 
   float attenuation = pow(blend(200.0), 2.0);
   result = mix(result, vec3(0.2), attenuation);

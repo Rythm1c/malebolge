@@ -1,12 +1,12 @@
 #include "torus.h"
 #include "../mesh.h"
 
-Mesh Torus(int divs, Color3f col)
+Mesh *Torus(int divs, Color3f col)
 {
 
   float angle = 360.0 / ((float)divs - 1.0);
 
-  Mesh final{.mode = TRIANGLES};
+  Mesh *result = new Mesh{.mode = TRIANGLES};
   Vertex vertex{};
   // inner radius = 0.3
   // outer radius = 0.7
@@ -31,7 +31,7 @@ Mesh Torus(int divs, Color3f col)
       vertex.pos = Vector3f(x, y, z);
       vertex.norm = Vector3f(nx, ny, nz);
 
-      final.vertices.push_back(vertex);
+      result->vertices.push_back(vertex);
     }
   }
 
@@ -49,17 +49,17 @@ Mesh Torus(int divs, Color3f col)
       //........... current row verts here
 
       // first triangle in quad
-      final.indices.push_back(currRow + j);
-      final.indices.push_back(nextRow + j);
-      final.indices.push_back(nextRow + (j + 1) % divs);
+      result->indices.push_back(currRow + j);
+      result->indices.push_back(nextRow + j);
+      result->indices.push_back(nextRow + (j + 1) % divs);
       // second triangle in quad
-      final.indices.push_back(currRow + j);
-      final.indices.push_back(nextRow + (j + 1) % divs);
-      final.indices.push_back(currRow + (j + 1) % divs);
+      result->indices.push_back(currRow + j);
+      result->indices.push_back(nextRow + (j + 1) % divs);
+      result->indices.push_back(currRow + (j + 1) % divs);
     }
   }
 
-  final.init();
+  result->init();
 
-  return final;
+  return result;
 }

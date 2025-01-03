@@ -3,6 +3,6 @@
 
 #include "../../math/vec3.h"
 
-struct Mesh UVSphere(int longs, int lats, Color3f col);
+struct Mesh *UVSphere(int longs, int lats, Color3f col);
 
 #endif

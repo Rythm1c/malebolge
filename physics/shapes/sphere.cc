@@ -1,6 +1,4 @@
 #include "sphere.h"
-#include "../render/mesh.h"
-#include "shape.h"
 
 Sphere::Sphere(float rad) : radius(rad)
 {

@@ -7,43 +7,43 @@ void addFace(
 
 void calcIndices(Mesh &, int);
 
-Mesh CubeSpere(int divs, Color3f colors[6])
+Mesh *CubeSpere(int divs, Color3f colors[6])
 {
 
-  Mesh final{.mode = TRIANGLES};
+  Mesh *result = new Mesh{.mode = TRIANGLES};
 
   float step = 2.0 / float(divs);
 
   // add  -Z face values
   addFace(
-      final, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, step, 0.0), divs, colors[0]);
   // add  +Z face values
   addFace(
-      final, Vector3f(-1.0, -1.0, 1.0), Vector3f(step, 0.0, 0.0),
+      *result, Vector3f(-1.0, -1.0, 1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, step, 0.0), divs, colors[1]);
   // add  -X face values
   addFace(
-      final, Vector3f(-1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
+      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
       Vector3f(0.0, step, 0.0), divs, colors[2]);
   // add  +X face values
   addFace(
-      final, Vector3f(1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
+      *result, Vector3f(1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
       Vector3f(0.0, step, 0.0), divs, colors[3]);
   // add  -Y face values
   addFace(
-      final, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, 0.0, step), divs, colors[4]);
   // add  +Y face values
   addFace(
-      final, Vector3f(-1.0, 1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      *result, Vector3f(-1.0, 1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, 0.0, step), divs, colors[5]);
 
-  calcIndices(final, divs);
+  calcIndices(*result, divs + 1);
 
-  final.init();
+  result->init();
 
-  return final;
+  return result;
 }
 
 void addFace(
@@ -62,8 +62,8 @@ void addFace(
 
       Vector3f pos = normalize(start + w + h);
 
-      float s = float(j) / float(steps - 1);
-      float t = float(i) / float(steps - 1);
+      float s = float(j) / float(steps);
+      float t = float(i) / float(steps);
       // add  Z- face values
       Vertex vertex{};
       vertex.pos = pos;
@@ -83,13 +83,13 @@ void calcIndices(Mesh &mesh, int divs)
   {
     for (int j = 0; j < (divs - 1); j++)
     {
-      for (int k = 0; k < divs; k++)
+      for (int k = 0; k < (divs - 1); k++)
       {
         // first and second row
-        int currRow = i * divs * j * divs;
-        int nextRow = i * divs * (j + 1) * divs;
+        int currRow = i * divs * divs + j * divs;
+        int nextRow = i * divs * divs + (j + 1) * divs;
 
-        //........... nect row verts here
+        //........... next row verts here
         //.       . .
         //.     .   .
         //.   .     .
