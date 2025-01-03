@@ -2,7 +2,8 @@
 
 layout(location = 0) in vec3 pos;
 layout(location = 1) in vec3 norm;
-layout(location = 2) in vec2 tc;
+layout(location = 2) in vec3 col;
+layout(location = 3) in vec2 tc;
 
 uniform mat4 transform;
 uniform mat4 view;
@@ -10,10 +11,12 @@ uniform mat4 projection;
 
 out vec3 normal;
 out vec3 fragPos;
+out vec3 fragCol;
 out vec2 texCoords;
 
 void main() {
 
+    fragCol = col;
     fragPos = vec3(transform * vec4(pos, 1.0));
     normal = mat3(transpose(inverse(transform))) * norm;
     texCoords = tc;

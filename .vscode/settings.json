@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "cmath": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "new": "cpp"
     }
 }

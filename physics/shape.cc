@@ -10,6 +10,6 @@ void Shape::applyimpulseLinear(const Vector3f &impulse)
   //=> dv = j / m
   this->velocity += impulse * this->inverseMass;
 }
-void Shape::init() { mesh->prepareRenderResources(); }
+void Shape::init() { mesh->init(); }
 void Shape::render() { mesh->render(); }
 void Shape::clean() { mesh->clean(); }

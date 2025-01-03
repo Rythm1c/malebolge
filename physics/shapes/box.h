@@ -1,7 +1,7 @@
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef BOX_H
+#define BOX_H
 
-#include "shape.h"
+#include "../shape.h"
 
 struct BoundingBox
 {
@@ -9,15 +9,15 @@ struct BoundingBox
   Vector3f max;
 };
 
-class Cube : public Shape
+class Box : public Shape
 {
 public:
-  Cube(Color3f, Vector3f);
-  ~Cube() {}
+  Box(Vector3f);
+  ~Box() {}
 
   ShapeType getType() const override { return SHAPE_CUBE; }
 
-  BoundingBox getBoundingBox() const;
+  BoundingBox getBounds() const;
   Vector3f getDimensions() const { return dimensions; }
 
 private:

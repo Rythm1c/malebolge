@@ -1,6 +1,5 @@
 
 #include <GL/glew.h>
-
 #include <GL/gl.h>
 
 #include <SDL2/SDL.h>
@@ -17,10 +16,9 @@
 #include "../headers/world.h"
 #include "../math/math.h"
 #include "../physics/physics.h"
-#include "../shapes/shape.h"
-#include "../shapes/sphere.h"
-#include "../shapes/cube.h"
+#include "../physics/shapes.h"
 #include "../render/render.h"
+#include "../render/primitives.h"
 
 mat4x4 view = mat4x4();
 mat4x4 projection = mat4x4();
@@ -50,36 +48,39 @@ void World::clean()
 
 void World::load()
 {
-  S_obj = new Shader("shaders/shader.vert", "shaders/shader.frag");
+  S_obj = new Shader("shaders/shader.vs", "shaders/shader.fs");
   S_line = new Shader("shaders/line.vert", "shaders/line.frag");
   S_quad = new Shader("shaders/effects.vert", "shaders/effects.frag");
 
   lightdir = Vector3f(-0.2, -1.0, 0.3);
 
-  this->shapes.push_back(new Sphere(0.6, 60, 60, Color3f(0.4)));
+  this->shapes.push_back(new Sphere(0.6));
+  this->shapes[0]->mesh = &UVSphere(60, 60, Color3f(0.4));
   this->shapes[0]->translate({-5.0, 16.0, 12.0});
   this->shapes[0]->inverseMass = 1.0;
 
-  this->shapes.push_back(new Sphere(1.0, 60, 60, Color3f(1.0)));
+  this->shapes.push_back(new Sphere(1.0));
+  this->shapes[1]->mesh = &UVSphere(60, 60, Color3f(1.0));
   this->shapes[1]->translate({2.0, 16.0, 30.0});
   this->shapes[1]->inverseMass = 1.0;
   this->shapes[1]->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
 
-  this->shapes.push_back(new Cube(Color3f(0.71, 1.0, 0.44), Vector3f(2.0)));
+  this->shapes.push_back(new Box(Vector3f(2.0)));
+  this->shapes[2]->mesh = &Cube(Color3f(0.71, 1.0, 0.44));
   this->shapes[2]->translate({-5.0, 16.0, 25.0});
   this->shapes[2]->inverseMass = 1.0;
   this->shapes[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
-  this->shapes.push_back(new Cube(Color3f(1.0, 0.58, 0.1), Vector3f(3.0)));
+  this->shapes.push_back(new Box(Vector3f(3.0)));
+  this->shapes[3]->mesh = &Cube(Color3f(1.0, 0.58, 0.1));
   this->shapes[3]->translate({6.0, 16.0, 20.0});
   this->shapes[3]->inverseMass = 1.0;
 
-  this->shapes.push_back(new Cube(Color3f(1.0), Vector3f(200.0, 2.0, 200.0)));
+  this->shapes.push_back(new Box(Vector3f(200.0, 2.0, 200.0)));
+  this->shapes[3]->mesh = &Cube(Color3f(1.0));
   this->shapes[4]->translate({0.0, -2.0, 0.0});
   this->shapes[4]->inverseMass = 0.0;
   this->shapes[4]->texture = createGridTexture(2000, 2000, Color3f(1.0), Color3f(0.2), 80, 80);
-
-  std::cout << "break\n";
 
   for (auto &shape : this->shapes)
   {
@@ -155,7 +156,6 @@ void World::render()
       }
 
       S_obj->updateMat4("transform", transform);
-      S_obj->updateVec3("col", shape->color);
       shape->render();
     }
   }

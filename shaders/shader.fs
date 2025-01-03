@@ -4,11 +4,11 @@ out vec4 ouput;
 
 uniform vec3 L_direction;
 uniform vec3 viewPos;
-uniform vec3 col;
 
 in vec3 normal;
 in vec3 fragPos;
 in vec2 texCoords;
+in vec3 fragCol;
 
 // returns a fraction of the far value depending on the distance from the camera
 float blend(float far);
@@ -19,7 +19,7 @@ uniform sampler2D pattern;
 void main() {
   vec3 result = vec3(0.0);
 
-  vec3 color = col;
+  vec3 color = fragCol;
   if(textured) {
     color = vec3(texture(pattern, texCoords));
   }

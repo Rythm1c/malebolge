@@ -19,9 +19,8 @@ class Shape
 
 public:
   Shape()
-      : color(Color3f(1.0)), draw(true), texture(nullptr),
-        transform(Transform()), velocity(Vector3f(0.0)),
-        inverseMass(0.0), mesh(nullptr) {}
+      : draw(true), texture(nullptr), transform(Transform()),
+        velocity(Vector3f(0.0)), inverseMass(0.0), mesh(nullptr) {}
 
   ~Shape() {}
 
@@ -31,14 +30,15 @@ public:
 
   virtual ShapeType getType() const = 0;
 
-  Color3f color;
   bool draw;
   class Texture *texture;
 
   Transform transform;
+
   Vector3f pos() { return this->transform.translation; }
-  void translate(Vector3f pos) { this->transform.translation = pos; }
   Quat orientation() { return this->transform.orientation; }
+
+  void translate(Vector3f pos) { this->transform.translation = pos; }
   void orient(Quat orientation) { this->transform.orientation = orientation; }
 
   Vector3f velocity;
@@ -46,7 +46,6 @@ public:
 
   void applyimpulseLinear(const Vector3f &impulse);
 
-protected:
   Mesh *mesh;
 };
 #endif

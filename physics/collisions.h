@@ -1,10 +1,11 @@
 #ifndef COLLISIONS_H
 #define COLLISIONS_H
 
-#include "../shapes/shape.h"
+#include "shape.h"
 #include <iostream>
 
-struct Contact {
+struct Contact
+{
   Vector3f normal;
   Vector3f intersection;
   Shape *shape1;

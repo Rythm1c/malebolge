@@ -11,6 +11,7 @@ struct Vertex
 {
   Point3f pos;
   Vector3f norm;
+  Vector3f col;
   Vector2f tc;
 };
 
@@ -31,7 +32,7 @@ struct Mesh
   std::vector<uint> indices;
   drawMode mode{POINTS};
 
-  void prepareRenderResources();
+  void init();
   void render();
   void clean();
 };
