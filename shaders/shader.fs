@@ -36,7 +36,7 @@ void main() {
   vec3 viewDir = normalize(viewPos - fragPos);
   vec3 halfwaydir = normalize(lightDir + viewDir);
     // vec3 reflectDir = reflect(-lightDir, norm);
-  float spec = pow(max(dot(norm, halfwaydir), 0.0), 32.0);
+  float spec = pow(max(dot(norm, halfwaydir), 0.0), 128.0);
   vec3 specular = spec * color;
   //result += specular;
 

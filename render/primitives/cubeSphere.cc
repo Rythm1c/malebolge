@@ -7,41 +7,41 @@ void addFace(
 
 void calcIndices(Mesh &, int);
 
-Mesh *CubeSpere(int divs, Color3f colors[6])
+Mesh CubeSpere(int divs, Color3f colors[6])
 {
 
-  Mesh *result = new Mesh{.mode = TRIANGLES};
+  Mesh result = Mesh{.mode = TRIANGLES};
 
   float step = 2.0 / float(divs);
 
   // add  -Z face values
   addFace(
-      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, step, 0.0), divs, colors[0]);
   // add  +Z face values
   addFace(
-      *result, Vector3f(-1.0, -1.0, 1.0), Vector3f(step, 0.0, 0.0),
+      result, Vector3f(-1.0, -1.0, 1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, step, 0.0), divs, colors[1]);
   // add  -X face values
   addFace(
-      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
+      result, Vector3f(-1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
       Vector3f(0.0, step, 0.0), divs, colors[2]);
   // add  +X face values
   addFace(
-      *result, Vector3f(1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
+      result, Vector3f(1.0, -1.0, -1.0), Vector3f(0.0, 0.0, step),
       Vector3f(0.0, step, 0.0), divs, colors[3]);
   // add  -Y face values
   addFace(
-      *result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      result, Vector3f(-1.0, -1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, 0.0, step), divs, colors[4]);
   // add  +Y face values
   addFace(
-      *result, Vector3f(-1.0, 1.0, -1.0), Vector3f(step, 0.0, 0.0),
+      result, Vector3f(-1.0, 1.0, -1.0), Vector3f(step, 0.0, 0.0),
       Vector3f(0.0, 0.0, step), divs, colors[5]);
 
-  calcIndices(*result, divs + 1);
+  calcIndices(result, divs + 1);
 
-  result->init();
+  result.init();
 
   return result;
 }

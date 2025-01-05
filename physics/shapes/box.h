@@ -1,7 +1,7 @@
 #ifndef BOX_H
 #define BOX_H
 
-#include "../shape.h"
+/* #include "../shape.h"
 
 struct BoundingBox
 {
@@ -12,7 +12,7 @@ struct BoundingBox
 class Box : public Shape
 {
 public:
-  Box(Vector3f);
+  Box(Vector3f) {}
   ~Box() {}
 
   ShapeType getType() const override { return SHAPE_CUBE; }
@@ -23,5 +23,5 @@ public:
 private:
   Vector3f dimensions;
 };
-
+ */
 #endif

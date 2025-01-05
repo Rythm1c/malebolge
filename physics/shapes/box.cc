@@ -1,4 +1,4 @@
-#include "box.h"
+/* #include "box.h"
 Box::Box(Vector3f size)
 {
 
@@ -13,3 +13,4 @@ BoundingBox Box::getBounds() const
       .max = this->transform.translation + this->dimensions,
   };
 }
+ */

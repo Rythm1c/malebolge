@@ -23,7 +23,7 @@ public:
   bool pause;
 
   Camera *P_camera;
-  std::vector<class Shape *> shapes;
+  std::vector<class Body *> bodies;
 
 private:
   Shader *S_obj;

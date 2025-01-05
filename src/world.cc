@@ -36,10 +36,10 @@ void World::clean()
   S_quad->clean();
   delete S_quad;
 
-  for (auto &shape : this->shapes)
+  for (auto &body : this->bodies)
   {
-    shape->clean();
-    delete shape;
+    body->clean();
+    delete body;
   }
 
   delete P_camera;
@@ -53,41 +53,48 @@ void World::load()
 
   lightdir = Vector3f(-0.2, -1.0, 0.3);
 
-  this->shapes.push_back(new Sphere(0.6));
-  this->shapes[0]->mesh = UVSphere(60, 60, Color3f(0.4));
-  this->shapes[0]->translate({-5.0, 16.0, 12.0});
-  this->shapes[0]->inverseMass = 1.0;
+  this->bodies.push_back(new Body());
+  this->bodies[0]->setShape(new Sphere(2.0));
+  *this->bodies[0]->mesh = UVSphere(60, 60, Color3f(0.6));
+  this->bodies[0]->translate({-5.0, 16.0, 12.0});
+  this->bodies[0]->inverseMass = 1.0;
 
-  this->shapes.push_back(new Sphere(1.0));
-  this->shapes[1]->mesh = UVSphere(60, 60, Color3f(1.0));
-  this->shapes[1]->translate({2.0, 16.0, 30.0});
-  this->shapes[1]->inverseMass = 1.0;
-  this->shapes[1]->texture = createCheckeredTexture(500, 500, Color3f(1.0), Color3f(0.2), 20);
+  this->bodies.push_back(new Body());
+  this->bodies[1]->setShape(new Sphere(3.0));
+  *this->bodies[1]->mesh = UVSphere(60, 60, WHITE);
+  this->bodies[1]->translate({2.0, 16.0, 30.0});
+  this->bodies[1]->inverseMass = 1.0;
+  this->bodies[1]->texture = createCheckeredTexture(500, 500, WHITE, Color3f(0.2), 20);
 
-  Color3f cols[6] = {GREEN, CYAN, BLUE, YELLOW, RED, PURPLE};
-  this->shapes.push_back(new Box(Vector3f(2.0)));
-  this->shapes[2]->mesh = Cube(cols);
-  this->shapes[2]->translate({-5.0, 16.0, 25.0});
-  this->shapes[2]->inverseMass = 1.0;
-  this->shapes[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
+  Color3f cols[6] = {GREEN, PINK, BLUE, YELLOW, RED, PURPLE};
+  this->bodies.push_back(new Body());
+  this->bodies[2]->setShape(new Sphere(2.0));
+  *this->bodies[2]->mesh = CubeSpere(60, cols);
+  this->bodies[2]->translate({-5.0, 16.0, 25.0});
+  this->bodies[2]->inverseMass = 1.0;
+  // this->bodies[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
-  this->shapes.push_back(new Box(Vector3f(3.0)));
-  this->shapes[3]->mesh = Cube(cols);
-  this->shapes[3]->translate({6.0, 16.0, 20.0});
-  this->shapes[3]->inverseMass = 1.0;
+  Color3f cols2[6] = {WHITE, WHITE, WHITE, WHITE, RED, RED};
+  this->bodies.push_back(new Body());
+  this->bodies[3]->setShape(new Sphere(3.0));
+  *this->bodies[3]->mesh = CubeSpere(60, cols2);
+  this->bodies[3]->translate({6.0, 16.0, 20.0});
+  this->bodies[3]->inverseMass = 1.0;
 
-  Color3f cols2[6] = {WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
-  this->shapes.push_back(new Box(Vector3f(100.0, 2.0, 200.0)));
-  this->shapes[4]->mesh = Cube(cols2);
-  this->shapes[4]->translate({0.0, -2.0, 0.0});
-  this->shapes[4]->inverseMass = 0.0;
-  this->shapes[4]->texture = createGridTexture(2000, 2000, Color3f(1.0), Color3f(0.2), 80, 80);
+  Color3f cols3[6] = {WHITE, WHITE, WHITE, WHITE, BLUE, BLUE};
+  this->bodies.push_back(new Body());
+  this->bodies[4]->setShape(new Sphere(1000.0));
+  *this->bodies[4]->mesh = CubeSpere(60, cols3);
+  this->bodies[4]->translate({0.0, -1000.0, 0.0});
+  this->bodies[4]->inverseMass = 0.0;
+  this->bodies[4]->texture = createGridTexture(2000, 2000, WHITE, Color3f(0.2), 80, 80);
 
-  this->shapes.push_back(new Sphere(2.5));
-  this->shapes[5]->mesh = CubeSpere(60, cols);
-  this->shapes[5]->translate({-8.0, 16.0, 20.0});
-  this->shapes[5]->inverseMass = 1.0;
-  this->shapes[5]->texture = createGridTexture(400, 400, Color3f(1.0), Color3f(0.2), 20, 20);
+  this->bodies.push_back(new Body());
+  this->bodies[5]->setShape(new Sphere(2.5));
+  *this->bodies[5]->mesh = CubeSpere(50, cols3);
+  this->bodies[5]->translate({-8.0, 16.0, 20.0});
+  this->bodies[5]->inverseMass = 1.0;
+  // this->shapes[5]->texture = createGridTexture(500, 500, WHITE, Color3f(0.2), 20, 20);
 
   P_camera = new Camera();
 }
@@ -98,35 +105,35 @@ void World::update()
   if (!pause)
   {
 
-    for (int i = 0; i < this->shapes.size(); i++)
+    for (int i = 0; i < this->bodies.size(); i++)
     {
-      for (int j = this->shapes.size() - 1; j != i; j--)
+      for (int j = this->bodies.size() - 1; j != i; j--)
       {
 
-        if (intersect(this->shapes[i], this->shapes[j]))
+        if (intersect(this->bodies[i], this->bodies[j]))
         {
-          resolveIntersection(this->shapes[i], this->shapes[j]);
+          resolveIntersection(this->bodies[i], this->bodies[j]);
         }
       }
     }
 
-    for (auto &shape : this->shapes)
+    for (auto &body : this->bodies)
     {
-      if (shape->inverseMass != 0.0)
+      if (body->inverseMass != 0.0)
       {
         // I = dp , F = dp / dt => dp = F * dt => I = F * dt
         // F = mgs
-        float mass = 1.0 / shape->inverseMass;
+        float mass = 1.0 / body->inverseMass;
         Vector3f impulse = GRAVITY * mass * deltaTime;
-        shape->applyimpulseLinear(impulse);
+        body->applyimpulseLinear(impulse);
       }
     }
 
-    for (auto &shape : this->shapes)
+    for (auto &body : this->bodies)
     {
-      Vector3f pos = shape->pos();
-      Vector3f velocity = shape->velocity * deltaTime;
-      shape->translate(pos + velocity);
+      Vector3f pos = body->pos();
+      Vector3f velocity = body->velocity * deltaTime;
+      body->translate(pos + velocity);
     }
   }
 
@@ -145,20 +152,20 @@ void World::render()
   S_obj->updateMat4("view", view);
   S_obj->updateMat4("projection", projection);
 
-  for (auto &shape : this->shapes)
+  for (auto &body : this->bodies)
   {
-    if (shape->draw)
+    if (body->draw)
     {
-      mat4x4 transform = shape->transform.get();
-      bool textured = shape->texture != nullptr;
+      mat4x4 transform = body->transform.get();
+      bool textured = body->texture != nullptr;
       S_obj->updateInt("textured", textured);
       if (textured)
       {
-        glBindTexture(GL_TEXTURE_2D, shape->texture->id);
+        glBindTexture(GL_TEXTURE_2D, body->texture->id);
       }
 
       S_obj->updateMat4("transform", transform);
-      shape->render();
+      body->render();
     }
   }
 }

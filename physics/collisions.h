@@ -1,7 +1,7 @@
 #ifndef COLLISIONS_H
 #define COLLISIONS_H
 
-#include "shape.h"
+#include "body.h"
 #include <iostream>
 
 struct Contact
@@ -12,7 +12,7 @@ struct Contact
   Shape *shape2;
 };
 
-bool intersect(Shape *, Shape *);
-void resolveIntersection(Shape *, Shape *);
+bool intersect(Body *, Body *);
+void resolveIntersection(Body *, Body *);
 
 #endif

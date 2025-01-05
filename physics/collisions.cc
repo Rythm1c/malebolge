@@ -1,67 +1,70 @@
 #include "collisions.h"
 #include "shapes.h"
+#include "body.h"
 
-bool intersectCubeCube(Box *, Box *);
-bool intersectSphereCube(Sphere *, Box *);
-bool intersectSphereSphere(Sphere *, Sphere *);
+bool intersectCubeCube(Body *, Body *);
+bool intersectSphereCube(Body *, Body *);
+bool intersectSphereSphere(Body *, Body *);
 
-void resolveCubeCubeContact(Box *, Box *);
-void resolveSphereCubeContact(Sphere *, Box *);
-void resolveSphereSphereContact(Sphere *, Sphere *);
+void resolveCubeCubeContact(Body *, Body *);
+void resolveSphereCubeContact(Body *, Body *);
+void resolveSphereSphereContact(Body *, Body *);
 
-bool intersect(Shape *shape1, Shape *shape2)
+bool intersect(Body *body1, Body *body2)
 {
 
-  ShapeType type1 = shape1->getType();
-  ShapeType type2 = shape2->getType();
+  ShapeType type1 = body1->shape->getType();
+  ShapeType type2 = body2->shape->getType();
 
-  if (type1 == SHAPE_CUBE)
-  {
-    if (type2 == SHAPE_CUBE)
-      return intersectCubeCube(dynamic_cast<Box *>(shape1),
-                               dynamic_cast<Box *>(shape2));
-    else
-      return intersectSphereCube(dynamic_cast<Sphere *>(shape2),
-                                 dynamic_cast<Box *>(shape1));
-  }
-  // else if the lhs(left hand side) is a sphere bounding volume
-  else
-  {
-    if (type2 == SHAPE_SPHERE)
-      return intersectSphereSphere(dynamic_cast<Sphere *>(shape1),
-                                   dynamic_cast<Sphere *>(shape2));
-    else
-      return intersectSphereCube(dynamic_cast<Sphere *>(shape1),
-                                 dynamic_cast<Box *>(shape2));
-  }
+  /*  if (type1 == SHAPE_CUBE)
+   {
+     if (type2 == SHAPE_CUBE)
+       return intersectCubeCube(dynamic_cast<Box *>(shape1),
+                                dynamic_cast<Box *>(shape2));
+     else
+       return intersectSphereCube(dynamic_cast<Sphere *>(shape2),
+                                  dynamic_cast<Box *>(shape1));
+   }
+   // else if the lhs(left hand side) is a sphere bounding volume
+   else
+   {
+     if (type2 == SHAPE_SPHERE)
+       return intersectSphereSphere(dynamic_cast<Sphere *>(shape1),
+                                    dynamic_cast<Sphere *>(shape2));
+     else
+       return intersectSphereCube(dynamic_cast<Sphere *>(shape1),
+                                  dynamic_cast<Box *>(shape2));
+   } */
+
+  return intersectSphereSphere(body1, body2);
 }
-void resolveIntersection(Shape *shape1, Shape *shape2)
+void resolveIntersection(Body *body1, Body *body2)
 {
-  ShapeType type1 = shape1->getType();
-  ShapeType type2 = shape2->getType();
-
-  if (type1 == SHAPE_CUBE)
-  {
-    if (type2 == SHAPE_CUBE)
-      resolveCubeCubeContact(dynamic_cast<Box *>(shape1),
-                             dynamic_cast<Box *>(shape2));
-    else
-      resolveSphereCubeContact(dynamic_cast<Sphere *>(shape2),
-                               dynamic_cast<Box *>(shape1));
-  }
-  // else if the lhs(left hand side) is a sphere
-  else
-  {
-    if (type2 == SHAPE_SPHERE)
-      resolveSphereSphereContact(dynamic_cast<Sphere *>(shape1),
-                                 dynamic_cast<Sphere *>(shape2));
-    else
-      resolveSphereCubeContact(dynamic_cast<Sphere *>(shape1),
+  ShapeType type1 = body1->shape->getType();
+  ShapeType type2 = body2->shape->getType();
+  /*   if (type1 == SHAPE_CUBE)
+    {
+      if (type2 == SHAPE_CUBE)
+        resolveCubeCubeContact(dynamic_cast<Box *>(shape1),
                                dynamic_cast<Box *>(shape2));
-  }
+      else
+        resolveSphereCubeContact(dynamic_cast<Sphere *>(shape2),
+                                 dynamic_cast<Box *>(shape1));
+    }
+    // else if the lhs(left hand side) is a sphere
+    else
+    {
+      if (type2 == SHAPE_SPHERE)
+        resolveSphereSphereContact(dynamic_cast<Sphere *>(shape1),
+                                   dynamic_cast<Sphere *>(shape2));
+      else
+        resolveSphereCubeContact(dynamic_cast<Sphere *>(shape1),
+                                 dynamic_cast<Box *>(shape2));
+    }*/
+  return resolveSphereSphereContact(body1, body2);
 }
 //______________________________________________________________________
-bool intersectCubeCube(Box *cube1, Box *cube2)
+/*bool intersectCubeCube(Box *Body, Box *Body)
 {
 
   BoundingBox box1 = cube1->getBounds();
@@ -124,43 +127,47 @@ void resolveCubeCubeContact(Box *cube1, Box *cube2)
     cube2->translate(cube1->pos() - intersection);
     cube1->velocity = 0.8 * reflect(cube1->velocity, -1.0 * normal);
   }
-}
+} */
 //______________________________________________________________________
-bool intersectSphereSphere(Sphere *sphere1, Sphere *sphere2)
+bool intersectSphereSphere(Body *body1, Body *body2)
 {
-  float distance = get_length(sphere1->pos() - sphere2->pos());
+  float distance = get_length(body1->pos() - body2->pos());
+
+  Sphere *sphere1 = dynamic_cast<Sphere *>(body1->shape);
+  Sphere *sphere2 = dynamic_cast<Sphere *>(body2->shape);
 
   float totalRadii = sphere1->getRadius() + sphere2->getRadius();
 
   return distance <= totalRadii;
 }
 
-void resolveSphereSphereContact(Sphere *sphere1, Sphere *sphere2)
+void resolveSphereSphereContact(Body *body1, Body *body2)
 {
-  float totalRadii = sphere1->getRadius() + sphere2->getRadius();
-  // get  contact normal
+  Sphere *sphere1 = dynamic_cast<Sphere *>(body1->shape);
+  Sphere *sphere2 = dynamic_cast<Sphere *>(body2->shape);
+
   // |AB| = |AO| + |OB| = |OB| - |AO|
-  Vector3f normal = normalize(sphere2->pos() - sphere1->pos());
+  Vector3f normal = normalize(body1->pos() - body2->pos());
   // update position to remove them form each others bounding volumes
-  Vector3f closestPtSphere1 = sphere1->pos() + normal * sphere1->getRadius();
-  Vector3f closestPtSphere2 = sphere2->pos() - normal * sphere2->getRadius();
+  Vector3f closestPtSphere1 = body1->pos() - normal * sphere1->getRadius();
+  Vector3f closestPtSphere2 = body2->pos() + normal * sphere2->getRadius();
 
   Vector3f intersection = closestPtSphere1 - closestPtSphere2;
 
-  if (sphere1->inverseMass != 0.0)
+  if (body1->inverseMass != 0.0)
   {
-    sphere1->velocity = 0.8 * reflect(sphere1->velocity, -1.0 * normal);
-    sphere1->translate(sphere2->pos() + intersection);
+    body1->velocity = 0.8 * reflect(body1->velocity, 1.0 * normal);
+    body1->translate(body1->pos() - intersection);
   }
 
-  if (sphere2->inverseMass != 0.0)
+  if (body2->inverseMass != 0.0)
   {
-    sphere1->velocity = 0.8 * reflect(sphere2->velocity, 1.0 * normal);
-    sphere2->translate(sphere1->pos() - intersection);
+    body2->velocity = 0.8 * reflect(body2->velocity, -1.0 * normal);
+    body2->translate(body2->pos() + intersection);
   }
 }
 //______________________________________________________________________
-bool intersectSphereCube(Sphere *sphere, Box *cube)
+/* bool intersectSphereCube(Body *sphere, Body *cube)
 {
   // BA=AO+BO=-OB+OA
   Vector3f difference = sphere->pos() - cube->pos();
@@ -172,9 +179,9 @@ bool intersectSphereCube(Sphere *sphere, Box *cube)
   float distance = get_length(sphere->pos() - closestPoint);
 
   return distance <= sphere->getRadius();
-}
-
-void resolveSphereCubeContact(Sphere *sphere, Box *cube)
+} */
+/*
+void resolveSphereCubeContact(Body *sphere, Body *cube)
 {
   Vector3f difference = sphere->pos() - cube->pos();
 
@@ -198,4 +205,4 @@ void resolveSphereCubeContact(Sphere *sphere, Box *cube)
     cube->translate(cube->pos() + intersection);
     cube->velocity = 0.8 * reflect(cube->velocity, -1.0 * normal);
   }
-}
+} */
