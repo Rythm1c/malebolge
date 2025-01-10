@@ -7,10 +7,10 @@ Camera::Camera()
       front(Vector3f(0.0, 0.0, 1.0)), velocity(40.0), pitch(0.0),
       yaw(to_radians(90.0f)) {}
 
-mat4x4 Camera::view() {
+Mat4x4 Camera::view() {
   return look_at(this->pos, this->pos + this->front, this->up);
 }
-mat4x4 Camera::projection(float ratio) {
+Mat4x4 Camera::projection(float ratio) {
   return perspective(fov, ratio, 1e-1, 1e3);
 }
 void Camera::moveForwards(float delta) {

@@ -10,8 +10,6 @@ enum ShapeType
   SHAPE_CUBE
 };
 
-struct Mesh;
-
 class Shape
 {
 

@@ -6,7 +6,8 @@
 
 Body::Body()
     : draw(true), texture(nullptr), transform(Transform()),
-      velocity(Vector3f(0.0)), inverseMass(0.0), shape(nullptr), mesh(new Mesh()) {};
+      velocity(Vector3f(0.0)), inverseMass(0.0), elasticity(0.5), shape(nullptr),
+      mesh(new Mesh()) {};
 
 void Body::setShape(Shape *_shape)
 {
@@ -17,9 +18,13 @@ void Body::setShape(Shape *_shape)
   case SHAPE_SPHERE:
     this->transform.scaling = Vector3f(dynamic_cast<Sphere *>(_shape)->getRadius());
     break;
+
   case SHAPE_CUBE:
     /*  Vector3f dimensions = dynamic_cast<Box *>(_shape)->getDimensions();
      this->transform.scaling = dimensions; */
+    break;
+
+  default:
     break;
   }
 }

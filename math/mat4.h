@@ -1,5 +1,5 @@
-#ifndef MAT4X4_HPP
-#define MAT4X4_HPP
+#ifndef MATRIX4X4_H
+#define MATRIX4X4_H
 
 #include "utils.h"
 #include "vec3.h"
@@ -8,19 +8,19 @@
 
 // for multiplication of mat4x4s and vec4s
 #define M4V4D(mRow, x, y, z, w) \
-  x *m.fv[mRow * 4 + 0] +       \
+      x *m.fv[mRow * 4 + 0] +   \
       y *m.fv[mRow * 4 + 1] +   \
       z *m.fv[mRow * 4 + 2] +   \
       w *m.fv[mRow * 4 + 3]
 
 // for multiplication of two 4x4 mats
 #define M4D(aRow, bCol)                         \
-  l.fv[0 + 4 * aRow] * r.fv[bCol + 4 * 0] +     \
+      l.fv[0 + 4 * aRow] * r.fv[bCol + 4 * 0] + \
       l.fv[1 + 4 * aRow] * r.fv[bCol + 4 * 1] + \
       l.fv[2 + 4 * aRow] * r.fv[bCol + 4 * 2] + \
       l.fv[3 + 4 * aRow] * r.fv[bCol + 4 * 3]
 
-struct mat4x4
+struct Mat4x4
 {
   union
   {
@@ -37,15 +37,15 @@ struct mat4x4
   };
   // default constructor
   // set identity matrix
-  mat4x4()
+  Mat4x4()
       : xx(1.0f), xy(0.0f), xz(0.0f), xw(0.0f),
         yx(0.0f), yy(1.0f), yz(0.0f), yw(0.0f),
         zx(0.0f), zy(0.0f), zz(1.0f), zw(0.0f),
         wx(0.0f), wy(0.0f), wz(0.0f), ww(1.0f)
   {
   }
-  // constract matrix using an array
-  mat4x4(float *fv)
+  // construct matrix using an array
+  Mat4x4(float *fv)
       : xx(fv[0]), xy(fv[1]), xz(fv[2]), xw(fv[3]),
         yx(fv[4]), yy(fv[5]), yz(fv[6]), yw(fv[7]),
         zx(fv[8]), zy(fv[9]), zz(fv[10]), zw(fv[11]),
@@ -53,7 +53,7 @@ struct mat4x4
   {
   }
 
-  mat4x4(
+  Mat4x4(
       float _00, float _01, float _02, float _03,
       float _10, float _11, float _12, float _13,
       float _20, float _21, float _22, float _23,
@@ -71,34 +71,34 @@ struct mat4x4
 /// @brief create a translation matrix out of a vec3
 /// @param t translation vector
 /// @return translation mat
-mat4x4 translate(const Vector3f t);
+Mat4x4 translate(const Vector3f t);
 
 /// @brief create a scaling matrix out of a vec3
 /// @param s scaling vector
 /// @return scaling matrix
-mat4x4 scale(const Vector3f s);
+Mat4x4 scale(const Vector3f s);
 
 /// @brief create a rotation matrix for the X axis
 /// @param angle rotational angle
 /// @return rotation mat for the x axis
-mat4x4 rotationX(float angle);
+Mat4x4 rotationX(float angle);
 
 /// @brief create a rotation matrix for the Y axis
 /// @param angle rotational angle
 /// @return rotation mat for the y axis
-mat4x4 rotationY(float angle);
+Mat4x4 rotationY(float angle);
 
 /// @brief create a rotation matrix for the Z axis
 /// @param angle rotational angle
 /// @return rotation mat for the z axis
-mat4x4 rotationZ(float angle);
+Mat4x4 rotationZ(float angle);
 
 /// @brief create a view matrix from camera rotation
 /// @param pos camera pos
 /// @param dir camera direction
 /// @param up camera upwards direction
 /// @return rotation matrix for the world relative to camera
-mat4x4 look_at(const Vector3f &pos, const Vector3f &dir, const Vector3f &up);
+Mat4x4 look_at(const Vector3f &pos, const Vector3f &dir, const Vector3f &up);
 
 /// @brief for creating an orthogonal projection matrix using dimentions
 /// @param l left
@@ -108,7 +108,7 @@ mat4x4 look_at(const Vector3f &pos, const Vector3f &dir, const Vector3f &up);
 /// @param n near
 /// @param f far
 /// @return projection mat
-mat4x4 orthogonal(float l, float r, float b, float t, float n = -1.0f, float f = 1.0f);
+Mat4x4 orthogonal(float l, float r, float b, float t, float n = -1.0f, float f = 1.0f);
 
 /// @brief for creating a perspective projection
 /// @param fov field of view
@@ -116,22 +116,22 @@ mat4x4 orthogonal(float l, float r, float b, float t, float n = -1.0f, float f =
 /// @param N near 
 /// @param F far
 /// @return perspective mat
-mat4x4 perspective(float fov, float aspectRation, float N, float F);
-mat4x4 frustrum(float l, float r, float t, float b, float n, float f);
+Mat4x4 perspective(float fov, float aspectRation, float N, float F);
+Mat4x4 frustrum(float l, float r, float t, float b, float n, float f);
 
 // multiplication operations
-mat4x4 operator*(const mat4x4 &l, float r);
-mat4x4 operator*(float l, const mat4x4 &r);
-mat4x4 operator*(const mat4x4 &l, const mat4x4 &r);
-Vector4f operator*(const mat4x4 &m, const Vector4f &v);
+Mat4x4 operator*(const Mat4x4 &l, float r);
+Mat4x4 operator*(float l, const Mat4x4 &r);
+Mat4x4 operator*(const Mat4x4 &l, const Mat4x4 &r);
+Vector4f operator*(const Mat4x4 &m, const Vector4f &v);
 // division operations
-mat4x4 operator/(const mat4x4 &l, float r);
+Mat4x4 operator/(const Mat4x4 &l, float r);
 // addition operations
-mat4x4 operator+(const mat4x4 &l, const mat4x4 &r);
+Mat4x4 operator+(const Mat4x4 &l, const Mat4x4 &r);
 // sutraction operations
-mat4x4 operator-(const mat4x4 &l, const mat4x4 &r);
+Mat4x4 operator-(const Mat4x4 &l, const Mat4x4 &r);
 // comparison operations
-bool operator==(const mat4x4 &m1, const mat4x4 &m2);
-bool operator!=(const mat4x4 &m1, const mat4x4 &m2);
+bool operator==(const Mat4x4 &m1, const Mat4x4 &m2);
+bool operator!=(const Mat4x4 &m1, const Mat4x4 &m2);
 
 #endif

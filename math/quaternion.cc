@@ -53,8 +53,8 @@ Vector3f axis(Quat q) { return Vector3f(q.x, q.y, q.z); }
 
 Quat mix(Quat from, Quat to, float t) { return (1.0 - t) * from + t * to; }
 
-mat4x4 Quat::toMat() {
-  mat4x4 result = mat4x4();
+Mat4x4 Quat::toMat() {
+  Mat4x4 result = Mat4x4();
 
   float x2 = std::pow(x, 2.0);
   float y2 = std::pow(y, 2.0);

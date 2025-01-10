@@ -19,12 +19,12 @@
 #include "../render/render.h"
 #include "../render/primitives.h"
 
-mat4x4 view = mat4x4();
-mat4x4 projection = mat4x4();
+Mat4x4 view = Mat4x4();
+Mat4x4 projection = Mat4x4();
 Vector3f lightdir = Vector3f(0.0);
 
 World::World()
-    : pause(false), P_camera(nullptr), S_line(nullptr), S_obj(nullptr),
+    : pause(false), P_camera(new Camera()), S_line(nullptr), S_obj(nullptr),
       S_quad(nullptr) {}
 
 void World::clean()
@@ -54,49 +54,50 @@ void World::load()
   lightdir = Vector3f(-0.2, -1.0, 0.3);
 
   this->bodies.push_back(new Body());
-  this->bodies[0]->setShape(new Sphere(2.0));
+  this->bodies[0]->setShape(new Sphere(1.0));
   *this->bodies[0]->mesh = UVSphere(60, 60, Color3f(0.6));
-  this->bodies[0]->translate({-5.0, 16.0, 12.0});
+  this->bodies[0]->translate({-3.0, 16.0, 7.0});
   this->bodies[0]->inverseMass = 1.0;
 
   this->bodies.push_back(new Body());
-  this->bodies[1]->setShape(new Sphere(3.0));
+  this->bodies[1]->setShape(new Sphere(2.0));
   *this->bodies[1]->mesh = UVSphere(60, 60, WHITE);
   this->bodies[1]->translate({2.0, 16.0, 30.0});
   this->bodies[1]->inverseMass = 1.0;
+  this->bodies[1]->elasticity = 0.6;
   this->bodies[1]->texture = createCheckeredTexture(500, 500, WHITE, Color3f(0.2), 20);
 
-  Color3f cols[6] = {GREEN, PINK, BLUE, YELLOW, RED, PURPLE};
+  Color3f cols[6] = {GREEN, CYAN, BLUE, YELLOW, RED, PURPLE};
   this->bodies.push_back(new Body());
-  this->bodies[2]->setShape(new Sphere(2.0));
+  this->bodies[2]->setShape(new Sphere(1.0));
   *this->bodies[2]->mesh = CubeSpere(60, cols);
-  this->bodies[2]->translate({-5.0, 16.0, 25.0});
+  this->bodies[2]->translate({-3.0, 16.0, 15.0});
   this->bodies[2]->inverseMass = 1.0;
   // this->bodies[2]->texture = createCheckeredTexture(500, 500, Color3f(0.71, 1.0, 0.44), Color3f(0.2), 4);
 
-  Color3f cols2[6] = {WHITE, WHITE, WHITE, WHITE, RED, RED};
+  Color3f cols2[6] = {WHITE, WHITE, ORANGE, ORANGE, RED, RED};
   this->bodies.push_back(new Body());
-  this->bodies[3]->setShape(new Sphere(3.0));
+  this->bodies[3]->setShape(new Sphere(2.0));
   *this->bodies[3]->mesh = CubeSpere(60, cols2);
-  this->bodies[3]->translate({6.0, 16.0, 20.0});
+  this->bodies[3]->translate({3.0, 16.0, 20.0});
+  this->bodies[3]->elasticity = 0.75;
   this->bodies[3]->inverseMass = 1.0;
 
-  Color3f cols3[6] = {WHITE, WHITE, WHITE, WHITE, BLUE, BLUE};
   this->bodies.push_back(new Body());
   this->bodies[4]->setShape(new Sphere(1000.0));
-  *this->bodies[4]->mesh = CubeSpere(60, cols3);
+  *this->bodies[4]->mesh = CubeSpere(60, cols2);
   this->bodies[4]->translate({0.0, -1000.0, 0.0});
   this->bodies[4]->inverseMass = 0.0;
-  this->bodies[4]->texture = createGridTexture(2000, 2000, WHITE, Color3f(0.2), 80, 80);
+  this->bodies[4]->elasticity = 1.0;
+  this->bodies[4]->texture = createCheckeredTexture(2000, 2000, WHITE, Color3f(0.2), 50);
 
+  Color3f cols3[6] = {WHITE, WHITE, PINK, PINK, BLUE, BLUE};
   this->bodies.push_back(new Body());
-  this->bodies[5]->setShape(new Sphere(2.5));
+  this->bodies[5]->setShape(new Sphere(1.5));
   *this->bodies[5]->mesh = CubeSpere(50, cols3);
-  this->bodies[5]->translate({-8.0, 16.0, 20.0});
+  this->bodies[5]->translate({-5.0, 16.0, 20.0});
   this->bodies[5]->inverseMass = 1.0;
   // this->shapes[5]->texture = createGridTexture(500, 500, WHITE, Color3f(0.2), 20, 20);
-
-  P_camera = new Camera();
 }
 void World::update()
 {
@@ -156,7 +157,7 @@ void World::render()
   {
     if (body->draw)
     {
-      mat4x4 transform = body->transform.get();
+      Mat4x4 transform = body->transform.get();
       bool textured = body->texture != nullptr;
       S_obj->updateInt("textured", textured);
       if (textured)

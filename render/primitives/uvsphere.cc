@@ -43,7 +43,7 @@ Mesh UVSphere(int longs, int lats, Color3f col)
 
       int currRow = i * longs;
       int nextRow = (i + 1) * longs;
-      //........... nect row verts here
+      //........... next row verts here
       //.       . .
       //.     .   .
       //.   .     .

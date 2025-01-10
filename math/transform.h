@@ -19,11 +19,11 @@ public:
   /// @brief combines the translation, rotation and scaling members to produce a
   /// transformation matrix
   /// @return finall transform matrix
-  mat4x4 get();
+  Mat4x4 get();
   Transform inverse();
 };
 
 Transform combine(const Transform &t1, const Transform &t2);
-Transform transformFromMat(mat4x4 &mat);
+Transform transformFromMat(Mat4x4 &mat);
 
 #endif

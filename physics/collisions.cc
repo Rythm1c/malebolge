@@ -13,27 +13,23 @@ void resolveSphereSphereContact(Body *, Body *);
 bool intersect(Body *body1, Body *body2)
 {
 
-  ShapeType type1 = body1->shape->getType();
-  ShapeType type2 = body2->shape->getType();
+  ShapeType typea = body1->shape->getType();
+  ShapeType typeb = body2->shape->getType();
 
   /*  if (type1 == SHAPE_CUBE)
    {
      if (type2 == SHAPE_CUBE)
-       return intersectCubeCube(dynamic_cast<Box *>(shape1),
-                                dynamic_cast<Box *>(shape2));
+       return intersectCubeCube(body1, body2);
      else
-       return intersectSphereCube(dynamic_cast<Sphere *>(shape2),
-                                  dynamic_cast<Box *>(shape1));
+       return intersectSphereCube(body1, body2);
    }
    // else if the lhs(left hand side) is a sphere bounding volume
    else
    {
      if (type2 == SHAPE_SPHERE)
-       return intersectSphereSphere(dynamic_cast<Sphere *>(shape1),
-                                    dynamic_cast<Sphere *>(shape2));
+       return intersectSphereSphere(body1, body2);
      else
-       return intersectSphereCube(dynamic_cast<Sphere *>(shape1),
-                                  dynamic_cast<Box *>(shape2));
+       return intersectSphereCube(body1, body2);
    } */
 
   return intersectSphereSphere(body1, body2);
@@ -45,21 +41,17 @@ void resolveIntersection(Body *body1, Body *body2)
   /*   if (type1 == SHAPE_CUBE)
     {
       if (type2 == SHAPE_CUBE)
-        resolveCubeCubeContact(dynamic_cast<Box *>(shape1),
-                               dynamic_cast<Box *>(shape2));
+        resolveCubeCubeContact(body1, body2);
       else
-        resolveSphereCubeContact(dynamic_cast<Sphere *>(shape2),
-                                 dynamic_cast<Box *>(shape1));
+        resolveSphereCubeContact(body1, body2);
     }
     // else if the lhs(left hand side) is a sphere
     else
     {
       if (type2 == SHAPE_SPHERE)
-        resolveSphereSphereContact(dynamic_cast<Sphere *>(shape1),
-                                   dynamic_cast<Sphere *>(shape2));
+        resolveSphereSphereContact(body1, body2);
       else
-        resolveSphereCubeContact(dynamic_cast<Sphere *>(shape1),
-                                 dynamic_cast<Box *>(shape2));
+        resolveSphereCubeContact(body1, body2);
     }*/
   return resolveSphereSphereContact(body1, body2);
 }
@@ -147,24 +139,31 @@ void resolveSphereSphereContact(Body *body1, Body *body2)
   Sphere *sphere2 = dynamic_cast<Sphere *>(body2->shape);
 
   // |AB| = |AO| + |OB| = |OB| - |AO|
-  Vector3f normal = normalize(body1->pos() - body2->pos());
+  const Vector3f normal = normalize(body1->pos() - body2->pos());
   // update position to remove them form each others bounding volumes
   Vector3f closestPtSphere1 = body1->pos() - normal * sphere1->getRadius();
   Vector3f closestPtSphere2 = body2->pos() + normal * sphere2->getRadius();
 
   Vector3f intersection = closestPtSphere1 - closestPtSphere2;
 
-  if (body1->inverseMass != 0.0)
-  {
-    body1->velocity = 0.8 * reflect(body1->velocity, 1.0 * normal);
-    body1->translate(body1->pos() - intersection);
-  }
+  const float totalInverseMass = body1->inverseMass + body2->inverseMass;
 
-  if (body2->inverseMass != 0.0)
-  {
-    body2->velocity = 0.8 * reflect(body2->velocity, -1.0 * normal);
-    body2->translate(body2->pos() + intersection);
-  }
+  const float ta = body1->inverseMass / (totalInverseMass);
+  const float tb = body2->inverseMass / (totalInverseMass);
+
+  const float elasticity = body1->elasticity * body2->elasticity;
+
+  const Vector3f vab = body1->velocity - body2->velocity;
+  const float impulsej = -(1.0 + elasticity) * dot(vab, 1.0 * normal) / (totalInverseMass);
+  const Vector3f vectorImpulsej = -1.0 * normal * impulsej;
+
+  body1->applyimpulseLinear(vectorImpulsej * -1.0);
+  body2->applyimpulseLinear(vectorImpulsej * 1.0);
+
+  /* body1->velocity = Vector3f(0.0);
+   body2->velocity = Vector3f(0.0); */
+  body1->translate(body1->pos() - intersection * ta);
+  body2->translate(body2->pos() + intersection * tb);
 }
 //______________________________________________________________________
 /* bool intersectSphereCube(Body *sphere, Body *cube)

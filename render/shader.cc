@@ -17,7 +17,7 @@ Shader::Shader(const char *vert_path, const char *frag_path)
 void Shader::use() { glUseProgram(program); }
 void Shader::clean() { glDeleteProgram(program); }
 
-void Shader::updateMat4(const char *name, mat4x4 &mat)
+void Shader::updateMat4(const char *name, Mat4x4 &mat)
 {
   unsigned int location = glGetUniformLocation(program, name);
   glUniformMatrix4fv(location, 1, true, mat.fv.data());

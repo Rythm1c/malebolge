@@ -18,8 +18,8 @@ public:
   Vector3f front;
   float velocity;
 
-  mat4x4 view();
-  mat4x4 projection(float ratio);
+  Mat4x4 view();
+  Mat4x4 projection(float ratio);
   void rotation(const Vector2i &mousePos);
 
   void moveForwards(float);

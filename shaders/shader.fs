@@ -38,10 +38,12 @@ void main() {
     // vec3 reflectDir = reflect(-lightDir, norm);
   float spec = pow(max(dot(norm, halfwaydir), 0.0), 128.0);
   vec3 specular = spec * color;
-  //result += specular;
+  result += specular;
 
+  /* 
   float attenuation = pow(blend(200.0), 2.0);
-  result = mix(result, vec3(0.2), attenuation);
+  result = mix(result, vec3(0.2), attenuation); 
+  */
 
   ouput = vec4(result, 1.0);
   //ouput = vec4(1.0, 0.58, 0.1, 0.0);

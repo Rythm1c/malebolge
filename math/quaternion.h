@@ -6,7 +6,7 @@
 
 #define QUAT_EPSILON 0.000001f
 
-struct mat4x4;
+struct Mat4x4;
 struct Vector3f;
 
 struct Quat {
@@ -37,7 +37,7 @@ struct Quat {
   Quat conjugate();
   Quat inverse();
 
-  mat4x4 toMat();
+  Mat4x4 toMat();
 };
 Vector3f axis(Quat q);
 float dot(const Quat &lhs, const Quat &rhs);

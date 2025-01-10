@@ -1,7 +1,5 @@
 #include <iostream>
-
 #include <GL/glew.h>
-
 #include <GL/gl.h>
 
 #include "../headers/window.h"
@@ -53,9 +51,9 @@ void Window::init()
 
   glViewport(0, 0, this->width, this->height);
   glEnable(GL_DEPTH_TEST);
-  /*glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW); */
+  /* glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CW); */
 
   glClearColor(0.2, 0.2, 0.2, 1.0);
 }

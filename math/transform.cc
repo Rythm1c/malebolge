@@ -1,6 +1,6 @@
 #include "transform.h"
 
-mat4x4 Transform::get() {
+Mat4x4 Transform::get() {
   Vector3f x = orientation * Vector3f(1.0, 0.0, 0.0);
   Vector3f y = orientation * Vector3f(0.0, 1.0, 0.0);
   Vector3f z = orientation * Vector3f(0.0, 0.0, 1.0);
@@ -11,7 +11,7 @@ mat4x4 Transform::get() {
 
   Vector3f p = translation;
 
-  return mat4x4(x.x, y.x, z.x, p.x, //
+  return Mat4x4(x.x, y.x, z.x, p.x, //
                 x.y, y.y, z.y, p.y, //
                 x.z, y.z, z.z, p.z, //
                 0.0, 0.0, 0.0, 1.0  //
@@ -46,20 +46,20 @@ Transform combine(const Transform &t1, const Transform &t2) {
 
   return result;
 }
-Transform transformFromMat(mat4x4 &mat) {
+Transform transformFromMat(Mat4x4 &mat) {
   Transform transform = Transform();
 
   Vector3f translation = Vector3f(mat.xw, mat.yw, mat.zw);
 
   Quat orientation = mat.toQuat();
   // Quat d = &mat.data;
-  mat4x4 rot_scale_mat = mat4x4(mat.xx, mat.xy, mat.xz, 0.0, //
+  Mat4x4 rot_scale_mat = Mat4x4(mat.xx, mat.xy, mat.xz, 0.0, //
                                 mat.yx, mat.yy, mat.yz, 0.0, //
                                 mat.zx, mat.zy, mat.zz, 0.0, //
                                 0.0, 0.0, 0.0, 1.0);
 
-  mat4x4 inv_rot_mat = orientation.inverse().toMat();
-  mat4x4 scale_skew_mat = rot_scale_mat * inv_rot_mat;
+  Mat4x4 inv_rot_mat = orientation.inverse().toMat();
+  Mat4x4 scale_skew_mat = rot_scale_mat * inv_rot_mat;
 
   Vector3f scaling = Vector3f(scale_skew_mat.xx, scale_skew_mat.yy, scale_skew_mat.zz);
 

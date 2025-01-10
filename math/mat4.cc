@@ -1,22 +1,22 @@
 #include "mat4.h"
 #include "quaternion.h"
 
-mat4x4 translate(const Vector3f t) {
-  mat4x4 trans;
+Mat4x4 translate(const Vector3f t) {
+  Mat4x4 trans;
   trans.xw = t.x;
   trans.yw = t.y;
   trans.zw = t.z;
   return trans;
 }
-mat4x4 scale(const Vector3f s) {
-  mat4x4 trans;
+Mat4x4 scale(const Vector3f s) {
+  Mat4x4 trans;
   trans.xx = s.x;
   trans.yy = s.y;
   trans.zz = s.z;
   return trans;
 }
-mat4x4 rotationX(float angle) {
-  mat4x4 trans;
+Mat4x4 rotationX(float angle) {
+  Mat4x4 trans;
   trans.xx = 1.0f;
   trans.yy = cos(to_radians(angle));
   trans.yz = -sin(to_radians(angle));
@@ -25,8 +25,8 @@ mat4x4 rotationX(float angle) {
   trans.ww = 1.0f;
   return trans;
 }
-mat4x4 rotationY(float angle) {
-  mat4x4 trans;
+Mat4x4 rotationY(float angle) {
+  Mat4x4 trans;
   trans.xx = cos(to_radians(angle));
   trans.xz = sin(to_radians(angle));
   trans.yy = 1.0f;
@@ -35,8 +35,8 @@ mat4x4 rotationY(float angle) {
   trans.ww = 1.0f;
   return trans;
 }
-mat4x4 rotationZ(float angle) {
-  mat4x4 trans;
+Mat4x4 rotationZ(float angle) {
+  Mat4x4 trans;
   trans.xx = cos(to_radians(angle));
   trans.xy = sin(to_radians(angle));
   trans.yx = -sin(to_radians(angle));
@@ -45,7 +45,7 @@ mat4x4 rotationZ(float angle) {
   trans.ww = 1.0f;
   return trans;
 }
-mat4x4 look_at(const Vector3f &pos, const Vector3f &fr, const Vector3f &up) {
+Mat4x4 look_at(const Vector3f &pos, const Vector3f &fr, const Vector3f &up) {
   // cr = camera right vector
   Vector3f cd = normalize(pos - fr);
   Vector3f cr = normalize(cross(up, cd));
@@ -67,11 +67,11 @@ mat4x4 look_at(const Vector3f &pos, const Vector3f &fr, const Vector3f &up) {
   float zz = cd.z;
   float zw = -pos.x * cd.x - pos.y * cd.y - pos.z * cd.z;
 
-  return mat4x4(xx, xy, xz, xw, yx, yy, yz, yw, zx, zy, zz, zw, 0.0, 0.0, 0.0,
+  return Mat4x4(xx, xy, xz, xw, yx, yy, yz, yw, zx, zy, zz, zw, 0.0, 0.0, 0.0,
                 1.0);
 }
 
-Quat mat4x4::toQuat() {
+Quat Mat4x4::toQuat() {
 
   float x = 0.0;
   float y = 0.0;
@@ -112,8 +112,8 @@ Quat mat4x4::toQuat() {
   return Quat(x, y, z, s);
 }
 
-mat4x4 orthogonal(float l, float r, float b, float t, float n, float f) {
-  mat4x4 proj;
+Mat4x4 orthogonal(float l, float r, float b, float t, float n, float f) {
+  Mat4x4 proj;
   proj.xx = 2.0f / (r - l);
   proj.xw = -((r + l) / (r - l));
   proj.yy = 2.0f / (t - b);
@@ -125,8 +125,8 @@ mat4x4 orthogonal(float l, float r, float b, float t, float n, float f) {
   return proj;
 }
 
-mat4x4 frustrum(float l, float r, float b, float t, float n, float f) {
-  mat4x4 proj;
+Mat4x4 frustrum(float l, float r, float b, float t, float n, float f) {
+  Mat4x4 proj;
   proj.xx = (2.0f * n) / (r - l);
   proj.xz = (r + l) / (r - l);
   proj.yy = (2.0f * n) / (t - b);
@@ -138,51 +138,51 @@ mat4x4 frustrum(float l, float r, float b, float t, float n, float f) {
   return proj;
 }
 
-mat4x4 perspective(float fov, float aspectRatio, float N, float F) {
+Mat4x4 perspective(float fov, float aspectRatio, float N, float F) {
 
   float ymax = N * tan((to_radians(fov / 2.0f)));
   float xmax = ymax * aspectRatio;
 
   return frustrum(-xmax, xmax, -ymax, ymax, N, F);
 }
-mat4x4 operator*(const mat4x4 &l, float r) {
-  return mat4x4(l.xx * r, l.xy * r, l.xz * r, l.xw * r, l.yx * r, l.yy * r,
+Mat4x4 operator*(const Mat4x4 &l, float r) {
+  return Mat4x4(l.xx * r, l.xy * r, l.xz * r, l.xw * r, l.yx * r, l.yy * r,
                 l.yz * r, l.yw * r, l.zx * r, l.zy * r, l.zz * r, l.zw * r,
                 l.wx * r, l.wy * r, l.wz * r, l.ww * r);
 }
-mat4x4 operator*(float l, const mat4x4 &r) {
-  return mat4x4(r.xx * l, r.xy * l, r.xz * l, r.xw * l, r.yx * l, r.yy * l,
+Mat4x4 operator*(float l, const Mat4x4 &r) {
+  return Mat4x4(r.xx * l, r.xy * l, r.xz * l, r.xw * l, r.yx * l, r.yy * l,
                 r.yz * l, r.yw * l, r.zx * l, r.zy * l, r.zz * l, r.zw * l,
                 r.wx * l, r.wy * l, r.wz * l, r.ww * l);
 }
-Vector4f operator*(const mat4x4 &m, const Vector4f &v) {
+Vector4f operator*(const Mat4x4 &m, const Vector4f &v) {
   return Vector4f(M4V4D(0, v.x, v.y, v.z, v.w), M4V4D(1, v.x, v.y, v.z, v.w),
              M4V4D(2, v.x, v.y, v.z, v.w), M4V4D(3, v.x, v.y, v.z, v.w));
 }
-mat4x4 operator*(const mat4x4 &l, const mat4x4 &r) {
-  return mat4x4(M4D(0, 0), M4D(0, 1), M4D(0, 2), M4D(0, 3), M4D(1, 0),
+Mat4x4 operator*(const Mat4x4 &l, const Mat4x4 &r) {
+  return Mat4x4(M4D(0, 0), M4D(0, 1), M4D(0, 2), M4D(0, 3), M4D(1, 0),
                 M4D(1, 1), M4D(1, 2), M4D(1, 3), M4D(2, 0), M4D(2, 1),
                 M4D(2, 2), M4D(2, 3), M4D(3, 0), M4D(3, 1), M4D(3, 2),
                 M4D(3, 3));
 }
-mat4x4 operator/(const mat4x4 &l, float r) {
-  return mat4x4(l.xx / r, l.xy / r, l.xz / r, l.xw / r, l.yx / r, l.yy / r,
+Mat4x4 operator/(const Mat4x4 &l, float r) {
+  return Mat4x4(l.xx / r, l.xy / r, l.xz / r, l.xw / r, l.yx / r, l.yy / r,
                 l.yz / r, l.yw / r, l.zx / r, l.zy / r, l.zz / r, l.zw / r,
                 l.wx / r, l.wy / r, l.wz / r, l.ww / r);
 }
-mat4x4 operator+(const mat4x4 &l, const mat4x4 &r) {
-  return mat4x4(l.xx + r.xx, l.xy + r.xy, l.xz + r.xz, l.xw + r.xw, l.yx + r.yx,
+Mat4x4 operator+(const Mat4x4 &l, const Mat4x4 &r) {
+  return Mat4x4(l.xx + r.xx, l.xy + r.xy, l.xz + r.xz, l.xw + r.xw, l.yx + r.yx,
                 l.yy + r.yy, l.yz + r.yz, l.yw + r.yw, l.zx + r.zx, l.zy + r.zy,
                 l.zz + r.zz, l.zw + r.zw, l.wx + r.wx, l.wy + r.wy, l.wz + r.wz,
                 l.ww + r.ww);
 }
-mat4x4 operator-(const mat4x4 &l, const mat4x4 &r) {
-  return mat4x4(l.xx - r.xx, l.xy - r.xy, l.xz - r.xz, l.xw - r.xw, l.yx - r.yx,
+Mat4x4 operator-(const Mat4x4 &l, const Mat4x4 &r) {
+  return Mat4x4(l.xx - r.xx, l.xy - r.xy, l.xz - r.xz, l.xw - r.xw, l.yx - r.yx,
                 l.yy - r.yy, l.yz - r.yz, l.yw - r.yw, l.zx - r.zx, l.zy - r.zy,
                 l.zz - r.zz, l.zw - r.zw, l.wx - r.wx, l.wy - r.wy, l.wz - r.wz,
                 l.ww - r.ww);
 }
-bool operator==(const mat4x4 &l, const mat4x4 &r) {
+bool operator==(const Mat4x4 &l, const Mat4x4 &r) {
   for (int i = 0; i < 16; i++) {
     if (l.fv[i] != r.fv[i]) {
       return false;
@@ -191,4 +191,4 @@ bool operator==(const mat4x4 &l, const mat4x4 &r) {
 
   return true;
 }
-bool operator!=(const mat4x4 &l, const mat4x4 &r) { return !(l == r); }
+bool operator!=(const Mat4x4 &l, const Mat4x4 &r) { return !(l == r); }

@@ -26,6 +26,7 @@ public:
 
   Vector3f velocity;
   float inverseMass;
+  float elasticity;
 
   void applyimpulseLinear(const Vector3f &impulse);
 

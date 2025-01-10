@@ -1,0 +1,67 @@
+#ifndef MATRIX3x3_H
+#define MATRIX3x3_H
+
+#include "vec3.h"
+#include <array>
+
+#define M3D(r, c)                 \
+        l.rc[r][0] * r.rc[0][c] + \
+        l.rc[r][1] * r.rc[1][c] + \
+        l.rc[r][2] * r.rc[2][c]   \
+
+
+struct Mat3x3
+{
+  union
+  {
+
+    struct
+    {
+      float xx; float xy; float xz;
+      float yx; float yy; float yz; 
+      float zx; float zy; float zz;
+    };
+
+    std::array<float, 3 * 3> v;
+
+    float rc[3][3];
+
+    Vector3f rows[3];
+  };
+
+  /// @brief identity matrix
+  Mat3x3()
+      : xx(1.0), xy(0.0), xz(0.0),
+        yx(0.0), yy(1.0), yz(0.0),
+        zx(0.0), zy(0.0), zz(1.0) {}
+
+  Mat3x3(float *fv)
+      : xx(fv[0]), xy(fv[1]), xz(fv[2]),
+        yx(fv[3]), yy(fv[4]), yz(fv[5]),
+        zx(fv[6]), zy(fv[7]), zz(fv[8]) {}
+
+  Mat3x3(Vector3f _row1,
+         Vector3f _row2,
+         Vector3f _row3)
+      : rows{_row1, _row2, _row3} {}
+
+  Mat3x3(float _00, float _01, float _02,
+         float _10, float _11, float _12,
+         float _20, float _21, float _22)
+      : xx(_00), xy(_01), xz(_02),
+        yx(_10), yy(_11), yz(_12),
+        zx(_20), zy(_21), zz(_22) {}
+};
+
+Mat3x3 operator+(const Mat3x3 &l, float r);
+Mat3x3 operator-(const Mat3x3 &l, float r);
+Mat3x3 operator*(const Mat3x3 &l, float r);
+Mat3x3 operator/(const Mat3x3 &l, float r);
+
+Vector3f operator*(const Mat3x3 &l, const Vector3f &r);
+
+Mat3x3 operator+(const Mat3x3 &l, const Mat3x3 &r);
+Mat3x3 operator-(const Mat3x3 &l, const Mat3x3 &r);
+Mat3x3 operator*(const Mat3x3 &l, const Mat3x3 &r);
+
+#endif

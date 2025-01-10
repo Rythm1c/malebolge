@@ -24,13 +24,13 @@ struct Vector3f
     };
     std::array<float, 3> v;
   };
-  // default constructor with components set to 0.0
+  /// @brief default constructor with components set to 0.0
   Vector3f() : x(0.0f), y(0.0f), z(0.0f) {}
-  // set all components to a single value
+  /// @brief set all components to a single value
   Vector3f(float _v) : x(_v), y(_v), z(_v) {}
-  // use a simple array to set components
+  /// @brief use a simple array to set components
   Vector3f(float *fv) : x(fv[0]), y(fv[1]), z(fv[2]) {}
-  // set each components idividually
+  /// @brief set each components idividually
   Vector3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 
   Vector3f operator+=(const Vector3f &r)
