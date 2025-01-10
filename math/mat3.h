@@ -4,10 +4,10 @@
 #include "vec3.h"
 #include <array>
 
-#define M3D(r, c)                 \
-        l.rc[r][0] * r.rc[0][c] + \
-        l.rc[r][1] * r.rc[1][c] + \
-        l.rc[r][2] * r.rc[2][c]   \
+#define M3D(aRow, bCol)                 \
+        l.rc[aRow][0] * r.rc[0][bCol] + \
+        l.rc[aRow][1] * r.rc[1][bCol] + \
+        l.rc[aRow][2] * r.rc[2][bCol]   \
 
 
 struct Mat3x3
@@ -53,9 +53,15 @@ struct Mat3x3
         zx(_20), zy(_21), zz(_22) {}
 };
 
+/// @brief from a row-major matrix to a column-major and vice versa
+/// @param m matrix to transpose
+/// @return 
+Mat3x3 transpose(const Mat3x3 &m);
+
 Mat3x3 operator+(const Mat3x3 &l, float r);
 Mat3x3 operator-(const Mat3x3 &l, float r);
 Mat3x3 operator*(const Mat3x3 &l, float r);
+Mat3x3 operator*(float l, const Mat3x3 &r);
 Mat3x3 operator/(const Mat3x3 &l, float r);
 
 Vector3f operator*(const Mat3x3 &l, const Vector3f &r);

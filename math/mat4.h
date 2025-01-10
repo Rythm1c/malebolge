@@ -68,6 +68,11 @@ struct Mat4x4
   struct Quat toQuat();
 };
 
+/// @brief from a row-major matrix to a column-major and vice versa
+/// @param  m : matrix to transpose
+/// @return 
+Mat4x4 transpose(const Mat4x4& m);
+
 /// @brief create a translation matrix out of a vec3
 /// @param t translation vector
 /// @return translation mat

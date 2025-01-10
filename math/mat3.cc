@@ -1,5 +1,13 @@
 #include "mat3.h"
 
+Mat3x3 transpose(const Mat3x3 &m)
+{
+  return Mat3x3(
+      m.xx, m.yx, m.zx,
+      m.xy, m.yy, m.zy,
+      m.xz, m.yz, m.zz);
+}
+
 Mat3x3 operator+(const Mat3x3 &l, float r)
 {
 
@@ -26,6 +34,7 @@ Mat3x3 operator*(const Mat3x3 &l, float r)
       l.rows[1] * r,
       l.rows[2] * r);
 }
+Mat3x3 operator*(float l, const Mat3x3 &r) { return r * l; }
 
 Mat3x3 operator/(const Mat3x3 &l, float r)
 {
@@ -63,5 +72,8 @@ Mat3x3 operator-(const Mat3x3 &l, const Mat3x3 &r)
 Mat3x3 operator*(const Mat3x3 &l, const Mat3x3 &r)
 {
 
-  return Mat3x3();
+  return Mat3x3(
+      M3D(0, 0), M3D(0, 1), M3D(0, 2), //
+      M3D(1, 0), M3D(1, 1), M3D(1, 2), //
+      M3D(2, 0), M3D(2, 1), M3D(2, 2));
 }

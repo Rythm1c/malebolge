@@ -17,15 +17,15 @@ Shader::Shader(const char *vert_path, const char *frag_path)
 void Shader::use() { glUseProgram(program); }
 void Shader::clean() { glDeleteProgram(program); }
 
-void Shader::updateMat4(const char *name, Mat4x4 &mat)
+void Shader::updateMat4(const char *name, const Mat4x4 &mat)
 {
   unsigned int location = glGetUniformLocation(program, name);
   glUniformMatrix4fv(location, 1, true, mat.fv.data());
 }
-void Shader::updateVec3(const char *name, Vector3f &vec)
+void Shader::updateVec3(const char *name, const Vector3f &v)
 {
   unsigned int location = glGetUniformLocation(program, name);
-  glUniform3f(location, vec.x, vec.y, vec.z);
+  glUniform3f(location, v.x, v.y, v.z);
 }
 void Shader::updateFloat(const char *name, float value)
 {

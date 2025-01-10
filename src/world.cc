@@ -157,7 +157,6 @@ void World::render()
   {
     if (body->draw)
     {
-      Mat4x4 transform = body->transform.get();
       bool textured = body->texture != nullptr;
       S_obj->updateInt("textured", textured);
       if (textured)
@@ -165,7 +164,7 @@ void World::render()
         glBindTexture(GL_TEXTURE_2D, body->texture->id);
       }
 
-      S_obj->updateMat4("transform", transform);
+      S_obj->updateMat4("transform", body->transform.get());
       body->render();
     }
   }

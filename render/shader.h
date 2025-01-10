@@ -18,8 +18,8 @@ public:
 
   void updateInt(const char *name, int value);
   void updateFloat(const char *name, float value);
-  void updateVec3(const char *name, Vector3f &vec);
-  void updateMat4(const char *name, Mat4x4 &mat);
+  void updateVec3(const char *name, const Vector3f &vec);
+  void updateMat4(const char *name, const Mat4x4 &mat);
 
 private:
 };
