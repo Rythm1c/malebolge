@@ -3,6 +3,7 @@
 
 #include "../math/transform.h"
 #include "../math/vec3.h"
+#include "../math/mat3.h"
 
 class Body
 {
@@ -32,6 +33,9 @@ public:
 
   class Shape *shape;
   void setShape(class Shape *shape);
+
+  Mat3x3 getInertiaTensorLocalSpace()const;
+  Mat3x3 getInertiaTensorWorldSpace()const;
 
   struct Mesh *mesh;
 };

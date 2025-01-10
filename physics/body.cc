@@ -9,6 +9,19 @@ Body::Body()
       velocity(Vector3f(0.0)), inverseMass(0.0), elasticity(0.5), shape(nullptr),
       mesh(new Mesh()) {};
 
+void Body::render()
+{
+  this->mesh->render();
+};
+
+void Body::clean()
+{
+  this->mesh->clean();
+  this->texture->clean();
+  delete mesh;
+  delete texture;
+};
+
 void Body::setShape(Shape *_shape)
 {
   this->shape = _shape;
@@ -39,15 +52,19 @@ void Body::applyimpulseLinear(const Vector3f &impulse)
   this->velocity += impulse * this->inverseMass;
 }
 
-void Body::render()
+Mat3x3 Body::getInertiaTensorLocalSpace() const
 {
-  this->mesh->render();
-};
+  Mat3x3 inertiaTensor = this->shape->inertiaTensor();
+  Mat3x3 invInertiaTensor = inertiaTensor.inverse() * this->inverseMass;
 
-void Body::clean()
+  return invInertiaTensor;
+}
+Mat3x3 Body::getInertiaTensorWorldSpace() const
 {
-  this->mesh->clean();
-  this->texture->clean();
-  delete mesh;
-  delete texture;
-};
+  Mat3x3 inertiaTensor = this->shape->inertiaTensor();
+  Mat3x3 invInertiaTensor = inertiaTensor.inverse() * this->inverseMass;
+  Mat3x3 orient = this->orientation().toMat3();
+
+  inverseTensor = orient * invInertiaTensor * orient.transpose;
+  return invInertiaTensor;
+}

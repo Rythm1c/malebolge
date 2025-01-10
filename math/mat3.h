@@ -22,7 +22,7 @@ struct Mat3x3
       float zx; float zy; float zz;
     };
 
-    std::array<float, 3 * 3> v;
+    std::array<float, 9> v;
 
     float rc[3][3];
 

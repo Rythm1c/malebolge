@@ -13,6 +13,8 @@ public:
 
   float getRadius() const { return radius; }
 
+  Mat3x3 inertiaTensor() const override;
+
 private:
   float radius;
 };
