@@ -6,7 +6,8 @@
 
 Body::Body()
     : draw(true), texture(nullptr), transform(Transform()),
-      velocity(Vector3f(0.0)), inverseMass(0.0), elasticity(0.5), shape(nullptr),
+      velocity(Vector3f(0.0)), angularVelocity(Vector3f(0.0)),
+      inverseMass(0.0), elasticity(0.5), shape(nullptr),
       mesh(new Mesh()) {};
 
 void Body::render()
@@ -50,6 +51,49 @@ void Body::applyimpulseLinear(const Vector3f &impulse)
   // dp = m dv = j
   //=> dv = j / m
   this->velocity += impulse * this->inverseMass;
+}
+void Body::applyImpulseAngular(const Vector3f &impulse)
+{
+
+  if (this->inverseMass == 0.0)
+    return;
+
+  // L = I w = r x p
+  // dL = I dw = r x J
+  // => dw = I ^−1 * ( r x J )
+
+  this->angularVelocity += this->getInertiaTensorWorldSpace() * impulse;
+  const float maxAngularSpeed = 30.0f;
+  if (this->angularVelocity.magSqrd() > maxAngularSpeed * maxAngularSpeed)
+  {
+    this->angularVelocity = this->angularVelocity.unit();
+    this->angularVelocity *= maxAngularSpeed;
+  }
+}
+void Body::applyImpulse(const Vector3f &pointImpulse, const Vector3f &impulse)
+{
+  if (this->inverseMass == 0.0)
+    return;
+
+  this->applyimpulseLinear(impulse);
+
+  Vector3f position = this->getCenterOfMassWorldSpace();
+
+  Vector3f r = pointImpulse - position;
+  Vector3f dl = cross(r, impulse);
+  this->applyImpulseAngular(dl);
+}
+
+Vector3f Body::getCenterOfMassWorldSpace() const
+{
+  const Vector3f pos = this->pos();
+  const Quat rotation = this->orientation();
+  const Vector3f centerOfMass = this->shape->getCenterOfMass();
+  return pos + rotation * centerOfMass;
+}
+Vector3f Body::getCenterOfMassModelSpace() const
+{
+  return this->shape->getCenterOfMass();
 }
 
 Mat3x3 Body::getInertiaTensorLocalSpace() const

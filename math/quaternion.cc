@@ -15,7 +15,7 @@ Quat::Quat(float angle, Vector3f axis)
   float s = std::sin(to_radians(angle / 2.0));
   float c = std::cos(to_radians(angle / 2.0));
 
-  Vector3f unit = normalize(axis);
+  Vector3f unit = axis.unit();
 
   this->s = c;
   this->x = unit.x * s;

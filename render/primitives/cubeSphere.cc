@@ -60,7 +60,7 @@ void addFace(
       Vector3f w = stepX * float(j);
       Vector3f h = stepY * float(i);
 
-      Vector3f pos = normalize(start + w + h);
+      Vector3f pos = (start + w + h).unit();
 
       float s = float(j) / float(steps);
       float t = float(i) / float(steps);

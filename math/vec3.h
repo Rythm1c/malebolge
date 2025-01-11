@@ -60,6 +60,12 @@ struct Vector3f
     this->z /= r;
     return *this;
   }
+
+  // get the vectors/points length
+  float mag() const;
+  float magSqrd() const;
+  // normalize vec3 to have unit length
+  Vector3f unit() const;
 };
 // point 3D
 typedef Vector3f Point3f;
@@ -68,12 +74,10 @@ typedef Vector3f Color3f;
 
 // get the dot product between two 3D vectors
 float dot(const Vector3f &p1, const Vector3f &p2);
-// get the vectors/point length
-float get_length(const Vector3f &v);
+
 // get the cross product between two 3D vectors
 Vector3f cross(const Vector3f &v1, const Vector3f &v2);
-// normalize vec3 to have unit length
-Vector3f normalize(const Vector3f &v);
+
 // reflect vector around normal
 Vector3f reflect(const Vector3f &v, const Vector3f &n);
 // limit to min and max value

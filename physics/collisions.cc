@@ -123,7 +123,7 @@ void resolveCubeCubeContact(Box *cube1, Box *cube2)
 //______________________________________________________________________
 bool intersectSphereSphere(Body *body1, Body *body2)
 {
-  float distance = get_length(body1->pos() - body2->pos());
+  float distance = (body1->pos() - body2->pos()).mag();
 
   Sphere *sphere1 = dynamic_cast<Sphere *>(body1->shape);
   Sphere *sphere2 = dynamic_cast<Sphere *>(body2->shape);
@@ -139,7 +139,7 @@ void resolveSphereSphereContact(Body *body1, Body *body2)
   Sphere *sphere2 = dynamic_cast<Sphere *>(body2->shape);
 
   // |AB| = |AO| + |OB| = |OB| - |AO|
-  const Vector3f normal = normalize(body1->pos() - body2->pos());
+  const Vector3f normal = (body1->pos() - body2->pos()).unit();
   // update position to remove them form each others bounding volumes
   Vector3f closestPtSphere1 = body1->pos() - normal * sphere1->getRadius();
   Vector3f closestPtSphere2 = body2->pos() + normal * sphere2->getRadius();

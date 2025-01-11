@@ -26,13 +26,19 @@ public:
   void orient(Quat orientation) { this->transform.orientation = orientation; }
 
   Vector3f velocity;
+  Vector3f angularVelocity;
   float inverseMass;
   float elasticity;
 
+  void applyImpulse(const Vector3f &pointImpulse, const Vector3f &impulse);
   void applyimpulseLinear(const Vector3f &impulse);
+  void applyImpulseAngular(const Vector3f &impulse);
 
   class Shape *shape;
   void setShape(class Shape *shape);
+
+  Vector3f getCenterOfMassWorldSpace() const;
+  Vector3f getCenterOfMassModelSpace() const;
 
   Mat3x3 getInertiaTensorLocalSpace() const;
   Mat3x3 getInertiaTensorWorldSpace() const;

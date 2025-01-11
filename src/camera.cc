@@ -28,13 +28,13 @@ void Camera::moveBackwards(float delta)
 void Camera::moveLeft(float delta)
 {
   float speed = this->velocity * delta;
-  Vector3f left = normalize(cross(this->up, this->front));
+  Vector3f left = cross(this->up, this->front).unit();
   this->pos += speed * left;
 }
 void Camera::moveRight(float delta)
 {
   float speed = this->velocity * delta;
-  Vector3f left = normalize(cross(this->up, this->front));
+  Vector3f left = cross(this->up, this->front).unit();
   this->pos -= speed * left;
 }
 
@@ -55,5 +55,5 @@ void Camera::rotation(float x, float y)
   newFront.y = sin(this->pitch);
   newFront.z = cos(this->pitch) * sin(this->yaw);
 
-  this->front = normalize(newFront);
+  this->front = newFront.unit();
 }
