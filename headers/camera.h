@@ -6,7 +6,8 @@
 #include "../math/vec3.h"
 #include <iostream>
 
-class Camera {
+class Camera
+{
 
 public:
   Camera();
@@ -20,7 +21,7 @@ public:
 
   Mat4x4 view();
   Mat4x4 projection(float ratio);
-  void rotation(const Vector2i &mousePos);
+  void rotation(float x, float y);
 
   void moveForwards(float);
   void moveBackwards(float);

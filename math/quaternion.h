@@ -6,21 +6,23 @@
 
 #define QUAT_EPSILON 0.000001f
 
+struct Mat3x3;
 struct Mat4x4;
 struct Vector3f;
 
-struct Quat {
-  union {
-    struct {
+struct Quat
+{
+  union
+  {
+    struct
+    {
       float x;
       float y;
       float z;
       float s;
     };
 
-    float rs[4];
-
-    std::array<float, 4> fv;
+    float v[4];
   };
 
   Quat() : x(0.0), y(0.0), z(0.0), s(1.0) {}
@@ -32,12 +34,13 @@ struct Quat {
   /// @param 2: axis
   Quat(float, Vector3f);
 
-  float norm();
-  Quat unit();
-  Quat conjugate();
-  Quat inverse();
+  float norm() const;
+  Quat unit() const;
+  Quat conjugate() const;
+  Quat inverse() const;
 
-  Mat4x4 toMat();
+  Mat3x3 toMat3x3() const;
+  Mat4x4 toMat4x4() const;
 };
 Vector3f axis(Quat q);
 float dot(const Quat &lhs, const Quat &rhs);

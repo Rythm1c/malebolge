@@ -3,42 +3,42 @@
 
 #include "utils.h"
 
-template <typename T>
-struct Vector4T
+struct Vector4f
 {
   union
   {
     struct
     {
-      T x;
-      T y;
-      T z;
-      T w;
+      float x;
+      float y;
+      float z;
+      float w;
     };
 
     struct
     {
-      T r; // red
-      T g; // green
-      T b; // blue
-      T a; // alpha
+      float r; // red
+      float g; // green
+      float b; // blue
+      float a; // alpha
     };
 
-    T v[4];
+    float v[4];
   };
   // default constuctor
-  inline Vector4T<T>() : x(0), y(0), z(0), w(0) {}
+  inline Vector4f()
+      : x(0), y(0), z(0), w(0) {}
   // set all components to a singular value
-  inline Vector4T<T>(T _v) : x(_v), y(_v), z(_v), w(_v) {}
+  inline Vector4f(float _v)
+      : x(_v), y(_v), z(_v), w(_v) {}
   // set each value individialy
-  inline Vector4T<T>(T _x, T _y, T _z, T _w) : x(_x), y(_y), z(_z), w(_w) {}
+  inline Vector4f(float _x, float _y, float _z, float _w)
+      : x(_x), y(_y), z(_z), w(_w) {}
   // set the 4d vector using an array
-  inline Vector4T<T>(T *_v) : x(_v[0]), y(_v[1]), z(_v[2]), w(_v[3]) {}
+  inline Vector4f(float *_v)
+      : x(_v[0]), y(_v[1]), z(_v[2]), w(_v[3]) {}
 };
-typedef Vector4T<float> Vector4f;
-typedef Vector4T<int> Vector4i;
-typedef Vector4T<unsigned int> Vector4ui;
 
-typedef Vector4T<float> color4f;
+typedef Vector4f color4f;
 
 #endif

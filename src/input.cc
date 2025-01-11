@@ -48,7 +48,7 @@ void InputHandler::specialKeys()
       if (event.button.button == SDL_BUTTON_LEFT)
       {
         this->P_world->P_camera->rotation(
-            Vector2i(event.motion.xrel, event.motion.yrel));
+            event.motion.xrel, event.motion.yrel);
       }
       break;
 

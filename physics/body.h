@@ -19,8 +19,8 @@ public:
 
   Transform transform;
 
-  Vector3f pos() { return this->transform.translation; }
-  Quat orientation() { return this->transform.orientation; }
+  Vector3f pos() const { return this->transform.translation; }
+  Quat orientation() const { return this->transform.orientation; }
 
   void translate(Vector3f pos) { this->transform.translation = pos; }
   void orient(Quat orientation) { this->transform.orientation = orientation; }
@@ -34,8 +34,8 @@ public:
   class Shape *shape;
   void setShape(class Shape *shape);
 
-  Mat3x3 getInertiaTensorLocalSpace()const;
-  Mat3x3 getInertiaTensorWorldSpace()const;
+  Mat3x3 getInertiaTensorLocalSpace() const;
+  Mat3x3 getInertiaTensorWorldSpace() const;
 
   struct Mesh *mesh;
 };

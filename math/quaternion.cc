@@ -6,10 +6,12 @@
 // great books.
 
 #include "quaternion.h"
+#include "mat3.h"
 #include "mat4.h"
 #include "vec3.h"
 
-Quat::Quat(float angle, Vector3f axis) {
+Quat::Quat(float angle, Vector3f axis)
+{
   float s = std::sin(to_radians(angle / 2.0));
   float c = std::cos(to_radians(angle / 2.0));
 
@@ -21,7 +23,8 @@ Quat::Quat(float angle, Vector3f axis) {
   this->z = unit.z * s;
 }
 
-float Quat::norm() {
+float Quat::norm() const
+{
   float x2 = std::pow(x, 2.0);
   float y2 = std::pow(y, 2.0);
   float z2 = std::pow(z, 2.0);
@@ -30,22 +33,25 @@ float Quat::norm() {
   return std::sqrt(x2 + y2 + z2 + s2);
 }
 
-Quat Quat::unit() {
+Quat Quat::unit() const
+{
   float coeff = 1.0 / this->norm();
 
   return Quat(x * coeff, y * coeff, z * coeff, s * coeff);
 }
 
-Quat Quat::conjugate() { return Quat(-x, -y, -z, s); }
+Quat Quat::conjugate() const { return Quat(-x, -y, -z, s); }
 
-Quat Quat::inverse() {
+Quat Quat::inverse() const
+{
   float lenSqrd = x * x + y * y + z * z + s * s;
   float invLen = 1.0 / lenSqrd;
 
   return this->conjugate() * invLen;
 }
 
-float dot(const Quat &lhs, const Quat &rhs) {
+float dot(const Quat &lhs, const Quat &rhs)
+{
   return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.s * rhs.s;
 }
 
@@ -53,7 +59,16 @@ Vector3f axis(Quat q) { return Vector3f(q.x, q.y, q.z); }
 
 Quat mix(Quat from, Quat to, float t) { return (1.0 - t) * from + t * to; }
 
-Mat4x4 Quat::toMat() {
+Mat3x3 Quat::toMat3x3() const
+{
+
+  return Mat3x3(
+      *this * Vector3f(1.0, 0.0, 0.0),
+      *this * Vector3f(0.0, 1.0, 0.0),
+      *this * Vector3f(1.0, 0.0, 1.0));
+}
+Mat4x4 Quat::toMat4x4() const
+{
   Mat4x4 result = Mat4x4();
 
   float x2 = std::pow(x, 2.0);
@@ -80,16 +95,19 @@ Mat4x4 Quat::toMat() {
 //________________________________________________________________________
 //________________________________________________________________________
 
-Quat operator+(const Quat &lhs, const Quat &rhs) {
+Quat operator+(const Quat &lhs, const Quat &rhs)
+{
   return Quat(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.s + rhs.s);
 }
 
-Quat operator*(float lhs, const Quat &rhs) {
+Quat operator*(float lhs, const Quat &rhs)
+{
   return Quat(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.s);
 }
 Quat operator*(const Quat lhs, float &rhs) { return rhs * lhs; }
 
-Vector3f operator*(const Quat &lhs, const Vector3f &rhs) {
+Vector3f operator*(const Quat &lhs, const Vector3f &rhs)
+{
   Vector3f a = axis(lhs) * 2.0 * dot(axis(lhs), rhs);
   Vector3f b = rhs * (lhs.s * lhs.s - dot(axis(lhs), axis(lhs)));
   Vector3f c = cross(axis(lhs), rhs) * 2.0 * lhs.s;
@@ -99,7 +117,8 @@ Vector3f operator*(const Quat &lhs, const Vector3f &rhs) {
 
 Vector3f operator*(Vector3f &lhs, Quat &rhs) { return rhs * lhs; }
 
-Quat operator*(const Quat &lhs, const Quat &rhs) {
+Quat operator*(const Quat &lhs, const Quat &rhs)
+{
   Quat result = Quat(0.0);
 
   result.x = lhs.s * rhs.x + lhs.x * rhs.s + lhs.y * rhs.z - lhs.z * rhs.y;
@@ -110,7 +129,8 @@ Quat operator*(const Quat &lhs, const Quat &rhs) {
   return result;
 }
 
-bool operator==(const Quat &left, const Quat &right) {
+bool operator==(const Quat &left, const Quat &right)
+{
   return (fabsf(left.x - right.x) <= QUAT_EPSILON &&
           fabsf(left.y - right.y) <= QUAT_EPSILON &&
           fabsf(left.z - right.z) <= QUAT_EPSILON &&

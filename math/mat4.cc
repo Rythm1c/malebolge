@@ -51,13 +51,13 @@ Mat4x4 rotationZ(float angle)
   return trans;
 }
 
-Mat4x4 transpose(const Mat4x4 &m)
+Mat4x4 Mat4x4::transpose() const
 {
   return Mat4x4(
-      m.xx, m.yx, m.zx, m.wx,
-      m.xy, m.yy, m.zy, m.wy,
-      m.xz, m.yz, m.zz, m.wz,
-      m.xw, m.yw, m.zw, m.ww);
+      this->xx, this->yx, this->zx, this->wx,
+      this->xy, this->yy, this->zy, this->wy,
+      this->xz, this->yz, this->zz, this->wz,
+      this->xw, this->yw, this->zw, this->ww);
 }
 
 Mat4x4 look_at(const Vector3f &pos, const Vector3f &fr, const Vector3f &up)

@@ -1,6 +1,7 @@
 #include "transform.h"
 
-Mat4x4 Transform::get() {
+Mat4x4 Transform::get()
+{
   Vector3f x = orientation * Vector3f(1.0, 0.0, 0.0);
   Vector3f y = orientation * Vector3f(0.0, 1.0, 0.0);
   Vector3f z = orientation * Vector3f(0.0, 0.0, 1.0);
@@ -11,14 +12,16 @@ Mat4x4 Transform::get() {
 
   Vector3f p = translation;
 
-  return Mat4x4(x.x, y.x, z.x, p.x, //
-                x.y, y.y, z.y, p.y, //
-                x.z, y.z, z.z, p.z, //
-                0.0, 0.0, 0.0, 1.0  //
+  return Mat4x4(
+      x.x, y.x, z.x, p.x, //
+      x.y, y.y, z.y, p.y, //
+      x.z, y.z, z.z, p.z, //
+      0.0, 0.0, 0.0, 1.0  //
   );
 }
 
-Transform Transform::inverse() {
+Transform Transform::inverse()
+{
   Transform inv = Transform();
 
   inv.orientation = orientation.inverse();
@@ -33,7 +36,8 @@ Transform Transform::inverse() {
   return inv;
 }
 
-Transform combine(const Transform &t1, const Transform &t2) {
+Transform combine(const Transform &t1, const Transform &t2)
+{
   Transform result = Transform();
 
   result.scaling = t1.scaling * t2.scaling;
@@ -46,19 +50,21 @@ Transform combine(const Transform &t1, const Transform &t2) {
 
   return result;
 }
-Transform transformFromMat(Mat4x4 &mat) {
+Transform transformFromMat(Mat4x4 &mat)
+{
   Transform transform = Transform();
 
   Vector3f translation = Vector3f(mat.xw, mat.yw, mat.zw);
 
   Quat orientation = mat.toQuat();
   // Quat d = &mat.data;
-  Mat4x4 rot_scale_mat = Mat4x4(mat.xx, mat.xy, mat.xz, 0.0, //
-                                mat.yx, mat.yy, mat.yz, 0.0, //
-                                mat.zx, mat.zy, mat.zz, 0.0, //
-                                0.0, 0.0, 0.0, 1.0);
+  Mat4x4 rot_scale_mat = Mat4x4(
+      mat.xx, mat.xy, mat.xz, 0.0, //
+      mat.yx, mat.yy, mat.yz, 0.0, //
+      mat.zx, mat.zy, mat.zz, 0.0, //
+      0.0, 0.0, 0.0, 1.0);
 
-  Mat4x4 inv_rot_mat = orientation.inverse().toMat();
+  Mat4x4 inv_rot_mat = orientation.inverse().toMat4x4();
   Mat4x4 scale_skew_mat = rot_scale_mat * inv_rot_mat;
 
   Vector3f scaling = Vector3f(scale_skew_mat.xx, scale_skew_mat.yy, scale_skew_mat.zz);

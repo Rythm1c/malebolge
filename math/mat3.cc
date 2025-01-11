@@ -19,6 +19,26 @@ float Mat3x3::determinant() const
 
 Mat2x2 Mat3x3::minor(int a, int b) const
 {
+  Mat2x2 _minor = Mat2x2();
+  int _yy = 0;
+  for (int y = 0; y < 3; y++)
+  {
+    if (y == b)
+      continue;
+
+    int _xx = 0;
+    for (int x = 0; x < 3; x++)
+    {
+      if (x == a)
+        continue;
+
+      _minor.rows[_xx].v[_yy] = this->rows[x].v[y];
+      _xx++;
+    }
+    _yy++;
+  }
+
+  return _minor;
 }
 
 float Mat3x3::cofactor(int a, int b) const

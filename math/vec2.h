@@ -2,36 +2,51 @@
 #define VEC2_HPP
 
 #include "utils.h"
-#include <array>
 
-template <typename T>
-struct Vector2T
+struct Vector2f
 {
   union
   {
     struct
     {
-      T x;
-      T y;
+      float x;
+      float y;
     };
-   T v[2];
+
+    float v[2];
   };
   // default constructor
-  Vector2T() : x(0), y(0) {}
+  Vector2f()
+      : x(0.0), y(0.0) {}
   // set all components to a single value
-  Vector2T(T _v) : x(_v), y(_v) {}
+  Vector2f(float _v)
+      : x(_v), y(_v) {}
   // set values individually
-  Vector2T(T _x, T _y) : x(_x), y(_y) {}
+  Vector2f(float _x, float _y)
+      : x(_x), y(_y) {}
   // set values using array
-  Vector2T(T *_v) : x(_v[0]), y(_v[1]) {}
+  Vector2f(float *_v)
+      : x(_v[0]), y(_v[1]) {}
+
+  float length() const;
+  Vector2f unit() const;
 };
 
-typedef Vector2T<float> Point2f;
-typedef Vector2T<float> Vector2f;
-typedef Vector2T<int> Vector2i;
-typedef Vector2T<unsigned int> Vector2ui;
+typedef Vector2f Point2f;
 
-Vector2i step(Vector2f a, Vector2f b);
+float dot(const Vector2f &a, const Vector2f &b);
+
+Vector2f operator+(const Vector2f &l, float r);
+Vector2f operator+(float l, const Vector2f &r);
+Vector2f operator+(const Vector2f &l, const Vector2f &r);
+
+Vector2f operator-(const Vector2f &l, float r);
+Vector2f operator-(const Vector2f &l, const Vector2f &r);
+
+Vector2f operator*(const Vector2f &l, float r);
+Vector2f operator*(float l, const Vector2f &r);
+
+Vector2f operator/(const Vector2f &l, float r);
 
 bool operator==(const Vector2f &l, const Vector2f &r);
 

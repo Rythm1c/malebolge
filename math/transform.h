@@ -9,7 +9,9 @@ class Transform
 {
 public:
   Transform()
-      : translation(Vector3f(0.0)), orientation(Quat()), scaling(Vector3f(1.0)) {};
+      : translation(Vector3f(0.0)),
+        orientation(Quat()),
+        scaling(Vector3f(1.0)) {};
   ~Transform() {};
 
   Vector3f translation;
