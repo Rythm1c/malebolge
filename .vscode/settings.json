@@ -2,6 +2,7 @@
     "files.associations": {
         "cmath": "cpp",
         "stdexcept": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "array": "cpp"
     }
 }

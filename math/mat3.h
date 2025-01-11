@@ -2,7 +2,7 @@
 #define MATRIX3x3_H
 
 #include "vec3.h"
-#include <array>
+#include "mat2.h"
 
 #define M3D(aRow, bCol)                 \
         l.rc[aRow][0] * r.rc[0][bCol] + \
@@ -21,8 +21,6 @@ struct Mat3x3
       float yx; float yy; float yz; 
       float zx; float zy; float zz;
     };
-
-    std::array<float, 9> v;
 
     float rc[3][3];
 
@@ -51,12 +49,25 @@ struct Mat3x3
       : xx(_00), xy(_01), xz(_02),
         yx(_10), yy(_11), yz(_12),
         zx(_20), zy(_21), zz(_22) {}
+
+  const Mat3x3 operator+=(float r);
+  const Mat3x3 operator-=(float r);
+  const Mat3x3 operator*=(float r);
+  const Mat3x3 operator/=(float r);
+
+  float determinant() const;
+  Mat3x3 inverse() const;
+  float cofactor(int a, int b) const;
+  Mat2x2 minor(int a, int b) const;
+  
+
+  /// @brief from a row-major matrix to a column-major and vice versa
+  /// @param m matrix to transpose
+  /// @return 
+  Mat3x3 transpose() const;
 };
 
-/// @brief from a row-major matrix to a column-major and vice versa
-/// @param m matrix to transpose
-/// @return 
-Mat3x3 transpose(const Mat3x3 &m);
+
 
 Mat3x3 operator+(const Mat3x3 &l, float r);
 Mat3x3 operator-(const Mat3x3 &l, float r);

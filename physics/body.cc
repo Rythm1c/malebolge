@@ -63,8 +63,8 @@ Mat3x3 Body::getInertiaTensorWorldSpace() const
 {
   Mat3x3 inertiaTensor = this->shape->inertiaTensor();
   Mat3x3 invInertiaTensor = inertiaTensor.inverse() * this->inverseMass;
-  Mat3x3 orient = this->orientation().toMat3();
+  Mat3x3 orient = this->orientation().toMat3x3();
 
-  inverseTensor = orient * invInertiaTensor * orient.transpose;
+  inverseTensor = orient * invInertiaTensor * orient.transpose();
   return invInertiaTensor;
 }

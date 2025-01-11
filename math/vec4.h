@@ -2,7 +2,6 @@
 #define VEC4_HPP
 
 #include "utils.h"
-#include <array>
 
 template <typename T>
 struct Vector4T
@@ -16,6 +15,7 @@ struct Vector4T
       T z;
       T w;
     };
+
     struct
     {
       T r; // red
@@ -23,7 +23,8 @@ struct Vector4T
       T b; // blue
       T a; // alpha
     };
-    std::array<T, 4> v;
+
+    T v[4];
   };
   // default constuctor
   inline Vector4T<T>() : x(0), y(0), z(0), w(0) {}

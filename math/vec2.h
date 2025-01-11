@@ -14,7 +14,7 @@ struct Vector2T
       T x;
       T y;
     };
-    std::array<T, 2> v;
+   T v[2];
   };
   // default constructor
   Vector2T() : x(0), y(0) {}

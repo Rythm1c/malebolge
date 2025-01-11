@@ -4,21 +4,20 @@
 #include "utils.h"
 #include "vec3.h"
 #include "vec4.h"
-#include <array>
 
 // for multiplication of mat4x4s and vec4s
 #define M4V4D(mRow, x, y, z, w) \
-      x *m.fv[mRow * 4 + 0] +   \
-      y *m.fv[mRow * 4 + 1] +   \
-      z *m.fv[mRow * 4 + 2] +   \
-      w *m.fv[mRow * 4 + 3]
+      x * m.rc[mRow][0] +   \
+      y * m.rc[mRow][1] +   \
+      z * m.rc[mRow][2] +   \
+      w * m.rc[mRow][3]
 
 // for multiplication of two 4x4 mats
-#define M4D(aRow, bCol)                         \
-      l.fv[0 + 4 * aRow] * r.fv[bCol + 4 * 0] + \
-      l.fv[1 + 4 * aRow] * r.fv[bCol + 4 * 1] + \
-      l.fv[2 + 4 * aRow] * r.fv[bCol + 4 * 2] + \
-      l.fv[3 + 4 * aRow] * r.fv[bCol + 4 * 3]
+#define M4D(aRow, bCol)               \
+      l.rc[aRow][0] * r.rc[0][bCol] + \
+      l.rc[aRow][1] * r.rc[1][bCol] + \
+      l.rc[aRow][2] * r.rc[2][bCol] + \
+      l.rc[aRow][3] * r.rc[2][bCol]
 
 struct Mat4x4
 {
@@ -32,8 +31,8 @@ struct Mat4x4
       /*row 3*/ float zx; float zy; float zz; float zw;
       /*row 4*/ float wx; float wy; float wz; float ww;
     };
-    float rs[4][4];
-    std::array<float, 16> fv;
+    Vector4f rows[4];
+    float rc[4][4];
   };
   // default constructor
   // set identity matrix

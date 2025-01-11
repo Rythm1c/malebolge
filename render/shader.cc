@@ -20,7 +20,7 @@ void Shader::clean() { glDeleteProgram(program); }
 void Shader::updateMat4(const char *name, const Mat4x4 &mat)
 {
   unsigned int location = glGetUniformLocation(program, name);
-  glUniformMatrix4fv(location, 1, true, mat.fv.data());
+  glUniformMatrix4fv(location, 1, true, &mat.rc[0][0]);
 }
 void Shader::updateVec3(const char *name, const Vector3f &v)
 {

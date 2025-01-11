@@ -223,13 +223,14 @@ Mat4x4 operator-(const Mat4x4 &l, const Mat4x4 &r)
 }
 bool operator==(const Mat4x4 &l, const Mat4x4 &r)
 {
-  for (int i = 0; i < 16; i++)
-  {
-    if (l.fv[i] != r.fv[i])
+  for (int i = 0; i < 4; i++)
+    for (int j = 0; j < 4; j++)
     {
-      return false;
+      if (l.rc[i][j] != r.rc[i][j])
+      {
+        return false;
+      }
     }
-  }
 
   return true;
 }

@@ -2,7 +2,6 @@
 #define VEC3_HPP
 
 #include "utils.h"
-#include <array>
 
 //  3D vector with x, y and z components
 struct Vector3f
@@ -22,7 +21,7 @@ struct Vector3f
       float g; // green
       float b; // blue
     };
-    std::array<float, 3> v;
+    float v[4];
   };
   /// @brief default constructor with components set to 0.0
   Vector3f() : x(0.0f), y(0.0f), z(0.0f) {}
