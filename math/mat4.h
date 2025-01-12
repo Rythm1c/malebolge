@@ -5,13 +5,6 @@
 #include "vec3.h"
 #include "vec4.h"
 
-// for multiplication of mat4x4s and vec4s
-#define M4V4D(mRow, x, y, z, w) \
-      x * m.rc[mRow][0] +   \
-      y * m.rc[mRow][1] +   \
-      z * m.rc[mRow][2] +   \
-      w * m.rc[mRow][3]
-
 // for multiplication of two 4x4 mats
 #define M4D(aRow, bCol)               \
       l.rc[aRow][0] * r.rc[0][bCol] + \
@@ -40,17 +33,13 @@ struct Mat4x4
       : xx(1.0f), xy(0.0f), xz(0.0f), xw(0.0f),
         yx(0.0f), yy(1.0f), yz(0.0f), yw(0.0f),
         zx(0.0f), zy(0.0f), zz(1.0f), zw(0.0f),
-        wx(0.0f), wy(0.0f), wz(0.0f), ww(1.0f)
-  {
-  }
+        wx(0.0f), wy(0.0f), wz(0.0f), ww(1.0f) {}
   // construct matrix using an array
   Mat4x4(float *fv)
       : xx(fv[0]), xy(fv[1]), xz(fv[2]), xw(fv[3]),
         yx(fv[4]), yy(fv[5]), yz(fv[6]), yw(fv[7]),
         zx(fv[8]), zy(fv[9]), zz(fv[10]), zw(fv[11]),
-        wx(fv[12]), wy(fv[13]), wz(fv[14]), ww(fv[15])
-  {
-  }
+        wx(fv[12]), wy(fv[13]), wz(fv[14]), ww(fv[15]) {}
 
   Mat4x4(
       float _00, float _01, float _02, float _03,
@@ -60,12 +49,16 @@ struct Mat4x4
       : xx(_00), xy(_01), xz(_02), xw(_03),
         yx(_10), yy(_11), yz(_12), yw(_13),
         zx(_20), zy(_21), zz(_22), zw(_23),
-        wx(_30), wy(_31), wz(_32), ww(_33)
-  {
-  }
+        wx(_30), wy(_31), wz(_32), ww(_33) {}
+
+  Mat4x4(
+      Vector4f row1,
+      Vector4f row2,
+      Vector4f row3,
+      Vector4f row4)
+      : rows{row1, row2, row3, row4} {}
 
   struct Quat toQuat();
-
   /// @brief from a row-major matrix to a column-major and vice versa
   /// @return 
   Mat4x4 transpose() const;
@@ -129,8 +122,6 @@ Mat4x4 operator*(const Mat4x4 &l, float r);
 Mat4x4 operator*(float l, const Mat4x4 &r);
 Mat4x4 operator*(const Mat4x4 &l, const Mat4x4 &r);
 Vector4f operator*(const Mat4x4 &m, const Vector4f &v);
-// division operations
-Mat4x4 operator/(const Mat4x4 &l, float r);
 // addition operations
 Mat4x4 operator+(const Mat4x4 &l, const Mat4x4 &r);
 // sutraction operations

@@ -36,17 +36,11 @@ typedef Vector2f Point2f;
 
 float dot(const Vector2f &a, const Vector2f &b);
 
-Vector2f operator+(const Vector2f &l, float r);
-Vector2f operator+(float l, const Vector2f &r);
 Vector2f operator+(const Vector2f &l, const Vector2f &r);
-
-Vector2f operator-(const Vector2f &l, float r);
 Vector2f operator-(const Vector2f &l, const Vector2f &r);
 
 Vector2f operator*(const Vector2f &l, float r);
 Vector2f operator*(float l, const Vector2f &r);
-
-Vector2f operator/(const Vector2f &l, float r);
 
 bool operator==(const Vector2f &l, const Vector2f &r);
 

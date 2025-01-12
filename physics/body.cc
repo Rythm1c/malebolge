@@ -112,3 +112,25 @@ Mat3x3 Body::getInertiaTensorWorldSpace() const
   invInertiaTensor = orient * invInertiaTensor * orient.transpose();
   return invInertiaTensor;
 }
+
+void Body::update(const float dt)
+{
+  this->translate(this->pos() + this->velocity * dt);
+
+  Vector3f positionCm = this->getCenterOfMassWorldSpace();
+  Vector3f cmToPos = this->pos() - positionCm;
+  // T = T_external + omega x I * omega
+  // T = I a = w x I * w
+  // a = I ^−1 ( w x I * w )
+  Mat3x3 orientation = this->orientation().toMat3x3();
+  Mat3x3 intertiaTensor = orientation * this->shape->inertiaTensor() * orientation.transpose();
+  Vector3f alpha = intertiaTensor.inverse() * cross(this->angularVelocity, intertiaTensor * this->angularVelocity);
+  this->angularVelocity += alpha * dt;
+
+  Vector3f dAngle = this->angularVelocity * dt;
+  Quat dq = Quat(dAngle.mag(), dAngle);
+  this->orient(dq * this->orientation());
+  this->orient(this->orientation().unit());
+
+  this->translate(positionCm + dq * cmToPos);
+}

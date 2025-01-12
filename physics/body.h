@@ -43,6 +43,8 @@ public:
   Mat3x3 getInertiaTensorLocalSpace() const;
   Mat3x3 getInertiaTensorWorldSpace() const;
 
+  void update(const float dt);
+
   struct Mesh *mesh;
 };
 #endif

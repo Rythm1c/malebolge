@@ -65,7 +65,7 @@ Mat3x3 Quat::toMat3x3() const
   return Mat3x3(
       *this * Vector3f(1.0, 0.0, 0.0),
       *this * Vector3f(0.0, 1.0, 0.0),
-      *this * Vector3f(1.0, 0.0, 1.0));
+      *this * Vector3f(0.0, 0.0, 1.0));
 }
 Mat4x4 Quat::toMat4x4() const
 {
@@ -97,12 +97,20 @@ Mat4x4 Quat::toMat4x4() const
 
 Quat operator+(const Quat &lhs, const Quat &rhs)
 {
-  return Quat(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.s + rhs.s);
+  return Quat(
+      lhs.x + rhs.x,
+      lhs.y + rhs.y,
+      lhs.z + rhs.z,
+      lhs.s + rhs.s);
 }
 
 Quat operator*(float lhs, const Quat &rhs)
 {
-  return Quat(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.s);
+  return Quat(
+      lhs * rhs.x,
+      lhs * rhs.y,
+      lhs * rhs.z,
+      lhs * rhs.s);
 }
 Quat operator*(const Quat lhs, float &rhs) { return rhs * lhs; }
 
@@ -131,9 +139,10 @@ Quat operator*(const Quat &lhs, const Quat &rhs)
 
 bool operator==(const Quat &left, const Quat &right)
 {
-  return (fabsf(left.x - right.x) <= QUAT_EPSILON &&
-          fabsf(left.y - right.y) <= QUAT_EPSILON &&
-          fabsf(left.z - right.z) <= QUAT_EPSILON &&
-          fabsf(left.s - right.s) <= QUAT_EPSILON);
+  return (
+      fabsf(left.x - right.x) <= QUAT_EPSILON &&
+      fabsf(left.y - right.y) <= QUAT_EPSILON &&
+      fabsf(left.z - right.z) <= QUAT_EPSILON &&
+      fabsf(left.s - right.s) <= QUAT_EPSILON);
 }
 bool operator!=(const Quat &a, const Quat &b) { return !(a == b); }

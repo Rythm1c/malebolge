@@ -20,20 +20,11 @@ float dot(const Vector2f &a, const Vector2f &b)
   return a.x * b.x + a.y * b.y;
 }
 
-Vector2f operator+(const Vector2f &l, float r)
-{
-  return Vector2f(r + l.x, r + l.y);
-}
-Vector2f operator+(float l, const Vector2f &r) { return r + l; }
 Vector2f operator+(const Vector2f &l, const Vector2f &r)
 {
   return Vector2f(l.x + r.x, l.y + r.y);
 }
 
-Vector2f operator-(const Vector2f &l, float r)
-{
-  return Vector2f(l.x - r, l.y - r);
-}
 Vector2f operator-(const Vector2f &l, const Vector2f &r)
 {
   return Vector2f(l.x - r.x, l.y - r.y);
@@ -44,11 +35,6 @@ Vector2f operator*(const Vector2f &l, float r)
   return Vector2f(l.x * r, l.y * r);
 }
 Vector2f operator*(float l, const Vector2f &r) { return r * l; }
-
-Vector2f operator/(const Vector2f &l, float r)
-{
-  return Vector2f(l.x / r, l.y / r);
-}
 
 bool operator==(const Vector2f &l, const Vector2f &r)
 {

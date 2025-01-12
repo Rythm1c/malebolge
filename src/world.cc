@@ -132,9 +132,10 @@ void World::update()
 
     for (auto &body : this->bodies)
     {
-      Vector3f pos = body->pos();
+      /* Vector3f pos = body->pos();
       Vector3f velocity = body->velocity * deltaTime;
-      body->translate(pos + velocity);
+      body->translate(pos + velocity); */
+      body->update(deltaTime);
     }
   }
 

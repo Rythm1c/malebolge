@@ -20,32 +20,35 @@ Mat4x4 scale(const Vector3f s)
 Mat4x4 rotationX(float angle)
 {
   Mat4x4 trans;
+  float rads = to_radians(angle);
   trans.xx = 1.0f;
-  trans.yy = cos(to_radians(angle));
-  trans.yz = -sin(to_radians(angle));
-  trans.zy = sin(to_radians(angle));
-  trans.zz = cos(to_radians(angle));
+  trans.yy = cos(rads);
+  trans.yz = -sin(rads);
+  trans.zy = sin(rads);
+  trans.zz = cos(rads);
   trans.ww = 1.0f;
   return trans;
 }
 Mat4x4 rotationY(float angle)
 {
   Mat4x4 trans;
-  trans.xx = cos(to_radians(angle));
-  trans.xz = sin(to_radians(angle));
+  float rads = to_radians(angle);
+  trans.xx = cos(rads);
+  trans.xz = sin(rads);
   trans.yy = 1.0f;
-  trans.zx = -sin(to_radians(angle));
-  trans.zz = cos(to_radians(angle));
+  trans.zx = -sin(rads);
+  trans.zz = cos(rads);
   trans.ww = 1.0f;
   return trans;
 }
 Mat4x4 rotationZ(float angle)
 {
   Mat4x4 trans;
-  trans.xx = cos(to_radians(angle));
-  trans.xy = sin(to_radians(angle));
-  trans.yx = -sin(to_radians(angle));
-  trans.yy = cos(to_radians(angle));
+  float rads = to_radians(angle);
+  trans.xx = cos(rads);
+  trans.xy = sin(rads);
+  trans.yx = -sin(rads);
+  trans.yy = cos(rads);
   trans.zz = 1.0f;
   trans.ww = 1.0f;
   return trans;
@@ -174,20 +177,27 @@ Mat4x4 perspective(float fov, float aspectRatio, float N, float F)
 Mat4x4 operator*(const Mat4x4 &l, float r)
 {
   return Mat4x4(
-      l.xx * r, l.xy * r, l.xz * r, l.xw * r,
-      l.yx * r, l.yy * r, l.yz * r, l.yw * r,
-      l.zx * r, l.zy * r, l.zz * r, l.zw * r,
-      l.wx * r, l.wy * r, l.wz * r, l.ww * r);
+      l.rows[0] * r,
+      l.rows[1] * r,
+      l.rows[2] * r,
+      l.rows[3] * r);
 }
-Mat4x4 operator*(float l, const Mat4x4 &r) { return r * l; }
+Mat4x4 operator*(float l, const Mat4x4 &r)
+{
+  return Mat4x4(
+      r.rows[0] * l,
+      r.rows[1] * l,
+      r.rows[2] * l,
+      r.rows[3] * l);
+}
 
 Vector4f operator*(const Mat4x4 &m, const Vector4f &v)
 {
   return Vector4f(
-      M4V4D(0, v.x, v.y, v.z, v.w),
-      M4V4D(1, v.x, v.y, v.z, v.w),
-      M4V4D(2, v.x, v.y, v.z, v.w),
-      M4V4D(3, v.x, v.y, v.z, v.w));
+      dot(m.rows[0], v),
+      dot(m.rows[1], v),
+      dot(m.rows[2], v),
+      dot(m.rows[3], v));
 }
 Mat4x4 operator*(const Mat4x4 &l, const Mat4x4 &r)
 {
@@ -197,29 +207,22 @@ Mat4x4 operator*(const Mat4x4 &l, const Mat4x4 &r)
       M4D(2, 0), M4D(2, 1), M4D(2, 2), M4D(2, 3),
       M4D(3, 0), M4D(3, 1), M4D(3, 2), M4D(3, 3));
 }
-Mat4x4 operator/(const Mat4x4 &l, float r)
-{
-  return Mat4x4(
-      l.xx / r, l.xy / r, l.xz / r, l.xw / r,
-      l.yx / r, l.yy / r, l.yz / r, l.yw / r,
-      l.zx / r, l.zy / r, l.zz / r, l.zw / r,
-      l.wx / r, l.wy / r, l.wz / r, l.ww / r);
-}
+
 Mat4x4 operator+(const Mat4x4 &l, const Mat4x4 &r)
 {
   return Mat4x4(
-      l.xx + r.xx, l.xy + r.xy, l.xz + r.xz, l.xw + r.xw,
-      l.yx + r.yx, l.yy + r.yy, l.yz + r.yz, l.yw + r.yw,
-      l.zx + r.zx, l.zy + r.zy, l.zz + r.zz, l.zw + r.zw,
-      l.wx + r.wx, l.wy + r.wy, l.wz + r.wz, l.ww + r.ww);
+      l.rows[0] + r.rows[0],
+      l.rows[1] + r.rows[1],
+      l.rows[2] + r.rows[2],
+      l.rows[3] + r.rows[3]);
 }
 Mat4x4 operator-(const Mat4x4 &l, const Mat4x4 &r)
 {
   return Mat4x4(
-      l.xx - r.xx, l.xy - r.xy, l.xz - r.xz, l.xw - r.xw,
-      l.yx - r.yx, l.yy - r.yy, l.yz - r.yz, l.yw - r.yw,
-      l.zx - r.zx, l.zy - r.zy, l.zz - r.zz, l.zw - r.zw,
-      l.wx - r.wx, l.wy - r.wy, l.wz - r.wz, l.ww - r.ww);
+      l.rows[0] - r.rows[0],
+      l.rows[1] - r.rows[1],
+      l.rows[2] - r.rows[2],
+      l.rows[3] - r.rows[3]);
 }
 bool operator==(const Mat4x4 &l, const Mat4x4 &r)
 {

@@ -18,8 +18,10 @@ float Vector3f::mag() const { return sqrt(this->magSqrd()); }
 
 Vector3f cross(const Vector3f &p1, const Vector3f &p2)
 {
-  return Vector3f(p1.y * p2.z - p1.z * p2.y, p1.z * p2.x - p1.x * p2.z,
-                  p1.x * p2.y - p1.y * p2.x);
+  return Vector3f(
+      p1.y * p2.z - p1.z * p2.y,
+      p1.z * p2.x - p1.x * p2.z,
+      p1.x * p2.y - p1.y * p2.x);
 }
 
 Vector3f Vector3f::unit() const
@@ -27,7 +29,10 @@ Vector3f Vector3f::unit() const
 
   float invMag = 1.0f / this->mag();
 
-  return Vector3f(invMag * this->x, invMag * this->y, invMag * this->z);
+  return Vector3f(
+      invMag * this->x,
+      invMag * this->y,
+      invMag * this->z);
 }
 Vector3f reflect(const Vector3f &v, const Vector3f &n)
 {
@@ -52,8 +57,6 @@ Vector3f operator*(const Vector3f &lhs, const Vector3f &rhs)
 {
   return Vector3f(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
 }
-// division
-Vector3f operator/(const Vector3f &l, float r) { return Vector3f(l.x / r, l.y / r, l.z / r); }
 // addition
 Vector3f operator+(const Vector3f &l, const Vector3f &r)
 {

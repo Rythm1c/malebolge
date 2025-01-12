@@ -32,7 +32,7 @@ Mat2x2 Mat3x3::minor(int a, int b) const
       if (x == a)
         continue;
 
-      _minor.rows[_xx].v[_yy] = this->rows[x].v[y];
+      _minor.rc[_xx][_yy] = this->rows[x].v[y];
       _xx++;
     }
     _yy++;
@@ -108,20 +108,6 @@ Mat3x3 operator*(float l, const Mat3x3 &r) { return r * l; }
 const Mat3x3 Mat3x3::operator*=(float r)
 {
   *this = *this * r;
-  return *this;
-}
-
-Mat3x3 operator/(const Mat3x3 &l, float r)
-{
-
-  return Mat3x3(
-      l.rows[0] / r,
-      l.rows[1] / r,
-      l.rows[2] / r);
-}
-const Mat3x3 Mat3x3::operator/=(float r)
-{
-  *this = *this / r;
   return *this;
 }
 

@@ -87,10 +87,8 @@ Vector3f lerp(Vector3f a, Vector3f b, float c);
 
 // miltiplication
 Vector3f operator*(const Vector3f &l, float r);
-Vector3f operator*(float r, const Vector3f &l);
+Vector3f operator*(float l, const Vector3f &r);
 Vector3f operator*(const Vector3f &lhs, const Vector3f &rhs);
-// division
-Vector3f operator/(const Vector3f &l, float r);
 // addition
 Vector3f operator+(const Vector3f &l, const Vector3f &r);
 // subtraction

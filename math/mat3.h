@@ -53,7 +53,6 @@ struct Mat3x3
   const Mat3x3 operator+=(float r);
   const Mat3x3 operator-=(float r);
   const Mat3x3 operator*=(float r);
-  const Mat3x3 operator/=(float r);
 
   float determinant() const;
   Mat3x3 inverse() const;
@@ -73,7 +72,6 @@ Mat3x3 operator+(const Mat3x3 &l, float r);
 Mat3x3 operator-(const Mat3x3 &l, float r);
 Mat3x3 operator*(const Mat3x3 &l, float r);
 Mat3x3 operator*(float l, const Mat3x3 &r);
-Mat3x3 operator/(const Mat3x3 &l, float r);
 
 Vector3f operator*(const Mat3x3 &l, const Vector3f &r);
 
